@@ -12,7 +12,7 @@
 | RK-09 | HIGH | Falha de backup → teste restore |
 | RK-10 | HIGH | LGPD/contrato ausente → DPA e dados sintéticos |
 | RK-11 | MEDIUM | Upstream alpha/mudanças rápidas → commit pin e revisão |
-| RK-12 | HIGH | main desprotegida/rulesets vazios → instalar proteções antes de software |
+| RK-12 | HIGH | `main` returned `protected=false`, `/rulesets=[]` e leitura detalhada `403` → propor ruleset de PR, sem force-push/bypass, checks validados e teste de enforcement antes de software |
 | RK-13 | MEDIUM | ROI sem baseline → piloto mensurável |
 
 Riscos documentais não são controles implementados. Nenhuma mitigação marcada DONE sem Evidence Bundle. Se HIGH/CRITICAL conhecido na implementação: BLOCKED para release.
