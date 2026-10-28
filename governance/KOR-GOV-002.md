@@ -27,3 +27,6 @@ O workflow `governance-docs` está apenas na branch da PR #2 enquanto ela não f
 
 ## Segurança do runner
 Primeiro run do checkout v4.2.2 pinado em `11bd719...` passou, mas logs alertaram runtime Node 20 depreciado/forçado para Node 24. Correction Delta fixa `actions/checkout@v7.0.1` no commit oficial `3d3c42e5aac5ba805825da76410c181273ba90b1`, obtido da referência Git de `actions/checkout`. O efeito precisa ser verificado no novo HEAD, sem presumir sucesso.
+
+## Referências internas verificáveis
+[Evidence Bundle](../evidence/KOR-GOV-002/README.md) · [README raiz](../README.md)

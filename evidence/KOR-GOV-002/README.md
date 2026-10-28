@@ -18,3 +18,6 @@ Work Order versionada em PR separada e produtor de checks potencialmente execut�
 - Socket Security: PR Alerts e Project Report: **SUCCESS** no mesmo HEAD, mas PR Alerts apenas informou ausência de mudança de dependências.
 - Aviso não bloqueante do checkout v4.2.2 Node20 → Node24 forçado. Correction Delta usa pin oficial v7.0.1; resultado no próximo HEAD ainda **PENDING**.
 - **Lacuna estrutural:** PR #1 não possui o produtor do check enquanto `main` não tiver o workflow. Obrigatoriedade de check deve ser implantada só após merge autorizado do produtor, read-back e nova prova em PRs. NÃO mesclar nesta Work Order.
+
+## Rastreamento interno
+[Work Order KOR-GOV-002](../../governance/KOR-GOV-002.md) · [README raiz](../../README.md)
