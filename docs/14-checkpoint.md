@@ -1,5 +1,5 @@
 # 14 — Checkpoint
-**Data:** 2026-10-28; **Fase:** FOUNDATION DOCUMENTAL; **Status:** AUDITORIA DOCUMENTAL TÉCNICA CONCLUÍDA; PR DRAFT; ACEITE HUMANO E REVISÃO EXTERNA PENDENTES.
+**Data:** 2026-10-28; **Fase:** FOUNDATION DOCUMENTAL; **Status atual:** PR #1 MERGED por squash NORMAL em `e969d2c00f7f779e58be3dd37848801580b60800`; Source Pack incorporado à main. Revisão independente formal continua uma lacuna de processo, pois GitHub exigia 0 aprovações.
 **Repositório:** KayzenRoot/koros. **Base main:** `57dd78a6eb2b39c1d07fdf2728de2cde20fda3b8`. **Tree:** `7b224899e8118500c0356902528070c53190f2ab`. README inicial `# koros`. **WO:** KOR-PLAN-001, branch `docs/KOR-PLAN-001-source-pack`.
 
 ## Evidência observada
@@ -30,3 +30,13 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - G0 **Source Pack:** auditoria documental prévia aceita pelo fundador; revalidação final após conciliação e checks do último HEAD ainda exigidos. Manter PR #1 Draft e sem merge até decisão humana separada; não iniciar implementação.
 - Requisitos futuros de lint, testes, build e scanners para código continuam **NOT_RUN / NÃO CONFIGURADOS**. Nome KOROS, licença Intelligence, privacidade/LGPD, infraestrutura, custos e piloto permanecem condicionados a provas posteriores.
 - Esta seção atualiza o estado dos gates sem apagar o histórico do baseline. Evidence Bundle e HEAD final precisam ser conferidos após o último commit da branch.
+
+## Checkpoint pós-merge KOR-PLAN-001 (canônico proposto em PR de fechamento)
+- **Main verificada após merge:** `e969d2c00f7f779e58be3dd37848801580b60800` (antes `943f634797122473b56e7190f8c5cc1aa8fdd9f5`); commit squash da PR #1, parent único igual à main anterior; 23 arquivos Markdown do Source Pack, nenhum código de aplicação.
+- **PR #1:** mesclada normalmente, HEAD de origem preservado `35f883a9512499efe117ee00c455ce6240001229`; avaliação pré-merge `mergeable_state=clean`, regras GitHub respeitadas, sem bypass.
+- **Checks do HEAD PR:** `governance-docs`, `Socket Security: Pull Request Alerts`, `Socket Security: Project Report`, todos `completed/success`; nova execução `governance-docs` acionada ao marcar Ready também `success` (GitHub Actions run `40770081002`).
+- **CI na nova main:** `governance-docs` `success` no push run `40770164295`; `Socket Security: Project Report` `success`. Não afirmar que testes de runtime/segurança de aplicativo foram executados.
+- **Governança:** ruleset #26074776 `active`, bypass `[]`, `governance-docs` required (App `15368`), PR obrigatório, sem force-push/exclusão, squash-only. `required_approving_review_count=0`; as revisões de `kayzenweb3` foram `COMMENTED`, não `APPROVED`.
+- **Escopo:** documentação aprovada pelo fundador; nenhuma implementação, deploy, alteração da VPS, gastos ou início de KOR-DISC-002. Marca KOROS, licenças do Intelligence, LGPD, custos, arquitetura e piloto permanecem **PENDING**.
+- **Nota histórica:** referências anteriores neste arquivo a `main` desprotegida, PR Draft e G1 pendente são fotografias do estado de 2026-10-28 **antes** das respectivas correções. O estado atual é o descrito nesta seção.
+- **Promoção:** este delta pós-merge exige PR própria e auditoria protegida para entrar na `main`. Até esse futuro merge autorizado, o registro canônico da `main` inclui o histórico pré-merge e a evidência pública complementar fica na PR #1.
