@@ -1,5 +1,5 @@
 # Evidence Bundle KOR-PLAN-001 — Correction Delta documental
-**Data:** 2026-10-28. **WO:** KOR-PLAN-001; **PR:** #1 (Draft).  
+**Data:** 2026-10-28. **WO:** KOR-PLAN-001; **PR:** #1 (MERGED; Draft era seu estado histórico de auditoria).  
 **Base main:** `57dd78a6eb2b39c1d07fdf2728de2cde20fda3b8`; **base tree:** `7b224899e8118500c0356902528070c53190f2ab`.  
 **HEAD auditado antes deste Correction Delta:** `0ac7c203f38550f0534d68d819e416067148091d`; **HEAD final:** conferir no GitHub/PR após atualização (não autodeclarar um SHA que depende do próprio commit).
 
@@ -46,3 +46,13 @@ Registrar base/head e diff da PR após Correction Delta, concluir auditoria do S
 - Correction Delta documental: atualizar `docs/14-checkpoint.md` e `docs/17-risk-register.md` somente para distinguir o histórico inicial da proteção efetivamente aplicada; nenhuma decisão de produto alterada.
 - Reviews: `kayzenweb3` COMMENTED, nenhuma thread; `required_approving_review_count=0` no ruleset. A auditoria independente desta Work Order é de conteúdo/CI, **não** revisão GitHub formal APPROVED.
 - Limites: PR em Draft, sem merge/deploy/gastos, sem modificação da main ou implementação do MVP; marca, licenças e riscos técnicos continuam PENDING.
+
+## Evidence Delta final — read-back pós squash merge (2026-10-28)
+- Context Lock autorizado: PR #1 HEAD `35f883a9512499efe117ee00c455ce6240001229`, main basal `943f634797122473b56e7190f8c5cc1aa8fdd9f5`; read-back confirmou `Draft=true`, sem merge, e regra `governance-docs` required antes da operação. Parecer técnico do usuário aprovou o trabalho documental e autorizou merge condicional.
+- Ruleset #26074776 `active`, sem bypass, `current_user_can_bypass=never`, required check `governance-docs` App ID 15368; repo permite apenas squash. Revisões: `COMMENTED` por `kayzenweb3`, nenhuma `APPROVED`; o ruleset realmente exige `0` aprovações, com 0 threads.
+- CI antes de Ready: três checks `completed/success` no HEAD autorizado. Ao marcar Ready, o GitHub disparou novo `governance-docs` (run `40770081002`), temporariamente `in_progress` e `mergeable_state=blocked`; **merge não tentado** até o job concluir `success` e o estado voltar a `clean`.
+- Merge: somente `merge_method=squash`, `expected_head_sha=35f883a9512499efe117ee00c455ce6240001229`, sem bypass. GitHub retornou `merged=true`, SHA `e969d2c00f7f779e58be3dd37848801580b60800`; commit com **um único parent** igual à main anterior e **23 arquivos Markdown** no diff, nenhum código de produção.
+- Read-back: `main=e969d2c00f7f779e58be3dd37848801580b60800`, branch protegida. `.github/workflows/koros-governance.yml` mantido da governança anterior. `governance-docs` passou no **push** da nova main (run `40770164295`), Socket Project Report `success`.
+- Source Pack auditado previamente: 17 requisitos, 24 incrementos planejados, 11 ADRs, 13 riscos; 30 links internos válidos, 0 IDs duplicados e zero padrões heurísticos de segredos. Nenhum teste de aplicativo, build, deploy ou LLM foi executado; marque `NOT_RUN`.
+- Veredito: **GO para integração protegida da fundação documental KOR-PLAN-001; NÃO autoriza KOR-DISC-002 nem implementação**. Política de revisão independente com 0 aprovações continua lacuna de governança organizacional e requer decisão futura explícita.
+- Este relatório pós-merge está sendo proposto em **PR Draft documental separada**, sem escrita direta na main; sua presença em branch não equivale a checkpoint já incorporado na main.
