@@ -29,3 +29,9 @@ RK-01..13 permanecem como riscos da futura implementação. G1 GitHub sem rulese
 
 ## Checkpoint Delta PROPOSTO (não promovido)
 Registrar base/head e diff da PR após Correction Delta, concluir auditoria do Source Pack, manter Draft e `main` intocada até autorização de eventual squash NORMAL. Propor próxima etapa de governança apenas após G0 APPROVED; nunca iniciar implementação enquanto G1 estiver pendente.
+
+## Validação pós-Correction Delta (HEAD intermediário)
+- HEAD `03313701eb28543f637fc018803e90f84d66e4a5`: compare `ahead=2, behind=0`, **23 arquivos apenas Markdown**, árvore Git `42e6cfb5ae1dc709cb4e3e62e1d5caed454400b5`, 419 adições, 1 exclusão.
+- Análise do diff: 30 links internos, 0 quebrados; 0 padrões heurísticos de segredo; 17 requisitos, 24 backlog IDs, 11 ADRs, 13 riscos, nenhum ID duplicado; cobranças mensal/trimestral/semestral/anual explícitas.
+- Check-runs neste HEAD: 2 Socket **success**, sendo PR Alerts sem alteração de dependências; o status combinado `pending` com zero status contexts NÃO prova CI de aplicativo nem required checks.
+- Estado técnico do Source Pack: **sem defeitos documentais bloqueantes identificados**. Não se confunde com aprovação formal por revisor independente, liberação de `main`, marca comercial ou aprovação de implementação. HEAD final precisa de novo read-back após este registro.
