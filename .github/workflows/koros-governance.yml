@@ -1,0 +1,24 @@
+name: KOROS Governance
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  governance-docs:
+    name: governance-docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Show Node version
+        run: node --version
+      - name: Validate fixture positives and negatives
+        run: node .github/scripts/check-docs.mjs --self-test
+      - name: Validate repository Markdown links and obvious credential patterns
+        run: node .github/scripts/check-docs.mjs
