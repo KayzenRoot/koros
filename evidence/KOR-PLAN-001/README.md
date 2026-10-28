@@ -35,3 +35,14 @@ Registrar base/head e diff da PR após Correction Delta, concluir auditoria do S
 - Análise do diff: 30 links internos, 0 quebrados; 0 padrões heurísticos de segredo; 17 requisitos, 24 backlog IDs, 11 ADRs, 13 riscos, nenhum ID duplicado; cobranças mensal/trimestral/semestral/anual explícitas.
 - Check-runs neste HEAD: 2 Socket **success**, sendo PR Alerts sem alteração de dependências; o status combinado `pending` com zero status contexts NÃO prova CI de aplicativo nem required checks.
 - Estado técnico do Source Pack: **sem defeitos documentais bloqueantes identificados**. Não se confunde com aprovação formal por revisor independente, liberação de `main`, marca comercial ou aprovação de implementação. HEAD final precisa de novo read-back após este registro.
+
+## Evidence Delta — reconciliação com governança (2026-10-28)
+- Novo Context Lock: `main=943f634797122473b56e7190f8c5cc1aa8fdd9f5`; PR #1 Draft e sem merge, HEAD anterior `ba166dc7fc69435c3905b8c3864749b6a5f8adec`.
+- Ruleset #26074776 verificado `active`, `bypass_actors=[]`, `pull_request`, `deletion`, `non_fast_forward`, `required_linear_history` e `required_status_checks` com contexto `governance-docs` e App ID 15368; config de repo squash-only.
+- Compare antes de sincronizar: PR #1 ahead 3/behind 1, apenas 23 arquivos documentais em sua diferença. As árvores eram **disjuntas exceto o README inicial**, preservado integralmente com conteúdo da PR: 23 blobs do Source Pack + 4 blobs exatos da governança, árvore composta `959898b51f31469a43664dab7726aa4ca3f8a777`, 27 arquivos no total e nenhum blob documental alterado na conciliação.
+- Merge commit **somente na branch de PR #1**: `8d54bb51bf9b6e9c4d9413fcfc4d2fb6396f06ab`, pais `ba166dc7fc69435c3905b8c3864749b6a5f8adec` e `943f634797122473b56e7190f8c5cc1aa8fdd9f5`, atualização fast-forward `force=false` com lease SHA anterior. `main` permanece inalterada; PR #1 permanece Draft; nenhum merge desta PR foi executado.
+- Auditoria de estrutura anterior: 30 links internos válidos, 17 requisitos, 24 incrementos, 11 ADRs e 13 riscos, 0 IDs duplicados e 0 detecções heurísticas de segredos. Não é prova de ausência absoluta de segredos, cobertura ou segurança de software.
+- `governance-docs` reconhecido no merge commit da PR #1, inicialmente `queued`; resultados **serão obtidos por read-back após o último commit**, sem antecipar `success`.
+- Correction Delta documental: atualizar `docs/14-checkpoint.md` e `docs/17-risk-register.md` somente para distinguir o histórico inicial da proteção efetivamente aplicada; nenhuma decisão de produto alterada.
+- Reviews: `kayzenweb3` COMMENTED, nenhuma thread; `required_approving_review_count=0` no ruleset. A auditoria independente desta Work Order é de conteúdo/CI, **não** revisão GitHub formal APPROVED.
+- Limites: PR em Draft, sem merge/deploy/gastos, sem modificação da main ou implementação do MVP; marca, licenças e riscos técnicos continuam PENDING.

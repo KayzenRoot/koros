@@ -12,7 +12,7 @@
 | RK-09 | HIGH | Falha de backup → teste restore |
 | RK-10 | HIGH | LGPD/contrato ausente → DPA e dados sintéticos |
 | RK-11 | MEDIUM | Upstream alpha/mudanças rápidas → commit pin e revisão |
-| RK-12 | HIGH | `main` returned `protected=false`, `/rulesets=[]` e leitura detalhada `403` → propor ruleset de PR, sem force-push/bypass, checks validados e teste de enforcement antes de software |
+| RK-12 | HIGH (residual de revisão humana) | **Histórico:** main não protegida no baseline. **Agora:** ruleset #26074776 ativo, PR obrigatório, sem bypass, squash-only e `governance-docs` required (App 15368) comprovados na main `943f634797122473b56e7190f8c5cc1aa8fdd9f5`. **Residual:** 0 aprovações required, revisão independente COMMENTED não é APPROVED; novos testes de código devem ter produtores/checks próprios antes de implementar. |
 | RK-13 | MEDIUM | ROI sem baseline → piloto mensurável |
 
 Riscos documentais não são controles implementados. Nenhuma mitigação marcada DONE sem Evidence Bundle. Se HIGH/CRITICAL conhecido na implementação: BLOCKED para release.
