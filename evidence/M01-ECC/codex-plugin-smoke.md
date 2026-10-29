@@ -1,6 +1,6 @@
-# Evidence Bundle KOR-M01-ECC-03 — correção para v2.2.3 e smokes
+# Evidence Bundle KOR-M01-ECC-03 — v2.2.3, trust nativo e smokes
 
-**Data:** 2026-10-29. **Issue:** [#8](https://github.com/KayzenRoot/koros/issues/8). **Branch:** `evidence/KOR-M01-ECC-03-install`. **Base:** `docs/KOR-M01-ECC-PLAN-001` @ `c4cb4c54ec82b05533abcf6acd9710299645170f`. **Classificação:** NECESSARY. **Custo:** R$0. **Veredito:** **BLOCKED** (Desktop/hook trust não comprovados; instalação CLI corrigida e verificada).
+**Data:** 2026-10-29. **Issue:** [#8](https://github.com/KayzenRoot/koros/issues/8). **Branch:** `evidence/KOR-M01-ECC-03-install`. **Base:** `docs/KOR-M01-ECC-PLAN-001` @ `c4cb4c54ec82b05533abcf6acd9710299645170f`. **Classificação:** NECESSARY. **Custo:** R$0. **Veredito:** **BLOCKED** no gate de trust nativo do hook; instalação e smokes CLI/MCP verificados.
 
 ## 1. Context Lock
 
@@ -8,172 +8,180 @@
 |---|---|
 | `main` | `30819b2622d5dc865931d5c55e9e9e9586648276`, protegida |
 | PR #21 (base) | `OPEN`, Draft, HEAD `c4cb4c54ec82b05533abcf6acd9710299645170f` |
-| PR #22 | `OPEN`, Draft, HEAD anterior `729b913c1b6ea3a8e5c75607622c155f60c206dd` |
+| PR #22 | `OPEN`, Draft, HEAD anterior `b10d0a2e6d5f441ae4cc2d9233486c84ef166e4b` |
 | Issue #8 | `OPEN` |
 | Autenticação | `gh` como `KayzenRoot`, `admin=true` |
-| SO | Windows 10.0.26200 x64, Git Bash, PowerShell `5.1.26100.9711` |
 | Codex CLI | `0.162.1` (requisito `>= 0.146.0`: atendido) |
-| Codex Desktop | `26.1023.6621.0` (app `ChatGPT`/`OpenAI.Codex`), em execução |
+| Codex Desktop | `26.1023.6621.0` — app `ChatGPT`/`OpenAI.Codex`, em execução |
 
 Nenhum token, credencial ou conteúdo de `auth.json` foi lido ou publicado.
 
-## 2. Estado anterior e correção aplicada
+## 2. Instalação corrigida e preservada
 
-O estado pré-correção tinha `ecc@ecc` instalado a partir de `main` (`25278e7…`), enquanto o `config.toml` pinava o release `v2.2.3` (`c05b2d6…`): 1017 commits e 906 arquivos de diferença. O trust do hook também estava stale.
-
-Correção executada com o CLI oficial, sem sync legado e sem bypass:
-
-```text
-codex plugin remove ecc@ecc
-codex plugin marketplace remove ecc
-codex plugin marketplace add https://github.com/affaan-m/ECC.git --ref c05b2d6614f62f6db0047669aa4eefb223d478f9 --json
-codex plugin add ecc@ecc --json
-```
-
-Read-back:
+O release oficial `v2.2.3` está instalado e alinhado ao SHA `c05b2d6614f62f6db0047669aa4eefb223d478f9`:
 
 | Item | Valor |
 |---|---|
-| Marketplace HEAD | `c05b2d6614f62f6db0047669aa4eefb223d478f9` (`v2.2.3`) |
+| Marketplace HEAD | `c05b2d6614f62f6db0047669aa4eefb223d478f9` |
 | Cache HEAD | `c05b2d6614f62f6db0047669aa4eefb223d478f9` |
-| Plugin | `ecc@ecc`, versão `2.2.3`, habilitado, **uma única entrada** |
-| Config | `[marketplaces.ecc] ref = c05b2d6…`, `source = https://github.com/affaan-m/ECC.git` |
-| Cache checker | PASS — todas as referências do manifesto resolvem |
-| Sync legado | ausente; nenhum skill ECC fora do plugin |
-| MCP `chrome-devtools` | `enabled=false` no config e `disabled` em `codex mcp list` |
+| Plugin | `ecc@ecc` `2.2.3`, habilitado, **uma única entrada** |
+| Config | `[marketplaces.ecc] ref = c05b2d6…`; `source = https://github.com/affaan-m/ECC.git` |
+| Cache checker | PASS — referências do manifesto resolvem |
+| Sync legado / duplicata | ausente |
+| MCP `chrome-devtools` | `enabled=false` |
+
+Não houve reinstalação nesta continuação; o estado acima foi apenas lido de volta.
 
 ## 3. Backup preservado
 
 - Backup completo fora do repositório: `<LOCAL_BACKUP_ROOT>`, 130 MB, 4726 arquivos, ACL restrita a usuário/SYSTEM/Administradores.
 - Snapshot pré-realinhamento com `config.toml` anterior, `config-after-reinstall.toml`, `config-before-skills.toml`, lista de plugins e hashes.
-- Hashes relevantes: config atual `2c606e64…`; hook `57edf21e…`; `AGENTS.md` `4b7b63cd…`.
-- O backup não foi publicado; contém configuração local, sem tokens no GitHub.
+- Hashes atuais: config `2c606e64…`; hook `57edf21e…`; `AGENTS.md` `4b7b63cd…`.
+- O backup contém configuração local e não foi publicado.
 
-## 4. Capacidades do release v2.2.3
+## 4. Capacidades do release e skills mantidas
 
-O release contém as capacidades necessárias, com nomes reais diferentes dos usados em `main`:
+O release tem 293 skills; 12 estão selecionadas e **não desabilitadas**:
 
-| Necessidade | Skill/agente no release |
-|---|---|
-| TDD e verificação | `tdd-workflow`, `verification-loop` |
-| Segurança e revisão | `security-review`, agente `security-reviewer`, agente `code-reviewer` |
-| Planejamento | `plan-canvas`, `plan-orchestrate`, agente `planner` |
-| Docs/ADR | `living-docs-governance`, `architecture-decision-records` |
-| API/contratos | `api-design` |
-| MCP/skills | `mcp-server-patterns`, `skill-comply`, `agent-architecture-audit`, `security-scan` |
-| Arquitetura/docs lookup | agentes `architect`, `docs-lookup` |
+`tdd-workflow`, `verification-loop`, `security-review`, `plan-canvas`, `plan-orchestrate`, `api-design`, `living-docs-governance`, `architecture-decision-records`, `mcp-server-patterns`, `skill-comply`, `agent-architecture-audit`, `security-scan`.
 
-As skills mais novas `docs-governance`, `mcp-dependency-review` e `skill-host-compat` **não existem no release**; as equivalentes acima foram usadas. O release contém 68 arquivos de agentes, mas o `plugin.json` do Codex expõe apenas `skills`, `mcpServers` e `hooks` — os agentes são catálogo, não subagentes carregados pelo plugin Codex.
+As outras 281 estão `enabled=false` via `[[skills.config]]`; nada foi apagado. `[skills] max_context_tokens = 10_000` permanece. As skills mais novas `docs-governance`, `mcp-dependency-review` e `skill-host-compat` não existem no release; foram usadas as equivalentes reais acima.
 
-## 5. Seleção operacional de skills
+## 5. Smokes CLI (distintos do Desktop)
 
-O catálogo do release tem 293 skills e excedia o orçamento inicial do Codex. A seleção foi aplicada pelo mecanismo oficial `[[skills.config]]`, desabilitando 281 skills ECC não selecionadas e mantendo 12; `[skills] max_context_tokens = 10_000` já estava configurado. Nada foi apagado.
+Em `codex exec --sandbox read-only`, sem `--dangerously-bypass-hook-trust`:
 
-Smokes no CLI, em `--sandbox read-only`, sem bypass de hook trust:
-
-| Teste | Resultado |
+| Smoke | Resultado |
 |---|---|
 | `$tdd-workflow` — plano red-green de 3 passos | **PASS** |
-| `$security-review` — revisão de SQL injection sintética | **PASS** |
-| Aviso de orçamento de skills | desapareceu após a seleção |
+| `$security-review` — riscos de SQL injection e correção | **PASS** |
+| Aviso de orçamento de skills | ausente após a seleção |
 
-Os smokes foram executados no **Codex CLI**, não no Desktop. O evento de sessão não mostrou falha de skill.
+Esses resultados são do **Codex CLI**. Não são usados como prova do Desktop.
 
-## 6. Hook `SessionStart` e trust
+## 6. Trust do hook `SessionStart` — investigação oficial
 
-- Hook instalado (`v2.2.3`): `57edf21eb83d9c8144cfdc19f621700a854b6fd4abc4c368ddaeb5c74488b43c`.
-- Config: `trusted_hash = af11f84a…`; `trusted_content_hash = 3cbe25e3…`.
-- `codex exec` sem `--dangerously-bypass-hook-trust` alertou: `hooks.state…trusted_content_hash is ignored` (campo não reconhecido nesta versão). Não houve prompt de trust nem lease `SessionStart` no rollout; a execução do hook não foi comprovada.
-- O app Desktop observado (`ChatGPT`/`OpenAI.Codex 26.1023.6621.0`) abriu uma conversa de projeto existente e não expôs superfície de plugin/hook trust; o atalho de nova conversa não criou sessão nova. A conversa do usuário não foi alterada.
-- **Não** foi editado `trusted_content_hash`, **não** foi usado `--dangerously-bypass-hook-trust` e **não** houve re-trust manual.
+### O que o host exige
 
-Status: **BLOCKED/NOT_RUN** — o trust oficial exige reinício/prompt humano no Desktop e não foi possível prová-lo nesta sessão.
+A documentação oficial de hooks informa que hooks fornecidos por plugin **não são auto-confiados**. Antes de executar um hook não gerenciado, o Codex exige revisão e trust da definição exata; o trust é registrado contra o hash atual do hook e hooks alterados ficam **skipped until trusted**. O mecanismo documentado é `/hooks` no CLI, para inspecionar a origem, revisar hooks novos/alterados e confiar. `--dangerously-bypass-hook-trust` é explicitamente um bypass e **não foi usado**.
+
+### Hashes observados
+
+| Item | SHA-256 |
+|---|---|
+| Hook instalado (`hooks/codex-hooks.json`) | `57edf21eb83d9c8144cfdc19f621700a854b6fd4abc4c368ddaeb5c74488b43c` |
+| `trusted_hash` no config | `af11f84aded85744187d170760b246406606904c3dd46b9dfbf6e17edc594fdc` |
+| `trusted_content_hash` no config | `3cbe25e3f5c727db9feb5274a5a3753a9267ef75cbf29df3b6602f6283b664f4` |
+| `.hook-trust/207fad…` | `sha256:3cbe25e3…` |
+
+O Codex `0.162.1` alerta que `trusted_content_hash` é um campo **ignorado** nesta versão. Os hashes registrados não correspondem ao hook atual `57edf21e…`; portanto, o hook não está comprovadamente confiado para o conteúdo `v2.2.3`.
+
+### O que foi testado no CLI
+
+- `codex exec` sem bypass executou normalmente, mas **não exibiu prompt de trust nem comprovou execução do `SessionStart`** (sem lease/evento de hook no rollout).
+- O `exec` não é prova de que o Desktop executa hooks; a documentação não estabelece que ele dispare `SessionStart`.
+
+### O que foi observado no Desktop
+
+- App `ChatGPT`/`OpenAI.Codex` `26.1023.6621.0`, janela de projeto existente; a interface não expôs `/hooks`, página de hooks ou prompt de trust. A conversa existente do usuário **não foi alterada**.
+- O bundle do app contém strings `SessionStart`, `hook trust` e `hooks.state`, indicando que o host conhece hooks; não foi localizado um caminho de UI legítimo para concluir o trust.
+- O atalho de nova conversa não criou uma sessão nova; não foi tentado novamente para evitar loop.
+
+### Solicitação humana legítima
+
+Para concluir este gate, executar em um terminal local:
+
+```text
+codex
+/hooks
+```
+
+Revisar o hook ECC `SessionStart` cuja origem é `<CODEX_HOME>\plugins\cache\ecc\ecc\2.2.3\hooks\codex-hooks.json` (id `session:start`) e confiar no hash atual `57edf21e…` pela própria UI do `/hooks`. Não editar `trusted_hash`/`trusted_content_hash` manualmente e não usar `--dangerously-bypass-hook-trust`.
+
+Até essa confirmação nativa, o gate permanece **BLOCKED**.
 
 ## 7. MCP read-only e veto de escrita
 
-O MCP ECC permanece desabilitado na instalação real. Foi feito um smoke direto do servidor fixado `chrome-devtools-mcp@1.10.1`, em `--headless --isolated`, com categorias de input/emulação/rede/performance/debug/memória desabilitadas:
+Teste direto do servidor fixado `chrome-devtools-mcp@1.10.1`, em `--headless --isolated`, com input/emulação/rede/performance/debug/memória desabilitados:
 
-- Inicialização: `chrome_devtools` `1.10.1`.
-- Ferramentas expostas: 6 (`close_page`, `list_pages`, `navigate_page`, `new_page`, `select_page`, `wait_for`).
-- Leitura: `list_pages` → `about:blank [selected]` — **PASS**.
+- Inicialização `chrome_devtools` `1.10.1`.
+- 6 ferramentas expostas (`close_page`, `list_pages`, `navigate_page`, `new_page`, `select_page`, `wait_for`).
+- `list_pages` → `about:blank [selected]`: **PASS**.
 - Ferramentas de input expostas: **nenhuma**.
-- `navigate_page` presente, mas **não invocado**: veto de cliente registrado (`invoked=false`) — **PASS** de veto.
-- O servidor foi encerrado; nenhum perfil real do Chrome foi usado.
-- O MCP real continua desabilitado; este teste não habilita escrita no Codex.
+- `navigate_page` presente, mas **não invocado**; veto de cliente registrado: **PASS**.
+- O MCP real permanece desabilitado; nenhuma escrita foi habilitada no Codex.
 
 ## 8. Idempotência e rollback
 
 | Teste | Resultado |
 |---|---|
-| `codex plugin add ecc@ecc` novamente na instalação real | **PASS** — continua uma entrada, versão `2.2.3`, heads `c05b2d6…` |
+| Instalação real: `plugin add` novamente | **PASS** — continua uma entrada `2.2.3` |
 | Sandbox `v2.2.3`: install → add novamente | **PASS** — `1 → 1` |
 | Sandbox `v2.2.3`: remove | **PASS** — `1 → 0` |
-| Sandbox `v2.2.3`: re-add (restauração) | **PASS** — `0 → 1` |
+| Sandbox `v2.2.3`: re-add | **PASS** — `0 → 1` |
 
-O rollback real não foi executado para não desfazer a correção; o backup completo e o snapshot pré-realinhamento permitem restaurar o estado anterior.
+O rollback real não foi executado para não desfazer a correção; backup e snapshot permitem restaurar.
 
 ## 9. ECC Tools Free
 
 - App `ecc-tools` instalado; publica comentários (`ecc-tools[bot]`) e **não publica check-runs**.
 - Permissões: `contents: write`, `issues: write`, `metadata: read`, `pull_requests: write`; eventos `issue_comment`, `pull_request`, `push`.
-- Plano Free: repositórios públicos, 10 análises/mês, até 200 commits/análise. Pro **US$19/seat/mês não ativado**.
-- Quota da conta **UNKNOWN**; nenhum `/ecc-tools analyze` foi disparado nesta execução.
-- O template `.claude/ecc-tools.json` do OSS declara `tier: enterprise`/`full`, mas não é assinatura paga desta conta. Risco registrado.
+- Free para repositórios públicos: 10 análises/mês, até 200 commits/análise.
+- Pro **US$19/seat/mês não ativado**; nenhum gasto ou upgrade.
+- Quota da conta **UNKNOWN**; nenhum `/ecc-tools analyze` foi disparado. O App postou comentários automáticos no PR #22, sem check-runs.
 
 ## 10. Etiquetas
 
-- 24/24 etiquetas da paleta canônica com cor exata.
-- Extras autorizadas: `decision:approved` → `16A34A`; `gate:local-access-required` → `F59E0B`.
-- `NONPALETTE_CHANGED=0`; total de 37 etiquetas; issues #5–#20 (16) preservadas.
-- Fonte: [taxonomia](https://github.com/KayzenRoot/koros/blob/docs/KOR-M01-ECC-PLAN-001/docs/modules/M01-ECC/github-labels.md).
+- 24/24 etiquetas da paleta canônica verificadas.
+- Extras: `decision:approved` → `16A34A`; `gate:local-access-required` → `F59E0B`.
+- Nenhuma outra etiqueta alterada; 37 labels; 16 issues #5–#20 preservadas.
 
-## 11. Matriz de testes
+## 11. Matriz de gates
 
-| Teste | Status |
+| Gate | Status |
 |---|---|
 | Context Lock e autenticação | **PASS** |
-| Release `v2.2.3` contém capacidades necessárias | **PASS** (equivalentes reais) |
+| Instalação `v2.2.3` e pin `c05b2d6` | **PASS** |
 | Backup local e ACL | **PASS** |
-| Pin/marketplace/cache em `c05b2d6` | **PASS** |
-| Cache checker oficial | **PASS** |
-| Sem duplicata / sem sync legado | **PASS** |
-| Seleção de skills (281 desabilitadas, 12 mantidas) | **PASS** |
-| Skill `$tdd-workflow` no CLI | **PASS** |
-| Skill `$security-review` no CLI | **PASS** |
-| Agentes ECC como subagentes Codex | **NOT_RUN/UNSUPPORTED** (não expostos pelo `plugin.json`) |
-| Hook `SessionStart` positivo | **BLOCKED** (trust/Desktop pendente) |
-| Hook `SessionStart` negativo | **NOT_RUN** |
-| Skill no Codex Desktop | **NOT_RUN/BLOCKED** (superfície de trust não exposta) |
-| MCP read-only (`list_pages`) | **PASS** (servidor direto) |
-| MCP escrita vetada | **PASS** (input ausente; `navigate_page` não invocado) |
-| MCP real habilitado no Codex | **NOT_RUN** (mantido desabilitado) |
+| Cache checker e ausência de duplicata/sync legado | **PASS** |
+| 12 skills selecionadas mantidas | **PASS** |
+| `$tdd-workflow` no CLI | **PASS** |
+| `$security-review` no CLI | **PASS** |
+| Agentes ECC como subagentes Codex | **NOT_RUN/UNSUPPORTED** |
+| MCP read-only e veto de escrita | **PASS** |
 | Idempotência real | **PASS** |
 | Rollback em sandbox | **PASS** |
+| Trust oficial do `SessionStart` | **BLOCKED** — requer `/hooks` humano |
+| Hook positivo/negativo no Desktop | **BLOCKED** |
+| Skills no Codex Desktop | **NOT_RUN/BLOCKED** — sem superfície de trust/plugin localizada |
+| MCP no Codex Desktop | **NOT_RUN/BLOCKED** |
 | ECC Tools Free / sem Pro | **PASS parcial**; quota **UNKNOWN** |
 | Cores das etiquetas | **PASS** |
 | CI do HEAD desta atualização | verificado após o push; resultado no parecer final |
 
 ## 12. Veredito e riscos
 
-**BLOCKED** para a declaração de ECC 100% funcional no Desktop. A correção de pin, a seleção de skills, os smokes CLI, o MCP read-only e a idempotência/rollback passaram; o hook `SessionStart` e as provas no Codex Desktop continuam pendentes de trust humano/oficial.
+**BLOCKED** no gate de trust nativo do hook `SessionStart`. A instalação `v2.2.3`, a seleção das 12 skills, os smokes CLI, o MCP read-only, a idempotência, o rollback em sandbox e as etiquetas passaram. O hook e os smokes no Desktop não podem ser declarados sem a confirmação nativa via `/hooks`.
 
 Riscos residuais:
-- **Alto:** hook `SessionStart` não comprovado e trust do Desktop pendente.
-- **Médio:** agentes ECC não são expostos como subagentes pelo plugin Codex.
-- **Médio:** App ECC Tools tem permissões de escrita e quota Free desconhecida.
-- **Baixo:** skills mais novas do `main` (`docs-governance`, `mcp-dependency-review`, `skill-host-compat`) não existem no release; foram substituídas por equivalentes.
-- **Baixo:** MCP direto expõe ferramentas de navegação; o veto foi de cliente e o MCP real permanece desabilitado.
+- **Alto:** hook `SessionStart` não confiado para o hash atual; execução não comprovada.
+- **Médio:** o app Desktop observado não expôs `/hooks`/trust; pode ser necessária uma versão/interface compatível.
+- **Médio:** agentes ECC não são expostos como subagentes pelo `plugin.json` do Codex.
+- **Médio:** ECC Tools tem permissões de escrita e quota Free desconhecida.
+- **Baixo:** MCP direto expõe ferramentas de navegação; veto foi de cliente e o MCP real está desabilitado.
 
 ## 13. Próxima ação NECESSARY
 
-1. Reiniciar o Codex Desktop e concluir o trust oficial do hook `SessionStart` (prompt humano; sem editar hash e sem `--dangerously-bypass-hook-trust`).
-2. Executar no Desktop: skill de análise, skill de teste, hook positivo/negativo e MCP read-only com veto.
-3. Confirmar quota ECC Tools no painel Free; não ativar Pro.
-4. Atualizar esta evidência e a issue #8; somente então avaliar `IMPLEMENTED_VERIFIED`.
+1. Executar `codex` e `/hooks` no terminal local.
+2. Revisar o hook ECC `SessionStart` em `<CODEX_HOME>\plugins\cache\ecc\ecc\2.2.3\hooks\codex-hooks.json`.
+3. Confiar no hash atual `57edf21e…` pela UI oficial do `/hooks`.
+4. Reabrir o Codex Desktop e executar os smokes de hook positivo/negativo e skills; sem bypass.
+5. Confirmar a quota Free do ECC Tools; manter Pro desativado.
+6. Atualizar esta evidência e a issue #8; somente então avaliar `IMPLEMENTED_VERIFIED`.
 
 ## 14. Limites preservados
 
-Sem merge, sem alteração da `main`, sem bypass, sem deploy, sem gasto, sem KOR-DISC-002 e sem alterar a conversa existente do app Desktop. A instalação real foi corrigida para o release `v2.2.3`; o MCP ECC permanece desabilitado; as únicas mutações externas ao repositório foram as cores das etiquetas.
+Sem merge, alteração da `main`, deploy, gasto, bypass, implementação do MVP ou KOR-DISC-002. A instalação real está no release `v2.2.3`; o MCP permanece desabilitado; a conversa existente do app Desktop não foi alterada.
 
 ## Rastreamento
 
