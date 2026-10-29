@@ -14,3 +14,13 @@
 | ADR-011 | PENDING | Implementação real de políticas e sandbox |
 
 Somente o fundador/autoridade designada promove decisões de produto; auditor valida evidências objetivamente. Não transformar 'PROPOSED' em 'APPROVED' pela redação. Se marca comercial falhar, manter code name e decidir novo nome via ADR, sem renomear dados/repo destrutivamente. Após cada auditoria aprovada, atualizar checkpoint e docs afetados.
+
+## Política aprovada após mudança de rumo (2026-10-29)
+| ID | Status | Decisão |
+|---|---|---|
+| ADR-012 | **APPROVED_DIRECTION** | Nexlabs Technology retirou qualquer requisito de ECC plugin/hosted, trust, hooks, MCP e check-runs do fluxo obrigatório. Skills podem ser consultadas **somente quando úteis**, nunca como gate. Não há autorização implícita de desinstalação no PC ou de alterar permissões de App de terceiros. Preservar `governance-docs` GitHub Actions, ruleset e proteção da main. |
+| ADR-013 | **PROPOSED** | KOROS será core genérico multissetorial, com templates e conectores configuráveis, a validar em PRODUCT-M01. |
+| ADR-014 | **PENDING_DECISION** | Modalidade inicial: SaaS administrado com isolamento por cliente, self-host guiado ou híbrido de início. |
+| ADR-015 | **PENDING_DECISION** | Segmento inicial, dor prioritária, primeiro workflow e critérios de viabilidade comercial. |
+
+O cancelamento de ECC não prova produto ou pipeline de testes de aplicativo instalado; controles documentais existentes continuam em vigor. Nova análise e escolha do fundador serão registradas em `docs/product-m01/decisions.md`.

@@ -1,5 +1,5 @@
 # 00 — Project Overview
-**Data:** 2026-10-28. **Produto:** KOROS (marca provisória) da Next Labs Technology. **Estágio:** pré-MVP.
+**Data:** 2026-10-28. **Produto:** KOROS (marca provisória) da Nexlabs Technology. **Estágio:** pré-MVP.
 
 ## Problema e valor
 Pequenas empresas gastam tempo com triagem, qualificação e reentrada manual de dados em CRM. KOROS pretende executar fluxos repetitivos delimitados com IA **supervisionada**, rastreabilidade, orçamento e controle de acesso, não apenas responder perguntas.

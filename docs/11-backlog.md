@@ -28,3 +28,11 @@ IDs estáveis; não equivalem a issues já criadas. Avançar **somente depois de
 | KOR-STUDIO-024 | FUTURE | Designer de fluxos/marketplace |
 
 Não fabricar 500 issues antes de escopo aprovado. Cada item vira Work Order com testes/evidência e PR própria após contexto lock. Se falhar, Correction Delta no mesmo ID, sem começar próximo.
+
+## Repriorização após mudança de escopo, 2026-10-29
+- **Startup:** Nexlabs Technology; **produto:** KOROS.
+- O fundador retirou a instalação e o funcionamento obrigatório do ECC dos gates do projeto. PRs #21/#22 encerradas sem merge; histórico da Epic #5 e issues #6–#20 encerradas como NOT_PLANNED exceto #13, cuja atualização foi recusada pelo controle de segurança da integração (não contornar).
+- Skills de qualquer biblioteca são opcionais, sem implicar integração obrigatória no projeto, CI, hooks, MCPs, revisão ou release.
+- **Workflow de main inalterado:** `.github/workflows/koros-governance.yml`, `governance-docs` required App 15368, ruleset #26074776 ativo e sem bypass. CI de aplicação e segurança adicionais somente quando existirem código/testes e checks verificáveis, de preferência com ferramentas gratuitas.
+- **Próximo módulo de PRODUTO:** [KOR-DISC-002 / PRODUCT-M01](product-m01/README.md), [Epic #23](https://github.com/KayzenRoot/koros/issues/23), tarefas #24–#35. Supersede a priorização da integração ECC como M01 de engenharia, mas **não renumera** os IDs históricos.
+- Não criar commits de aplicação nem deploy nem gastos. Planejamento e decisões de negócio devem ser aceitos pelo fundador antes de virar WOs de implementação.
