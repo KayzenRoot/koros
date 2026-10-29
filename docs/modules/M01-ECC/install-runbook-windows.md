@@ -42,20 +42,19 @@ Smokes CLI em `--sandbox read-only`, sem `--dangerously-bypass-hook-trust`:
 - `$tdd-workflow` → plano red-green de 3 passos: PASS;
 - `$security-review` → riscos de SQL injection e correção: PASS.
 
-## 5. Trust do hook `SessionStart` — mecanismo oficial
+## 5. Trust do hook `SessionStart` — concluído no CLI; Desktop pendente
 
-A documentação oficial informa que hooks de plugin **não são auto-confiados**; o trust é registrado contra o hash exato do hook e hooks alterados ficam **skipped until trusted**. O mecanismo documentado é `/hooks` no CLI. `--dangerously-bypass-hook-trust` é um bypass e **não deve ser usado**.
+O owner concluiu a revisão via `/hooks`. O read-back somente leitura mostra o config atualizado em `2026-10-29 18:16:30` com `trusted_hash = 323e8107…`, `trusted_content_hash = 8a906232…` e `enabled = true`. O SHA-256 bruto do `hooks/codex-hooks.json` é `57edf21e…`; os hashes de trust são derivados pelo host, não iguais ao hash bruto. **Não editar hashes e não repetir trust.**
 
-O hook `v2.2.3` tem SHA-256 `57edf21eb83d9c8144cfdc19f621700a854b6fd4abc4c368ddaeb5c74488b43c`. A configuração contém `trusted_hash = af11f84a…` e `trusted_content_hash = 3cbe25e3…`; este último é ignorado pela versão atual do Codex. Não editar hashes manualmente.
+A execução foi comprovada em sessões reais do CLI: `codex exec` imprimiu `hook: SessionStart` / `hook: SessionStart Completed`. O teste negativo removeu o `*-session.tmp` expirado e preservou o fresco. O Desktop ainda não foi verificado porque o controle de UI não estava disponível nesta sessão; não simular Desktop via CLI.
 
-Solicitação humana legítima:
+Verificação pendente no Desktop:
 
-1. Abrir um terminal e executar `codex`.
-2. Digitar `/hooks`.
-3. Revisar o hook ECC `SessionStart` cuja origem é `<CODEX_HOME>\plugins\cache\ecc\ecc\2.2.3\hooks\codex-hooks.json` (id `session:start`).
-4. Confiar no hash atual `57edf21e…` pela UI oficial do `/hooks`.
-5. Se o Desktop expuser uma página de hooks, usar essa UI; caso contrário, `/hooks` no CLI é o caminho documentado.
-6. Reabrir o Codex Desktop e executar os smokes de hook positivo/negativo. Antes do trust, o gate permanece `BLOCKED`.
+1. Abrir uma sessão controlável no Codex Desktop (nova conversa/aba Codex).
+2. Executar `$security-review` e `$tdd-workflow`; registrar respostas e a origem das skills.
+3. Confirmar o hook `SessionStart` no Desktop e repetir o caso negativo com um `*-session.tmp` sintético.
+4. Manter `chrome-devtools` desabilitado; se testar MCP, usar read-only e veto de escrita.
+5. Se o Desktop não expuser sessão/skills/hook, registrar **NOT_VERIFIED/BLOCKED**; não simular Desktop via CLI.
 
 ## 6. Smoke Desktop obrigatório
 
