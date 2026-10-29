@@ -38,3 +38,10 @@ M01 aprovado para planejamento no chat pelo fundador; decidir perfil ECC nativo 
 
 ## Final read-back desta PR
 A ser preenchido em **comentário de revisão na PR Draft**, após seu HEAD, checks e diff reais estarem disponíveis. Não inventar SHA final que depende do próprio commit.
+
+## Decision/issue-label delta (2026-10-29)
+- O fundador aprovou explicitamente as sete alternativas **A** DEC-M01-01..07 e autorizou instalar/configurar ECC no Codex Desktop Windows. A decisão foi registrada na branch da PR #21 sem presumir resultado de instalação ou aprovação humana independente no GitHub.
+- Issues #5..#20 receberam **7–8 etiquetas cada** por módulo, estado, custo, prioridade, área e tipo; `documentation`/ `enhancement` mantém cores nativas azul/teal. As etiquetas novas personalizadas foram criadas pelo GitHub com cor padrão cinza `ededed`, **não coloridas ainda**. Alterar cores exige ferramenta de administração de labels que não está exposta neste chat; [paleta e operação via gh](../../docs/modules/M01-ECC/github-labels.md) documentadas, sem alegar execução.
+- O plugin nativo ECC Codex, skills/hooks/MCPs locais exigem execução no **Windows do usuário**. As ferramentas desta sessão alcançam repositórios GitHub, mas **não controlam o desktop local**. Nenhum download, instalação ou smoke test real foi feito no computador. Status honesto: `BLOCKED_LOCAL_ACCESS`. [WO local](../../docs/modules/M01-ECC/ecc-local-execution-wo.md) preparada para Codex Desktop.
+- Risco de duplicação: upstream recomenda plugin Codex nativo e marca `sync-ecc-to-codex.sh` como legado. Não empilhar ambos. GitHub ECC Tools App hospedado não equivale ao plugin ECC local; limites Free e capacidade de publicação de checks seguem a verificar.
+- `PLAN_APPROVED` é decisão do fundador, não check de execução; PR #21 permanece Draft e a main protegida sem mudanças. Não iniciar M02/KOR-DISC-002.

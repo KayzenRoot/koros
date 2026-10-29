@@ -102,3 +102,6 @@ ChatGPT (planejamento e auditoria) ---- GitHub (Source of Truth)
 [Decisões](decisions.md) · [Plano de harness, skills e MCP](harness-mcp-skills.md) · [Pipeline R$0](ci-quality-gates.md) · [Aceites e issues](acceptance-and-issues.md) · [Evidence Bundle](../../../evidence/KOR-M01-ECC-PLAN-001/README.md).
 
 Fonte: https://github.com/affaan-m/ECC , https://github.com/marketplace/ecc-tools , https://docs.github.com/en/actions/concepts/billing-and-usage .
+
+## Aprovação do fundador / execução local (2026-10-29)
+As sete escolhas A de `DEC-M01-01..07` foram **APPROVED_FOR_PLANNING**. O fundador também pediu autorização de setup ECC no Codex Desktop Windows. Esta conversa possui ferramentas GitHub, mas **não possui acesso autorizado ao Windows do usuário**. Portanto, nenhuma instalação local, smoke de plugins/MCP/hook ou reparo de conflito foi executada. Consultar o [runbook executável](ecc-local-execution-wo.md); [tags coloridas](github-labels.md) e issues #5–#20 estão registradas. O M01 permanece `IMPLEMENTED_VERIFIED=NO`.
