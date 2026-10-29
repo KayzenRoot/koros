@@ -22,3 +22,7 @@ Todos os links representam **planejamento**, não capacidades entregues. Em conf
 - [19 Work Order](19-work-order-KOR-PLAN-001.md)
 - [Evidence Bundle inicial](../evidence/KOR-PLAN-001/README.md)
 **Estados:** APPROVED apenas para decisão humana explícita; PROPOSED, PENDING, BLOCKED, REJECTED, NOT_RUN ou NÃO VERIFICADO no restante. Checkpoint promovido somente após auditoria. Planejamento não autoriza execução técnica.
+
+## Planejamento modular iniciado em 2026-10-29
+- [Módulos KOROS (Nexlabs Technology)](modules/README.md)
+- [M01 ECC — Engenharia / pipeline Free](modules/M01-ECC/README.md) (somente planejamento, não código)

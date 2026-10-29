@@ -28,3 +28,9 @@ IDs estáveis; não equivalem a issues já criadas. Avançar **somente depois de
 | KOR-STUDIO-024 | FUTURE | Designer de fluxos/marketplace |
 
 Não fabricar 500 issues antes de escopo aprovado. Cada item vira Work Order com testes/evidência e PR própria após contexto lock. Se falhar, Correction Delta no mesmo ID, sem começar próximo.
+
+## Sequenciamento novo solicitado pelo fundador em 2026-10-29 (planejamento, sem reescrever IDs)
+**Nexlabs Technology** determinou que o primeiro módulo a ser planejado em detalhe seja **KOR-M01-ECC-PLAN-001 — ECC & Engineering Foundation**, antes de iniciar KOR-DISC-002. Esta precedência não muda a classe/identidade de KOR-DISC-002 nem aprova a implementação do produto; cria um **módulo habilitador de engenharia** em paralelo ao roadmap canônico.
+- Epic M01 [#5](https://github.com/KayzenRoot/koros/issues/5) e issues técnicas [#6–#20](https://github.com/KayzenRoot/koros/issues/5).
+- [Plano canônico M01](modules/M01-ECC/README.md), [módulos futuros propostos](modules/README.md), [decisões pendentes](modules/M01-ECC/decisions.md).
+- Estado: PLAN_DRAFT / PLANNED; ECC ainda não instalado, workflows futuros NOT_RUN. A transição para implementação ou novo módulo requer aceites e WOs separadas.
