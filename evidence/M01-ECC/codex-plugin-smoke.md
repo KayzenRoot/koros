@@ -34,7 +34,7 @@ Não houve reinstalação nesta continuação; o estado acima foi apenas lido de
 
 ## 3. Backup preservado
 
-- Backup completo fora do repositório: `<LOCAL_BACKUP_ROOT>`, 130 MB, 4726 arquivos, ACL restrita a usuário/SYSTEM/Administradores.
+- Backup completo fora do repositório: `<LOCAL_BACKUP_ROOT>`, 130 MB, 4726 arquivos. ACL com usuário/SYSTEM/Administradores e ACE `CodexSandboxUsers` (ReadAndExecute) aplicado pelo ambiente Codex; a remoção exige `SeSecurityPrivilege` e não foi tentada.
 - Snapshot pré-realinhamento com `config.toml` anterior, `config-after-reinstall.toml`, `config-before-skills.toml`, lista de plugins e hashes.
 - Hashes atuais: config `2c606e64…`; hook `57edf21e…`; `AGENTS.md` `4b7b63cd…`.
 - O backup contém configuração local e não foi publicado.
@@ -169,6 +169,7 @@ Riscos residuais:
 - **Médio:** agentes ECC não são expostos como subagentes pelo `plugin.json` do Codex.
 - **Médio:** ECC Tools tem permissões de escrita e quota Free desconhecida.
 - **Baixo:** MCP direto expõe ferramentas de navegação; veto foi de cliente e o MCP real está desabilitado.
+- **Baixo:** o backup local contém ACE `CodexSandboxUsers` (ReadAndExecute) do ambiente Codex; a remoção exige elevação e não foi tentada.
 
 ## 13. Próxima ação NECESSARY
 
