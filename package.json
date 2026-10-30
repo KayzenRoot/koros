@@ -14,6 +14,10 @@
     "ci:integrity": "node scripts/ci-integrity.mjs",
     "check": "npm run ci:integrity && npm run lint && npm test",
     "build": "node scripts/verify-syntax.mjs",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "db:migrate": "node scripts/db-migrate.mjs up",
+    "db:rollback": "node scripts/db-migrate.mjs down 0001_init",
+    "db:seed": "node scripts/db-migrate.mjs seed",
+    "test:db": "node --test test/data-model.test.mjs"
   }
 }
