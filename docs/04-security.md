@@ -62,3 +62,9 @@ A auditoria é append-only com hash chain por tenant, correlation ID e redaction
 O dashboard é read-only e não recebe tenant por query/header: a API usa `session.tenantId` e `withTenant`/RLS. A resposta inclui apenas agregados e campos operacionais sintéticos, sem e-mail/nome. HTML/JS/CSS são servidos com CSP `default-src 'none'`, scripts/estilos only-self, `frame-ancestors 'none'`, `nosniff` e sem script inline. A UI não tem ação de aprovação/escrita nesta WO.
 
 **Limites:** acessibilidade foi implementada por estrutura semântica/CSS, mas não auditada com navegador real, Playwright ou ferramenta WCAG; sem CSP reporting, rate limit de UI ou sessão em produção. Evidência em [KOR-PM05-WO-001](../evidence/KOR-PM05-WO-001/README.md).
+
+## Fila de aprovação da M05-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+Decisões da UI exigem sessão autenticada, cookie+header CSRF, `approval:decide` no RBAC e validação server-side do gate. O cliente não envia tenant, ator, token ou payload; o servidor usa a sessão e o registro armazenado, recompõe os hashes, exige `PENDING`/TTL válido e faz row lock. Duplo clique/replay é idempotente; decisão concorrente, payload adulterado, CSRF inválido e viewer falham sem escrita. O histórico não expõe tokens.
+
+**Limites:** sem MFA adicional, quórum, comentários, notificações em tempo real, aprovação por token na UI ou auditoria de navegador. Evidência em [KOR-PM05-WO-002](../evidence/KOR-PM05-WO-002/README.md).

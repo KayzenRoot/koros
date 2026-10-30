@@ -11,6 +11,8 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   timeStyle: 'short',
 });
 
+let grantedPermissions = [];
+
 function byId(id) {
   return document.getElementById(id);
 }
@@ -166,7 +168,157 @@ function renderRunTable(tbodyId, rows, emptyMessage) {
   );
 }
 
+function expiryText(value) {
+  const expires = new Date(value);
+  if (Number.isNaN(expires.getTime())) return 'Validade desconhecida';
+  const remaining = expires.getTime() - Date.now();
+  if (remaining <= 0) return 'Expirado';
+  const minutes = Math.ceil(remaining / 60_000);
+  return minutes <= 1 ? 'Expira em menos de 1 min' : `Expira em ${minutes} min`;
+}
+
+function decisionLabel(decision) {
+  return {
+    APPROVED: 'Aprovado',
+    REJECTED: 'Rejeitado',
+    EXPIRED: 'Expirado',
+    REVOKED: 'Revogado',
+    PENDING: 'Pendente',
+  }[decision] || decision;
+}
+
+function approvalCard(item) {
+  const card = document.createElement('article');
+  card.className = 'approval-card';
+  card.dataset.approvalId = item.approval_id;
+
+  const head = document.createElement('div');
+  head.className = 'approval-head';
+  const title = document.createElement('h3');
+  title.textContent = item.scope;
+  const expiry = document.createElement('span');
+  expiry.textContent = expiryText(item.expires_at);
+  if (expiry.textContent === 'Expirado') expiry.className = 'approval-expired';
+  head.append(title, expiry);
+
+  const meta = document.createElement('p');
+  meta.className = 'approval-meta';
+  meta.textContent = `Run ${shortId(item.run_id)} · estado ${item.run_state} · versão ${item.payload_version} · solicitado ${formatDate(item.created_at)}`;
+
+  const fields = document.createElement('p');
+  fields.className = 'approval-fields';
+  fields.textContent = `Campos: ${(item.field_allowlist || []).join(', ')}`;
+
+  const payload = document.createElement('pre');
+  payload.className = 'approval-payload';
+  payload.textContent = JSON.stringify(item.proposed_operation?.payload ?? {}, null, 2);
+
+  const actions = document.createElement('div');
+  actions.className = 'approval-actions';
+  for (const [decision, label, className] of [
+    ['APPROVED', 'Confirmar aprovação', ''],
+    ['REJECTED', 'Rejeitar', 'reject secondary'],
+  ]) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = label;
+    button.dataset.decision = decision;
+    button.dataset.approvalId = item.approval_id;
+    if (className) button.className = className;
+    actions.append(button);
+  }
+
+  const error = document.createElement('p');
+  error.className = 'approval-error';
+  error.hidden = true;
+
+  card.append(head, meta, fields, payload, actions, error);
+  return card;
+}
+
+function renderApprovals(data) {
+  const list = byId('approvals-list');
+  const empty = byId('approvals-empty');
+  list.replaceChildren();
+  empty.hidden = data.pending.length > 0;
+  for (const item of data.pending) list.append(approvalCard(item));
+
+  renderRows(
+    byId('approval-history-body'),
+    data.history,
+    [
+      (row) => runCell(row.run_id),
+      (row) => textCell(row.scope),
+      (row) => {
+        const cell = document.createElement('td');
+        const badge = stateBadge(row.decision);
+        badge.textContent = decisionLabel(row.decision);
+        cell.append(badge);
+        return cell;
+      },
+      (row) => textCell(formatDate(row.decided_at)),
+    ],
+    'Sem decisões registradas.',
+  );
+}
+
+async function loadApprovals() {
+  const section = byId('approvals-section');
+  if (!grantedPermissions.includes('approval:decide')) {
+    section.hidden = true;
+    return;
+  }
+  section.hidden = false;
+  const status = byId('approvals-status');
+  try {
+    const data = await fetchJson('/v1/approvals');
+    renderApprovals(data);
+    status.textContent = `${data.pending.length} pendente(s)`;
+  } catch (error) {
+    if (error.code === 'FORBIDDEN' || error.code === 'UNAUTHORIZED') {
+      section.hidden = true;
+      return;
+    }
+    status.textContent = 'Falha ao carregar aprovações.';
+  }
+}
+
+async function decideApproval(approvalId, decision, card) {
+  const buttons = card.querySelectorAll('button[data-decision]');
+  const errorBox = card.querySelector('.approval-error');
+  errorBox.hidden = true;
+  for (const button of buttons) button.disabled = true;
+  try {
+    const result = await fetchJson(`/v1/approvals/${approvalId}/decision`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-csrf-token': readCookie('koros_csrf'),
+      },
+      body: JSON.stringify({ decision }),
+    });
+    byId('approvals-status').textContent = `Decisão registrada: ${decisionLabel(result.decision)}.`;
+    await load();
+  } catch (error) {
+    if (error.code === 'UNAUTHORIZED') return;
+    const messages = {
+      ALREADY_DECIDED: 'Outro aprovador já decidiu. Atualizando a fila.',
+      PAYLOAD_MISMATCH: 'O payload mudou desde o pedido. Decisão bloqueada.',
+      APPROVAL_EXPIRED: 'A aprovação expirou. Atualizando a fila.',
+      FORGED_APPROVAL: 'Esta sessão não pode decidir a aprovação.',
+      NOT_FOUND: 'A aprovação não existe mais.',
+      FORBIDDEN: 'Seu papel não permite decidir aprovações.',
+    };
+    errorBox.textContent = messages[error.code] || 'Não foi possível registrar a decisão.';
+    errorBox.hidden = false;
+    await loadApprovals();
+    for (const button of buttons) button.disabled = false;
+  }
+}
+
 function render(data) {
+  grantedPermissions = data.permissions;
+  byId('approvals-section').hidden = !data.permissions.includes('approval:decide');
   byId('tenant-name').textContent = data.tenant.name;
   byId('tenant-meta').textContent = `${ROLE_LABELS[data.role] || data.role} · tenant ${shortId(data.tenant.id)}`;
   byId('metric-total').textContent = String(data.counts.total);
@@ -237,6 +389,7 @@ async function load() {
     const data = await fetchJson('/v1/dashboard/summary');
     render(data);
     status.textContent = `Atualizado em ${formatDate(data.generatedAt)}.`;
+    await loadApprovals();
   } catch (error) {
     if (error.code !== 'UNAUTHORIZED') {
       errorBox.textContent = 'Não foi possível carregar o painel. Verifique a API e tente novamente.';
@@ -279,4 +432,12 @@ async function logout() {
 
 byId('refresh')?.addEventListener('click', load);
 byId('logout')?.addEventListener('click', logout);
+byId('approvals-list')?.addEventListener('click', async (event) => {
+  if (!(event.target instanceof Element)) return;
+  const button = event.target.closest('button[data-decision]');
+  if (!button) return;
+  const card = button.closest('.approval-card');
+  if (!card) return;
+  await decideApproval(button.dataset.approvalId, button.dataset.decision, card);
+});
 await load();

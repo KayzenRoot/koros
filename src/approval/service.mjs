@@ -221,17 +221,13 @@ async function recomputeStoredHash(approval) {
   return { fields, operation, payloadHash: expectedPayloadHash };
 }
 
-/**
- * Approves or rejects a pending request. The UI never supplies tenant/actor;
- * those come from the authenticated server context. Approval itself performs no
- * external write.
- */
-export async function decideApproval({
+async function decideApprovalInternal({
   client,
   tenantId,
   approvalId,
   actorUserId,
-  token,
+  token = null,
+  requireToken = false,
   decision,
   now = new Date(),
 }) {
@@ -260,7 +256,7 @@ export async function decideApproval({
   if (approval.decision !== 'PENDING') {
     throw new ApprovalError(APPROVAL_ERROR.ALREADY_DECIDED);
   }
-  if (!tokenMatches(token, approval.token_hash)) {
+  if (requireToken && !tokenMatches(token, approval.token_hash)) {
     throw new ApprovalError(APPROVAL_ERROR.FORGED_APPROVAL);
   }
 
@@ -319,6 +315,48 @@ export async function decideApproval({
     metadata: { scope: approval.scope, payloadVersion: approval.payload_version, fields },
   });
   return { status: decision, approval: updated.rows[0] };
+}
+
+/** Token-bearing path for API/automation clients. */
+export async function decideApproval(options) {
+  return decideApprovalInternal({ ...options, token: options.token, requireToken: true });
+}
+
+/**
+ * Session-bearing path for the human dashboard. Tenant/actor come from the
+ * authenticated session and the server still enforces approval:decide, row lock,
+ * expiry and payload integrity. No token or payload is trusted from the client.
+ */
+export async function decideApprovalByActor(options) {
+  return decideApprovalInternal({ ...options, token: null, requireToken: false });
+}
+
+export async function listApprovals({ tenantId, now = new Date() }) {
+  requireUuid(tenantId);
+  assertNow(now);
+  return withTenant(tenantId, async (client) => {
+    const pending = await client.query(
+      `SELECT a.approval_id, a.run_id, a.scope, a.proposed_operation,
+              a.field_allowlist, a.payload_version, a.expires_at, a.created_at,
+              r.state AS run_state, r.idempotency_key
+         FROM approvals a
+         JOIN runs r ON r.run_id = a.run_id AND r.tenant_id = a.tenant_id
+        WHERE a.tenant_id = $1 AND a.decision = 'PENDING' AND a.expires_at > $2
+        ORDER BY a.created_at ASC, a.approval_id ASC
+        LIMIT 50`,
+      [tenantId, now],
+    );
+    const history = await client.query(
+      `SELECT approval_id, run_id, scope, decision, decided_at, expires_at, payload_version
+         FROM approvals
+        WHERE tenant_id = $1
+          AND decision IN ('APPROVED', 'REJECTED', 'EXPIRED', 'REVOKED')
+        ORDER BY decided_at DESC NULLS LAST, approval_id DESC
+        LIMIT 20`,
+      [tenantId],
+    );
+    return { pending: pending.rows, history: history.rows };
+  });
 }
 
 /** Revokes a still-pending or approved request before dispatch. */
@@ -446,6 +484,10 @@ export async function requestApprovalInTenant({ tenantId, ...options }) {
 
 export async function decideApprovalInTenant({ tenantId, ...options }) {
   return withTenant(tenantId, (client) => decideApproval({ client, tenantId, ...options }));
+}
+
+export async function decideApprovalByActorInTenant({ tenantId, ...options }) {
+  return withTenant(tenantId, (client) => decideApprovalByActor({ client, tenantId, ...options }));
 }
 
 export async function revokeApprovalInTenant({ tenantId, ...options }) {

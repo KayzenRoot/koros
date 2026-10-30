@@ -201,8 +201,15 @@ test('retroactive audit alteration is detected by the hash chain', options, asyn
   psqlAsOwner(
     `UPDATE audit_events SET metadata = '{"safe":"tampered"}'::jsonb WHERE event_id = '${event.eventId}'`,
   );
-  const verification = await verifyAuditChain({ tenantId: TENANT_A });
-  assert.equal(verification.valid, false);
-  assert.ok(verification.checked >= 1);
-  assert.ok(verification.brokenAt !== null);
+  try {
+    const verification = await verifyAuditChain({ tenantId: TENANT_A });
+    assert.equal(verification.valid, false);
+    assert.ok(verification.checked >= 1);
+    assert.ok(verification.brokenAt !== null);
+  } finally {
+    psqlAsOwner(
+      `UPDATE audit_events SET metadata = '{"safe":"original"}'::jsonb WHERE event_id = '${event.eventId}'`,
+    );
+  }
+  assert.equal((await verifyAuditChain({ tenantId: TENANT_A })).valid, true);
 });
