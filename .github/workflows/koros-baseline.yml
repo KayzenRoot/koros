@@ -43,7 +43,7 @@ jobs:
       - name: Toolchain
         run: node --version && npm --version
       - name: Install reviewed dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Dependency audit
         run: npm audit --omit=dev
       - name: Fail-closed source and dependency integrity
@@ -95,7 +95,7 @@ jobs:
           node-version: '24'
           package-manager-cache: false
       - name: Install reviewed dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Ensure PostgreSQL client
         run: command -v psql >/dev/null || (sudo apt-get update && sudo apt-get install -y postgresql-client)
       - name: Dependency audit

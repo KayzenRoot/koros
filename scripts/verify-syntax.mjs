@@ -10,7 +10,7 @@ const files = roots
       .filter((name) => extensions.has(name.slice(name.lastIndexOf('.'))))
       .map((name) => join(root, name)),
   )
-  .sort();
+  .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 
 for (const file of files) {
   const result = spawnSync(process.execPath, ['--check', file], { stdio: 'inherit' });
