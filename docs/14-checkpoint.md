@@ -68,3 +68,9 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - **Preflight:** PR #36 em Draft no HEAD `72177a6b36d1e8e75663ce5984420b1b406b0e26`, `main=30819b2622d5dc865931d5c55e9e9e9586648276`, três checks `success`, revisão `COMMENTED`; revalidar gates do HEAD criado pelo aceite.
 - **Estado preservado:** #24 OPEN para validação comercial futura, #25..#35 sem avanço, `PLAN_APPROVED=NO` (transição de fase), `MARKET_VALIDATED=NO`, `IMPLEMENTED_VERIFIED=NO`, ADR-009 PENDING. `T-01..T-12` e `CRM-R01..R12` NOT_RUN, dados reais e direitos de conta/CRM UNKNOWN.
 - **STOP:** somente documentação na PR; nenhuma escrita na main, Ready, merge, código, contas, testes de API, contato, gastos, deploy, ECC ou mudança de ruleset.
+
+## Checkpoint Delta PROPOSTO | preparação do protocolo comercial da #24 — 2026-10-30
+- Work Order `KOR-DISC-002-01`, subetapa documental `KOR-DISC-002-01-CV-PREP-01`: [protocolo de validação comercial](product-m01/issue24-commercial-validation-protocol.md) e [pesquisa pública](../evidence/KOR-DISC-002/issue24-desk-research-2026-10-30.md) acrescentados **apenas na branch Draft**.
+- **Nova pesquisa:** dados CNAE/Sebrae/Mapa empresas confirmam universo setorial amplo, não compradores; concorrentes CRM/Make/Zapier refutam alegação de exclusividade de aprovação humana. O filtro/benchmark futuro será contra o **plano real** de CRM do cliente; pré-registro de limiares proposto, não aprovado.
+- **Estado:** `GO_DOC_PROTOCOL_ONLY` (sujeito a auditoria HEAD/CI), `FIELD_VALIDATION=NOT_RUN`, `MARKET_VALIDATED=NO`, `PLAN_APPROVED=NO` como passagem de fase; manter `FOUNDER_ACCEPTED_DOCUMENTAL_READINESS` do marco anterior. Não promover checkpoint à main.
+- **Preservar:** issue #24 aberta, PR #36 Draft, #25..#35 não iniciadas, ADR-009 pendente, nenhuma entrevista/contato, conta/token, API, código, custo, Ready, merge ou deploy.

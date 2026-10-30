@@ -75,3 +75,7 @@ Leituras de execução conceitual:
 - [Arquitetura genérica, isolamento e onboarding](architecture-onboarding-security.md)
 - [ICP, validação comercial e preços pendentes](commercial-discovery.md)
 - [Matriz de rastreabilidade das issues](issue-matrix.md)
+
+## 11. Protocolo de validação comercial pública, ainda não executado (2026-10-30)
+Exclusivamente para a [issue #24](https://github.com/KayzenRoot/koros/issues/24), a [pesquisa documental de fontes públicas](../../evidence/KOR-DISC-002/issue24-desk-research-2026-10-30.md) e o [protocolo proposto de evidências/GO/NO_GO](issue24-commercial-validation-protocol.md) preparam uma futura avaliação de consultorias comerciais B2B com CRM e leads próprios. **Não houve empresa contatada nem qualquer medição real.** Decisão do fundador `FOUNDER_ACCEPTED_DOCUMENTAL_READINESS` permanece restrita ao documento anterior; thresholds de pesquisa com pessoas são PROPOSTOS e **não aprovados**.
+**STOP:** `COMMERCIAL_VALIDATED=NO`, `PLAN_APPROVED=NO` para passagem de fase, `T-01..T-12/CRM-R01..R12=NOT_RUN`, PR #36 Draft, #24 OPEN, #25..#35 sem avanço, sem conta/API/código/gasto/Ready/merge/deploy.

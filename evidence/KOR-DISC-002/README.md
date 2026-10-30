@@ -86,3 +86,9 @@ ICP específico, clientes reais, demanda e ROI, consentimentos, CRM e source API
 - **Base de evidência observada antes deste registro:** `main=30819b2622d5dc865931d5c55e9e9e9586648276`, PR HEAD `72177a6b36d1e8e75663ce5984420b1b406b0e26`, 3 check-runs `completed/success` (governance-docs, Socket PR Alerts, Socket Project Report), review `COMMENTED`. Confirmar novos checks após commit.
 - **Audit trail:** [parecer e aceite da issue #24](issue24-plan-ready-audit.md) e [Decisions de PRODUCT-M01](../../docs/product-m01/decisions.md). **Checkpoint Delta permanece PROPOSTO** na branch, não na `main`.
 - **Preservado:** PR #36 Draft, issue #24 OPEN, issues #25..#35 inalteradas, ADR-009 PENDING. Nenhuma validação comercial, dado de cliente, CRM conectado, API testada, código, custo ou deploy. `T-01..T-12 / CRM-R01..R12 = NOT_RUN`.
+
+## Public desk-research / commercial validation protocol preparation — 2026-10-30
+- Escopo **somente #24**, com [fontes públicas, contraevidências e riscos](issue24-desk-research-2026-10-30.md) e [pré-registro de protocolo e critérios falsificáveis](../../docs/product-m01/issue24-commercial-validation-protocol.md). Não é execução comercial.
+- IBGE CNAE 7020-4/00 confirma classificação setorial; Sebrae exibe 173.876 empresas/estabelecimentos em recorte amplo (dez/2025), com limitações/inconsistências de série/subtotal; **NÃO** é TAM/SAM/SOM nem indicador de leads, CRM ou demanda.
+- Agendor, HubSpot, Zapier Human in the Loop e Make já possuem recursos substitutos/concorrentes por plano. Diferencial do KOROS é HIPÓTESE, rejeitar se o concorrente nativo resolver sem ganho incremental.
+- H-CV01..08, indicadores `T0/T1/Δ`, amostra e regras de GO/NO_GO **somente PROPOSTOS** para futura autorização. `FIELD_VALIDATION=NOT_RUN`, `COMMERCIAL_VALIDATED=NO`; sem entrevistas/contato/contas/CRM teste/clientes/custo/implantação. PR Draft, issue #24 OPEN, checkpoint ainda PROPOSTO, nenhuma mudança na main ou #25..#35.
