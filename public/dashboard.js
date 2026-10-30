@@ -283,6 +283,59 @@ async function loadApprovals() {
   }
 }
 
+function templateCard(template) {
+  const current = template.versions.find((version) => version.version === template.current_version)
+    || template.versions[template.versions.length - 1];
+  const config = current.config;
+  const card = document.createElement('article');
+  card.className = 'template-card';
+
+  const title = document.createElement('h3');
+  title.textContent = template.name;
+  const meta = document.createElement('p');
+  meta.className = 'muted';
+  meta.textContent = `Versão ${template.current_version} · ${template.status}`;
+
+  const details = document.createElement('dl');
+  for (const [label, value] of [
+    ['Destino', `${config.crm.target} · ${config.crm.operation}`],
+    ['Campos obrigatórios', config.required_fields.join(', ')],
+    ['Mapeamento', Object.entries(config.field_map).map(([target, source]) => `${source} → ${target}`).join(', ')],
+    ['Aprovação', `${config.approval.scope} · TTL ${config.approval.ttl_seconds}s`],
+    ['Limites', `${config.limits.max_tokens} tokens · ${config.limits.max_cost} custo`],
+    ['Origem', `${config.source.provider}/${config.source.account}`],
+  ]) {
+    const term = document.createElement('dt');
+    term.textContent = label;
+    const description = document.createElement('dd');
+    description.textContent = value;
+    details.append(term, description);
+  }
+
+  card.append(title, meta, details);
+  return card;
+}
+
+async function loadTemplates() {
+  const status = byId('templates-status');
+  try {
+    const data = await fetchJson('/v1/templates');
+    const list = byId('templates-list');
+    list.replaceChildren();
+    if (data.templates.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'muted';
+      empty.textContent = 'Nenhum template configurado.';
+      list.append(empty);
+    } else {
+      for (const template of data.templates) list.append(templateCard(template));
+    }
+    status.textContent = `${data.templates.length} template(s)`;
+  } catch (error) {
+    if (error.code !== 'UNAUTHORIZED') status.textContent = 'Falha ao carregar templates.';
+  }
+}
+
 async function decideApproval(approvalId, decision, card) {
   const buttons = card.querySelectorAll('button[data-decision]');
   const errorBox = card.querySelector('.approval-error');
@@ -390,6 +443,7 @@ async function load() {
     render(data);
     status.textContent = `Atualizado em ${formatDate(data.generatedAt)}.`;
     await loadApprovals();
+    await loadTemplates();
   } catch (error) {
     if (error.code !== 'UNAUTHORIZED') {
       errorBox.textContent = 'Não foi possível carregar o painel. Verifique a API e tente novamente.';

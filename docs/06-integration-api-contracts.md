@@ -112,3 +112,13 @@ O servidor usa row lock, recompõe `payload_hash`/`operation_hash`, exige status
 
 Fora deste incremento: upload/edição de payload, múltiplos aprovadores/quórum, comentários, notificações em tempo real, token de aprovação pela UI e testes de navegador. Evidência em [KOR-PM05-WO-002](../evidence/KOR-PM05-WO-002/README.md).
 
+## Templates da M05-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+`GET /v1/templates` exige sessão/`session:read` e retorna templates do tenant com versões imutáveis, config validada, hash e versão corrente. `POST /v1/templates/{id}/preview` exige sessão+CSRF e retorna dry-run do mapeamento lead→CRM, sem gravar run/outbox/adapter. `POST /v1/templates/{id}/versions` exige `tenant:configure`+CSRF, valida a config e cria a próxima versão.
+
+A config aceita apenas `schema_version`, `name`, `source`, `required_fields`, `field_map`, `crm`, `approval` e `limits`. Chaves desconhecidas são rejeitadas; chaves secret-like (`secret`, `token`, `password`, `authorization`, `api_key`, `credential`) retornam `SECRET_FIELD`. `required_fields` deve conter `external_id` e `email`; o mapa precisa cobrir ambos; `crm.operation` é fixo em `crm.contact.upsert`; target é mock `crm:agendor`/`crm:hubspot`.
+
+Mudança em source, required_fields, field_map, operação/target ou scope é incompatível e revoga aprovações `PENDING`/`APPROVED` vinculadas a versões anteriores. Nome/limites/TTL não são breaking. As versões são append-only no banco (`SELECT,INSERT` apenas para o app role).
+
+Fora deste incremento: editor visual, marketplace, criação/edição de template pela UI, biblioteca multissetorial extensa, CRM real e deploy. Evidência em [KOR-PM05-WO-003](../evidence/KOR-PM05-WO-003/README.md).
+

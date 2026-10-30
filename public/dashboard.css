@@ -247,6 +247,18 @@ td.empty { color: var(--muted); text-align: center; padding: 1.5rem; }
 .approval-error { margin: 0.6rem 0 0; color: var(--danger); font-weight: 600; }
 .approval-expired { color: var(--danger); font-weight: 700; }
 
+.template-list { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.template-card {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.template-card h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+.template-card dl { margin: 0.75rem 0 0; display: grid; gap: 0.35rem; font-size: 0.86rem; }
+.template-card dt { color: var(--muted); font-weight: 700; }
+.template-card dd { margin: 0; overflow-wrap: anywhere; }
+
 .footer { padding: 1.5rem; text-align: center; color: var(--muted); font-size: 0.85rem; }
 
 .auth-page { display: grid; place-items: center; padding: 1rem; }

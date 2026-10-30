@@ -115,6 +115,18 @@ test('migration 0006_audit_cost_killswitch adds controls, budgets and audit chai
   );
 });
 
+test('migration 0007_templates adds immutable tenant template versions', { skip: !enabled }, () => {
+  assert.equal(query("SELECT count(*) FROM schema_migrations WHERE version = '0007_templates'"), '1');
+  assert.equal(
+    query("SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('workflow_templates', 'workflow_template_versions')"),
+    '2',
+  );
+  assert.equal(
+    query("SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'approvals' AND column_name = 'template_version_id'"),
+    '1',
+  );
+});
+
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
   assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');

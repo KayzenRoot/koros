@@ -68,3 +68,9 @@ O dashboard é read-only e não recebe tenant por query/header: a API usa `sessi
 Decisões da UI exigem sessão autenticada, cookie+header CSRF, `approval:decide` no RBAC e validação server-side do gate. O cliente não envia tenant, ator, token ou payload; o servidor usa a sessão e o registro armazenado, recompõe os hashes, exige `PENDING`/TTL válido e faz row lock. Duplo clique/replay é idempotente; decisão concorrente, payload adulterado, CSRF inválido e viewer falham sem escrita. O histórico não expõe tokens.
 
 **Limites:** sem MFA adicional, quórum, comentários, notificações em tempo real, aprovação por token na UI ou auditoria de navegador. Evidência em [KOR-PM05-WO-002](../evidence/KOR-PM05-WO-002/README.md).
+
+## Templates da M05-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+Templates são validados por schema exato, têm versões imutáveis para o app role e rejeitam chaves secret-like antes de persistir. Preview é dry-run sem adapter/outbox; criação de versão exige `tenant:configure`, CSRF e validação. Mudanças incompatíveis revogam aprovações antigas vinculadas à versão; o outbox revalida a aprovação antes do dispatch.
+
+**Limites:** a detecção de segredo é por chave estrutural, não DLP de valores; sem editor visual, marketplace, CRM real, criptografia de config ou auditoria de navegador. Evidência em [KOR-PM05-WO-003](../evidence/KOR-PM05-WO-003/README.md).

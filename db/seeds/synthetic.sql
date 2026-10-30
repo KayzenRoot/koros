@@ -77,3 +77,18 @@ INSERT INTO tenant_controls (tenant_id, kill_switch_active, updated_by) VALUES
   ('11111111-1111-4111-8111-111111111111', false, 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'),
   ('22222222-2222-4222-8222-222222222222', false, 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
 ON CONFLICT (tenant_id) DO NOTHING;
+
+INSERT INTO workflow_templates (template_id, tenant_id, name, status, created_by) VALUES
+  ('a3000000-0000-4000-8000-000000000001', '11111111-1111-4111-8111-111111111111', 'Lead para CRM (sintético)', 'ACTIVE', 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'),
+  ('b3000000-0000-4000-8000-000000000001', '22222222-2222-4222-8222-222222222222', 'Lead para CRM (sintético)', 'ACTIVE', 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
+ON CONFLICT DO NOTHING;
+
+INSERT INTO workflow_template_versions
+  (template_version_id, template_id, tenant_id, version, config, config_hash, created_by) VALUES
+  ('a3000000-0000-4000-8000-000000000002', 'a3000000-0000-4000-8000-000000000001', '11111111-1111-4111-8111-111111111111', 1,
+   '{"schema_version":1,"name":"Lead para CRM (sintético)","source":{"provider":"synthetic-webhook","account":"source-a"},"required_fields":["external_id","email"],"field_map":{"external_id":"external_id","email":"email","name":"name"},"crm":{"operation":"crm.contact.upsert","target":"crm:agendor"},"approval":{"required":true,"scope":"crm.contact.upsert","ttl_seconds":900},"limits":{"max_tokens":1000,"max_cost":10}}'::jsonb,
+   '457b2e7896c5b28698965d14350319b79015537b9f93d667d75e5a14f18cc8c4', 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'),
+  ('b3000000-0000-4000-8000-000000000002', 'b3000000-0000-4000-8000-000000000001', '22222222-2222-4222-8222-222222222222', 1,
+   '{"schema_version":1,"name":"Lead para CRM (sintético)","source":{"provider":"synthetic-webhook","account":"source-b"},"required_fields":["external_id","email"],"field_map":{"external_id":"external_id","email":"email","name":"name"},"crm":{"operation":"crm.contact.upsert","target":"crm:hubspot"},"approval":{"required":true,"scope":"crm.contact.upsert","ttl_seconds":900},"limits":{"max_tokens":1000,"max_cost":10}}'::jsonb,
+   'a53f8122aff626926224cecf689f8e957439a3a729f4810b5e2daf13900d9a36', 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
+ON CONFLICT DO NOTHING;
