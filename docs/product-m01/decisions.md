@@ -106,3 +106,10 @@ Pesquisa pública aprofundada das quatro opções na [issue #24](https://github.
 - **Histórico:** a seção anterior rotulada PENDING mostra o estado da pesquisa ANTES do aceite e não prevalece sobre esta decisão. Os scores 89/71 são hipóteses de desenho, não benchmarking.
 - Documentos: [Agendor × HubSpot](crm-reference-agendor-vs-hubspot.md) · [Auditoria PLAN_READY #24](../../evidence/KOR-DISC-002/issue24-plan-ready-audit.md).
 **STOP:** só issue #24 / PR #36 Draft. Sem Ready, merge, código, conta, API test, contato, gastos, deploy ou ECC requerido.
+
+## PM01-D01-S1-PLAN-READY-01 | Aceite do marco documental da issue #24 (2026-10-30)
+**STATUS: FOUNDER_ACCEPTED_DOCUMENTAL_READINESS.** O fundador escolheu a ação “Aprovar prontidão documental da issue #24” conforme recomendação do parecer `GO_DOCUMENTAL` da PR #36. Aceite limitado ao conjunto de análises de segmento, micro-ICP, hipóteses, mapa de API/CRM, adversidades e testes futuros especificados.
+- **Decisões vigentes preservadas:** PM01-D01..D05, PM01-D01-S1=C, PM01-D01-S1-C1 e PM01-D01-S1-CRM-REF-01=A, todas no alcance `APPROVED_FOR_PLANNING`. Agendor v3 é somente referência sintética; HubSpot DBV/Projects referência de portabilidade; clientes não são obrigados a mudar CRM.
+- **Não equivalente a:** `PLAN_APPROVED` para passagem de fase, `COMMERCIAL_VALIDATED`, `IMPLEMENTED_VERIFIED`, aprovação de fornecedor CRM real (ADR-009 PENDING), de stack, preço, licença ou início da #25.
+- **Evidência:** [parecer da #24](../../evidence/KOR-DISC-002/issue24-plan-ready-audit.md), [Evidence Bundle](../../evidence/KOR-DISC-002/README.md). Preflight no HEAD `72177a6b36d1e8e75663ce5984420b1b406b0e26`: 3 checks sucesso, review COMMENTED. Novo HEAD e checks devem ser revalidados.
+- **Governança:** issue #24 permanece OPEN, PR #36 Draft, documentação ainda não promovida à main, #25..#35 intactas. Validação comercial/API/ROI e T-01..T-12/CRM-R01..R12 NOT_RUN. Sem implementação, contato, conta, gasto, Ready, merge ou deploy.

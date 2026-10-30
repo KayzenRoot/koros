@@ -62,3 +62,9 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - **Restrições de execução:** PR #36 permanece Draft, issue #24 OPEN. As referências não constituem fornecedor definitivo, integração, software, homologação nem ROI. `CRM-R01..R12=NOT_RUN`, T-01..T-12 = NOT_RUN; testes com clientes, preços e LGPD real = UNKNOWN.
 - **Auditoria candidata:** [issue24-plan-ready-audit.md](../evidence/KOR-DISC-002/issue24-plan-ready-audit.md) separa `PLAN_READY_DOCUMENTAL_CANDIDATE` de `PLAN_APPROVED` e `MARKET_VALIDATED`; a promoção deste delta à verdade de main só ocorrerá após auditoria, autorização e merge normal futuros.
 - **Sem alterações ao ruleset, dependências ECC, workflow CI, contas, merge, deploy, dados reais ou custos.** HEAD/CI do commit documental final exigem read-back.
+
+## Checkpoint Delta PROPOSTO | Founder accepted #24 documentary readiness — 2026-10-30
+- **Novo marco na branch (não na main):** `PM01-D01-S1-PLAN-READY-01=FOUNDER_ACCEPTED_DOCUMENTAL_READINESS`. O fundador aprovou a prontidão DOCUMENTAL da issue #24, com parecer `GO_DOCUMENTAL`; não aprovou implantação, validação comercial, passagem da fase PRODUCT-M01 nem merge.
+- **Preflight:** PR #36 em Draft no HEAD `72177a6b36d1e8e75663ce5984420b1b406b0e26`, `main=30819b2622d5dc865931d5c55e9e9e9586648276`, três checks `success`, revisão `COMMENTED`; revalidar gates do HEAD criado pelo aceite.
+- **Estado preservado:** #24 OPEN para validação comercial futura, #25..#35 sem avanço, `PLAN_APPROVED=NO` (transição de fase), `MARKET_VALIDATED=NO`, `IMPLEMENTED_VERIFIED=NO`, ADR-009 PENDING. `T-01..T-12` e `CRM-R01..R12` NOT_RUN, dados reais e direitos de conta/CRM UNKNOWN.
+- **STOP:** somente documentação na PR; nenhuma escrita na main, Ready, merge, código, contas, testes de API, contato, gastos, deploy, ECC ou mudança de ruleset.

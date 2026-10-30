@@ -62,3 +62,12 @@ Lead com prompt injection; dados pessoais sem direito; webhook replay/forjado; a
 `Issue #24: estudo documental de público, micro-ICP e CRM de referência concluído para auditoria; PM01-D01-S1-CRM-REF-01 A aprovada para planejamento; cliente e API real desconhecidos. PR #36 Draft, main protegida. PLAN_READY_DOCUMENTAL_CANDIDATE condicionado a HEAD/checks/review. Sem merge, encerramento de issue, código, contatos, custos ou deploy.`
 
 **Aguardando evidência do HEAD pós-commit e resultado da review da PR #36.** Auditoria da versão completa PRODUCT-M01 permanece futura: esta evidência diz respeito somente à issue #24.
+
+## 8. Aceite do fundador da PRONTIDÃO DOCUMENTAL — 2026-10-30
+**Decisão explícita no chat:** opção recomendada **“Aprovar prontidão documental da issue #24”**, aceita pelo fundador. Status da decisão: `FOUNDER_ACCEPTED_DOCUMENTAL_READINESS`, restrito ao marco DOCUMENTAL de `KOR-DISC-002-01`. O parecer anterior de revisão `GO_DOCUMENTAL / PLAN_READY_DOCUMENTAL_CANDIDATE` não é reescrito retroativamente.
+
+**Preflight do aceite (HEAD anterior):** PR #36 Draft `72177a6b36d1e8e75663ce5984420b1b406b0e26`, `main=30819b2622d5dc865931d5c55e9e9e9586648276`; `governance-docs`, Socket PR Alerts e Socket Project Report: `completed/success`. Revisão GitHub `COMMENTED`, não `APPROVED`. O novo HEAD introduzido por este registro **requer novo read-back** de CI e diff; aprovação independente formal não deve ser presumida.
+
+**Efeito permitido:** reconhecer a prontidão do estudo comparativo, ICP, fornecedor de referência sintético, rastreabilidade e plano de provas futuras. **Efeito não permitido:** `PLAN_APPROVED` como transição da fase inteira, `MARKET_VALIDATED`, `IMPLEMENTED_VERIFIED`, decisão ADR-009 sobre CRM real, fechamento da #24, início da #25, Ready, merge ou promoção do checkpoint à main.
+
+**Continuam UNKNOWN/NOT_RUN:** entrevistas, demanda e ROI, dados ou contas reais, autorização/entitlement por plano, contrato LGPD, integração, testes T-01..T-12 e CRM-R01..R12. Issues #25..#35 intocadas. Sem código, API, contas, contato comercial, gastos, deploy ou ECC obrigatório.

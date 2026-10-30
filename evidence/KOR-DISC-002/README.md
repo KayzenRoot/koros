@@ -80,3 +80,9 @@ ICP específico, clientes reais, demanda e ROI, consentimentos, CRM e source API
 - **Status corretos:** `APPROVED_FOR_PLANNING` para escolha de referência; **não** `APPROVED` de integração, fornecedor de produção ou versão inteira; `MARKET_VALIDATED=NO`, `IMPLEMENTED_VERIFIED=NO`, `CRM-R01..R12=NOT_RUN`, integração/entrevistas/custos = UNKNOWN.
 - **Plano de auditoria:** [issue24-plan-ready-audit.md](issue24-plan-ready-audit.md) rastreia critérios, evidências, riscos, STOPs e Checkpoint Delta proposto. A review na PR será `COMMENTED`; não fechar #24 nem promover checkpoint à `main` nesta operação.
 - **Context Lock antes do delta:** `main=30819b2622d5dc865931d5c55e9e9e9586648276` protected, PR #36 Draft HEAD `77432831728af6b5e9a34f896c72328d73b10222`; required check `governance-docs`; nenhum check ECC requerido. **Novo HEAD e checks a confirmar após commit.**
+
+## Acceptance Delta | Prontidão DOCUMENTAL da issue #24 (2026-10-30)
+- **Escolha expressa do fundador:** aprovar a **prontidão documental** da #24, após auditoria `GO_DOCUMENTAL` na PR #36 Draft. Registre-se como `FOUNDER_ACCEPTED_DOCUMENTAL_READINESS` e NÃO como aceite de mercado, implementação, merge ou transição de fase.
+- **Base de evidência observada antes deste registro:** `main=30819b2622d5dc865931d5c55e9e9e9586648276`, PR HEAD `72177a6b36d1e8e75663ce5984420b1b406b0e26`, 3 check-runs `completed/success` (governance-docs, Socket PR Alerts, Socket Project Report), review `COMMENTED`. Confirmar novos checks após commit.
+- **Audit trail:** [parecer e aceite da issue #24](issue24-plan-ready-audit.md) e [Decisions de PRODUCT-M01](../../docs/product-m01/decisions.md). **Checkpoint Delta permanece PROPOSTO** na branch, não na `main`.
+- **Preservado:** PR #36 Draft, issue #24 OPEN, issues #25..#35 inalteradas, ADR-009 PENDING. Nenhuma validação comercial, dado de cliente, CRM conectado, API testada, código, custo ou deploy. `T-01..T-12 / CRM-R01..R12 = NOT_RUN`.
