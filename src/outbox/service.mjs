@@ -7,6 +7,7 @@ import {
 } from '../crm/contract.mjs';
 import { withTenant } from '../db.mjs';
 import { insertAuditEvent } from '../audit/events.mjs';
+import { assertOperationsAllowedWithClient } from '../control/guard.mjs';
 import { WORKFLOW_ERROR } from '../workflow/errors.mjs';
 import { transitionRun } from '../workflow/service.mjs';
 import { OUTBOX_ERROR, OutboxError } from './errors.mjs';
@@ -215,6 +216,7 @@ export async function enqueueDispatch({ tenantId, ...options }) {
 }
 
 async function claimWithClient(client, { tenantId, now, actionId, leaseSeconds }) {
+  await assertOperationsAllowedWithClient(client, tenantId);
   const leaseExpiresAt = new Date(now.getTime() + leaseSeconds * 1000);
   const recovered = await client.query(
     `UPDATE outbox_actions

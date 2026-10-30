@@ -98,6 +98,23 @@ test('migration 0005_approval_gate adds token, scope and revocation columns', { 
   );
 });
 
+test('migration 0006_audit_cost_killswitch adds controls, budgets and audit chain', { skip: !enabled }, () => {
+  assert.equal(query("SELECT count(*) FROM schema_migrations WHERE version = '0006_audit_cost_killswitch'"), '1');
+  assert.equal(query("SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('budget_policies', 'tenant_controls')"), '2');
+  assert.equal(
+    query(
+      `SELECT count(*) FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'audit_events'
+          AND column_name IN ('audit_seq', 'correlation_id', 'prev_hash', 'event_hash')`,
+    ),
+    '4',
+  );
+  assert.match(
+    query("SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'usage_ledger_status_check'"),
+    /RESERVED/,
+  );
+});
+
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
   assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');

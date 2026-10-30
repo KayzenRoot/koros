@@ -86,3 +86,15 @@ Entrada com padrões de prompt injection não é enviada ao adapter; retorna fal
 
 `evaluateClassification` roda fixtures sintéticas e calcula acurácia, acurácia de revisão, fallbacks e revisões; não grava nada. Fora deste incremento: provedor/modelo real (ADR-009 PENDING), SDK, prompt de produção, UI, custo e execução de ferramentas. Evidência em [KOR-PM04-WO-002](../evidence/KOR-PM04-WO-002/README.md).
 
+## Controles da M04-WO-004 (2026-10-30; PROPOSED_IN_PR)
+
+**Auditoria.** Novos eventos usam `audit_seq` e uma cadeia SHA-256 por tenant: `event_hash = SHA-256(prev_hash + payload redigido)`. A inserção usa advisory lock por tenant, correlation ID e redaction de chaves sensíveis (`secret`, `token`, `password`, `authorization`, `cookie`, `api_key`, `credential`). `verifyAuditChain` recomputa a cadeia e detecta alteração retroativa; linhas legadas sem hash são ignoradas e permanecem append-only.
+
+**Orçamento.** `budget_policies` define período, tokens e custo máximos por tenant. `runMeteredOperation` reserva `RESERVED` sob row lock antes de chamar a operação paga; a soma de `RESERVED`+`SETTLED` não pode exceder o limite. Sucesso vira `SETTLED`; falha libera `RELEASED`. Uma reserva não liquidada permanece contabilizada e exige reconciliação operacional. Custos/tokens são simulados; não há cobrança real.
+
+**Kill switch.** `tenant_controls.kill_switch_active` é fail-closed: ausência de controle ou switch ativo bloqueia `runMeteredOperation` e o claim do outbox antes de qualquer adapter. Armar/desarmar exige `tenant:configure` e gera auditoria.
+
+**Métricas.** `getTenantMetrics` retorna apenas agregados (audit events, runs, completados, tokens, custo, limites e estado do switch), sem e-mail, nome ou payload.
+
+Fora deste incremento: cobrança real, preço, faturamento, LLM/CRM real, UI, rollover automático de período, reconciliação de reserva órfã e alertas. Evidência em [KOR-PM04-WO-004](../evidence/KOR-PM04-WO-004/README.md).
+

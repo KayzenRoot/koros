@@ -67,3 +67,13 @@ INSERT INTO connections (connection_id, tenant_id, provider, external_account, s
   ('b2000000-0000-4000-8000-000000000001', '22222222-2222-4222-8222-222222222222', 'synthetic-webhook', 'source-b', '{leads:write}', 'KOROS_WEBHOOK_SECRET_B', 'ACTIVE')
 ON CONFLICT DO NOTHING;
 
+
+INSERT INTO budget_policies (tenant_id, period_start, period_end, max_tokens, max_cost, updated_by) VALUES
+  ('11111111-1111-4111-8111-111111111111', now() - interval '1 day', now() + interval '30 days', 1000000, 1000.0000, 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'),
+  ('22222222-2222-4222-8222-222222222222', now() - interval '1 day', now() + interval '30 days', 1000000, 1000.0000, 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
+ON CONFLICT (tenant_id) DO NOTHING;
+
+INSERT INTO tenant_controls (tenant_id, kill_switch_active, updated_by) VALUES
+  ('11111111-1111-4111-8111-111111111111', false, 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'),
+  ('22222222-2222-4222-8222-222222222222', false, 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
+ON CONFLICT (tenant_id) DO NOTHING;

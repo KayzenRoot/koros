@@ -50,3 +50,9 @@ A aprovação é server-side: tenant e ator vêm do contexto autenticado, a perm
 O adapter é mock/local, sem SDK, token, rede ou ferramenta. A entrada é minimizada e tratada como dado não confiável; prompt injection retorna fallback e revisão humana sem chamar o adapter. A saída é validada por schema estrito e não pode conter status, aprovação, autorização, ferramenta ou ação. Timeout, falha, JSON inválido e status alucinado são rejeitados e substituídos por fallback determinístico com revisão obrigatória.
 
 **Limites:** não há provedor/modelo real (ADR-009 PENDING), avaliação de segurança de prompt exaustiva, custo, rate limit de provedor ou UI. A classificação nunca autoriza escrita; approval/FSM continuam sendo o gate. Evidência em [KOR-PM04-WO-002](../evidence/KOR-PM04-WO-002/README.md).
+
+## Controles da M04-WO-004 (2026-10-30; PROPOSED_IN_PR)
+
+A auditoria é append-only com hash chain por tenant, correlation ID e redaction de chaves sensíveis antes da gravação; `verifyAuditChain` detecta edição retroativa. O orçamento reserva tokens/custo sob row lock antes da operação paga e bloqueia o callback quando o limite é excedido. O kill switch é fail-closed para orçamento e claim do outbox, inclusive quando o controle não existe. Métricas expõem apenas agregados, sem PII.
+
+**Limites:** custos são simulados, sem cobrança real; reservas órfãs exigem reconciliação; não há alertas, UI, rollover de período, LLM/CRM real ou prova de operação distribuída. Evidência em [KOR-PM04-WO-004](../evidence/KOR-PM04-WO-004/README.md).
