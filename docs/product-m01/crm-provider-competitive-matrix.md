@@ -48,3 +48,10 @@ Antes de cada conector, obter e registrar:
 - Google Forms push: requer Cloud Pub/Sub e renovação semanal da watch, com custo cloud a verificar: https://developers.google.com/workspace/forms/api/guides/push-notifications
 Esses fatos **não** provam superioridade do KOROS. O recurso de aprovação humana já existe em outras ferramentas, de modo que o diferencial deve ser mensurado por custo total, UX, segurança/trace e confiabilidade no caso concreto. Nenhum fornecedor foi escolhido.
 [Contrato de integração/entrada](consultoria-b2b-manual-process-and-sources.md) e [matriz competitiva](consultoria-b2b-validation-go-nogo.md).
+
+## Correção e aprofundamento por pesquisa oficial de 2026-10-30 (somente issue #24)
+A tabela atual da Agendor [Planos de CRM](https://www.agendor.com.br/planos-precos/crm) mostra **API aberta, Pluga, Zapier e Make também no plano Free**, apesar de documentação antiga sugerir cobrança adicional de certas integrações. Distinção: **integração disponível no CRM** não significa que Pluga/Zapier/Make ou automações internas sejam gratuitos em seus serviços. Automação nativa de negócios/tarefas/e-mails está no plano Performance; campos personalizados e controles de privacidade/MFA são de planos pagos. O direito de qualquer token para objeto/endpoint específico **não foi testado**.
+
+Para HubSpot, consulta oficial [Developer Platform](https://developers.hubspot.com/developer-platform-basics), [API DBV](https://developers.hubspot.com/docs/api/how-to-use-hubspot-api) e [depreciações set/2026](https://developers.hubspot.com/changelog/legacy-apis-and-legacy-apps-whats-going-unsupported-and-when): integração nova deve usar endpoints versionados por data e Projects; não copiar exemplos legados v3 sem revisar. As Service Keys não suportam webhooks, enquanto Projetos/Apps têm webhook subscription. Planejamento de OAuth multiportal separado do token para uma conta.
+
+**Estudo que prevalece para decisão CRM de referência:** [crm-reference-agendor-vs-hubspot.md](crm-reference-agendor-vs-hubspot.md), PM01-D01-S1-CRM-REF-01 `PENDING`. Não alterar status das outras decisões nem iniciar conector.

@@ -58,3 +58,9 @@ O KOROS **não** substitui o CRM, não envia mensagens proativas e não realiza 
 
 ## 6. Métricas a medir no AS-IS/TO-BE em fase futura consentida
 Tempo de coleta, tempo de copiar/colar, tempo de dedupe, tempo de revisão humana, taxa de duplicados, taxa de correção, fila, SLA de aprovação, sucesso efetivo do CRM, incidentes 429/5xx, tempo até resolução de UNCERTAIN, custo de API/IA/infra por run e custo de suporte. Não prometer automação de 100% dos passos; medir o trabalho do comprador antes de desenhar preço.
+
+## Resumo de contrato de CRM de referência (2026-10-30)
+[Pesquisa Agendor vs HubSpot](crm-reference-agendor-vs-hubspot.md) detalha objetos e APIs oficiais, rate limits, auth, webhooks, upsert, mapeamento de campos e riscos. A recomendação Agendor é APENAS para futura especificação sintética da interface Pessoa/Contato, com HubSpot segundo CRM/portabilidade, **aguardando aceite do fundador**.
+**Agendor:** API REST v3 com `people/upsert`, `organizations/upsert`, `deals` e `tasks` documentados; 4 req/s; Free com API aberta, mas sem campos custom, MFA e controles de privacidade avançados. Não fazer upsert de dados reais sem diff e aprovação porque atualiza registros existentes.
+**HubSpot:** usar API date-versioned e OAuth de Project app se multiporta; Service Keys por conta sem webhooks; limites do Free 100/10s e 250k/dia segundo catálogo, Search limit independente. Custo e quotas concretas de cliente são UNKNOWN.
+No primeiro MVP, **não precisa** webhook de CRM: entrada por fonte própria autorizada e saída aprovada via API. Eventos de CRM são posteriores e requerem autenticidade/replay verificados.

@@ -93,3 +93,6 @@ A issue #24 dispõe de [pesquisa profunda dos quatro subsegmentos](segment-compa
 ## Delta PM01-D01-S1-C1: aprofundamento exclusivo da issue #24 (2026-10-29)
 **Aprovado o micro-ICP:** consultorias comerciais B2B com CRM ativo e seus próprios leads. O trecho histórico "consultoria recomendada, não aprovada" é PRE-DECISÃO e está substituído por este delta.
 Documentos #24: [personas e jornada](consultoria-b2b-micro-icp.md), [AS-IS e fontes](consultoria-b2b-manual-process-and-sources.md), [concorrência e GO/NO_GO](consultoria-b2b-validation-go-nogo.md). A issue segue OPEN/PLANNED: pesquisa de mercado real, API no plano do cliente, medição/ROI e piloto NOT_RUN. Testes T-01..T-12 continuam NOT_RUN; questões técnicas das issues #25..#35 não foram executadas nem alteradas.
+
+## Delta de CRM de referência na issue #24 (2026-10-30)
+[Agendor vs HubSpot aprofundado por fontes oficiais](crm-reference-agendor-vs-hubspot.md): API, direitos por plano, objetos, upsert, mappings, webhook, quotas, auth, migrações, custos e 12 provas futuras `CRM-R01..R12`, todas `NOT_RUN`. **PM01-D01-S1-CRM-REF-01 ainda PENDING** de decisão do fundador. O micro-ICP C1 é aprovado, mas CRM **não**. Este delta é exclusivo #24, sem execução de #25..#35 ou alteração de seus estados.
