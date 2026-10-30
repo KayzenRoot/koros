@@ -66,3 +66,13 @@ O outbox da M03-WO-003 usa os mesmos estados: enqueue `APPROVED → QUEUED`, tim
 
 Fora deste incremento: editor visual de workflow, catálogo de templates, IA, UI, scheduler e CRM real. Evidência em [KOR-PM04-WO-001](../evidence/KOR-PM04-WO-001/README.md).
 
+## Approval gate da M04-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+O gate só opera sobre run em `PENDING_APPROVAL`. `requestApproval` valida scope `crm.contact.upsert`, contato allowlisted, versão de payload e TTL entre 30 s e 3600 s; grava `PENDING` com `payload_hash` (hash canônico do contato, compatível com o outbox), `operation_hash` (scope + payload + campos + versão), `field_allowlist`, `proposed_operation` e apenas o SHA-256 do token. O token em claro é devolvido uma única vez e nunca é persistido.
+
+`decideApproval` exige contexto server-side de tenant/ator com `approval:decide`, token válido e row lock. Aprovar ou rejeitar transiciona a FSM (`PENDING_APPROVAL → APPROVED/REJECTED`); TTL vencido marca `EXPIRED` e move o run para `EXPIRED`. Replay da mesma decisão é idempotente e não duplica auditoria; token forjado, decisão contrária, tenant cruzado ou payload v2 após aprovação v1 falham sem escrita. A aprovação não chama o adapter nem cria outbox.
+
+`revokeApproval` só é permitido antes do enqueue (run `PENDING_APPROVAL`/`APPROVED`), marca `REVOKED` e move o run para `EXPIRED`; depois de `QUEUED` retorna `APPROVAL_IN_USE`. O outbox revalida `decision='APPROVED'`, `revoked_at IS NULL` e expiração antes do dispatch.
+
+Fora deste incremento: UI de aprovação, notificações, múltiplos aprovadores, quórum, assinatura externa, LLM e CRM real. Evidência em [KOR-PM04-WO-003](../evidence/KOR-PM04-WO-003/README.md).
+

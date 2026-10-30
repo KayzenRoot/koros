@@ -131,7 +131,8 @@ export async function enqueueAction({
     `SELECT approval_id, expires_at
        FROM approvals
       WHERE tenant_id = $1 AND run_id = $2 AND payload_hash = $3
-        AND decision = 'APPROVED' AND decided_at IS NOT NULL AND expires_at > $4
+        AND decision = 'APPROVED' AND revoked_at IS NULL
+        AND decided_at IS NOT NULL AND expires_at > $4
       ORDER BY expires_at DESC
       LIMIT 1`,
     [tenantId, normalizedRunId, payloadHash, now],
@@ -459,6 +460,18 @@ async function handleClaimedFailure({ tenantId, action, error, now, maxAttempts,
   });
 }
 
+async function approvalStillUsable(tenantId, action, now) {
+  return withTenant(tenantId, async (client) => {
+    const result = await client.query(
+      `SELECT 1 FROM approvals
+        WHERE tenant_id = $1 AND approval_id = $2
+          AND decision = 'APPROVED' AND revoked_at IS NULL AND expires_at > $3`,
+      [tenantId, action.approval_id, now],
+    );
+    return result.rowCount === 1;
+  });
+}
+
 async function dispatchClaimedAction({ tenantId, adapter, action, now, maxAttempts }) {
   if (!action.payload || typeof action.payload !== 'object' || !action.payload.contact) {
     return transitionClaimedAction({
@@ -483,6 +496,19 @@ async function dispatchClaimedAction({ tenantId, adapter, action, now, maxAttemp
       runState: 'FAILED',
       auditAction: 'OUTBOX_FAILED',
       errorCode: 'APPROVAL_EXPIRED',
+      metadata: { stage: 'DISPATCH' },
+    });
+  }
+  if (!(await approvalStillUsable(tenantId, action, now))) {
+    return transitionClaimedAction({
+      tenantId,
+      action,
+      now,
+      status: 'FAILED',
+      outcome: 'FAILED',
+      runState: 'FAILED',
+      auditAction: 'OUTBOX_FAILED',
+      errorCode: 'APPROVAL_REVOKED',
       metadata: { stage: 'DISPATCH' },
     });
   }
