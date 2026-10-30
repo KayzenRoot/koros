@@ -43,3 +43,9 @@ A migration [0005_approval_gate.sql](../db/migrations/0005_approval_gate.sql) es
 
 `payload_hash` continua sendo o SHA-256 do contato canônico usado pelo outbox; `operation_hash` vincula scope, payload, campos e versão. `token_hash` é SHA-256 de token one-time, com 64 caracteres; a revogação exige `revoked_at` e `revoked_by` juntos. O rollback de desenvolvimento converte decisões novas em `REJECTED` antes de restaurar o check antigo; produção exige backup/restore.
 
+## Controles da M04-WO-004 (2026-10-30; PROPOSED_IN_PR)
+
+A migration [0006_audit_cost_killswitch.sql](../db/migrations/0006_audit_cost_killswitch.sql) adiciona `audit_seq` (identity), `correlation_id`, `prev_hash` e `event_hash` a `audit_events`; `correlation_id`, `operation`, `status` (`RESERVED`/`SETTLED`/`RELEASED`) e `updated_at` a `usage_ledger`; e cria `budget_policies` e `tenant_controls`, ambas com RLS por tenant.
+
+`tenant_controls` tem um switch fail-closed por tenant. `budget_policies` tem um período e limites de tokens/custo. O down de desenvolvimento remove as tabelas/colunas e restaura o schema anterior; produção exige backup/restore. Linhas de auditoria legadas sem hash permanecem válidas como histórico append-only, mas não entram na cadeia verificável.
+

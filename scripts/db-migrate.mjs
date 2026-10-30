@@ -41,6 +41,11 @@ const MIGRATIONS = Object.freeze([
     up: join(MIGRATIONS_DIR, '0005_approval_gate.sql'),
     down: join(MIGRATIONS_DIR, '0005_approval_gate.down.sql'),
   }),
+  Object.freeze({
+    version: '0006_audit_cost_killswitch',
+    up: join(MIGRATIONS_DIR, '0006_audit_cost_killswitch.sql'),
+    down: join(MIGRATIONS_DIR, '0006_audit_cost_killswitch.down.sql'),
+  }),
 ]);
 
 function fail(message) {
