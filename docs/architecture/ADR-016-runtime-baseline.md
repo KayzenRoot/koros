@@ -24,3 +24,6 @@ A arquitetura canônica (docs/03-architecture.md) mantém **ADR-006 PENDING** qu
 
 ## Gates para sair da WO
 Testes unit + smoke de rede loopback; métodos mutáveis 405; rotas internas não existentes; X-Tenant-Id e Authorization falsos ignorados; configuração não expõe credenciais; porta inválida rejeitada; check documental e job `m02-baseline` no HEAD exato; Evidence Bundle. Review não APPROVED e checkpoint ainda PROPOSTO até auditoria. Sem merge/deploy, inclusive em VPS de usuário.
+
+## Pós-merge do baseline: evidência adicional (2026-10-30; delta PROPOSTO)
+A implantação **do código local apenas** foi concluída via squash normal da [PR #69](https://github.com/KayzenRoot/koros/pull/69). HEAD de origem `56e006435531e5d596a22f52e3b52db59a4d3ade`, novo commit `main=e24d7cf458f61d1b98850f34a304023ee1d87ce1`, Git tree `319d7c0d91a3a1348d71f691aae52f76f16780d7` em ambos, com CI de pull request verde. **Status material: IMPLEMENTED_FOR_WO_ONLY;** decisão maior ADR-006 continua PENDING e nenhuma autorização comercial/produção foi inferida. Esta seção de read-back só se tornará canônica após eventual merge de sua PR documental.
