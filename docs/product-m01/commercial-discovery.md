@@ -56,3 +56,7 @@ A comparação pública em profundidade foi registrada em [segment-comparison.md
 - [Proposta de valor e teste de diferenciação versus CRM/Make/Zapier](agency-value-proposition.md).
 - **Orientação ainda não aprovada:** investigar primeiro consultorias comerciais com leads próprios, depois agência de geração de demanda; volume de leads, ROI e contrato continuam UNKNOWN.
 - Nenhum fornecedor contratado, cliente entrevistado, preço definido ou plataforma implementada.
+
+## Estado vigente depois do novo aceite do fundador (2026-10-29)
+**PM01-D01-S1-C1: APPROVED_FOR_PLANNING.** Priorizar consultorias comerciais B2B com **CRM ativo e leads próprios**; agências B2B seguem alternativa posterior. A seção histórica anterior que tratava essa prioridade como 'não aprovada' foi superada por este aceite.
+Próximos artefatos somente #24: [personas e compra](consultoria-b2b-micro-icp.md), [fontes e processos](consultoria-b2b-manual-process-and-sources.md), [critérios GO/NO_GO e comparativo nativo](consultoria-b2b-validation-go-nogo.md). Fontes oficiais e quotas são públicas, mas entitlement de cada conta, ROI e demanda permanecem UNKNOWN. Nada foi implementado ou comprado.

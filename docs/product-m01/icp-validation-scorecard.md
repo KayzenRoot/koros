@@ -44,3 +44,6 @@
 - Conferir em cada futuro cliente se o CRM já faz o mesmo serviço e se a API contratada permite escrita; sem isso => NO_GO.
 - Volumes 30+ leads/mês, 4+ min/lead e 2–10 pessoas são filtros hipotéticos de triagem, não fatos de mercado. Validar por coleta consentida futura.
 - Sem entrevistas, clientes, cadastros, testes de API ou compra nesta etapa.
+
+## PM01-D01-S1-C1 aprovado: aplicar scorecard apenas ao micro-ICP da consultoria (2026-10-29)
+O fundador escolheu **consultorias comerciais B2B com CRM ativo e leads próprios** como micro-ICP PRIORITÁRIO de planejamento. Não confundir com validação de demanda. [Métricas de baseline e GO/NO_GO](consultoria-b2b-validation-go-nogo.md) e [jornada AS-IS](consultoria-b2b-manual-process-and-sources.md) são a especificação vigente de coleta futura. Sem contato externo na atual Work Order; cada entrevista/piloto exige autorização e consentimento próprios.

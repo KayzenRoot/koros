@@ -54,3 +54,10 @@ Quatro capacidades que precisam de prova comparativa: (1) preview e aprovação 
 Entrevistas reais, uma amostra consentida de processo, plano/API da conta concreta, tempo de qualificação, frequência de duplicatas, custo por lead, disposição a pagar, disponibilidade de aprovador, teste sandbox e ROI. **Todos NOT_RUN/UNKNOWN, não inventar empresas ou clientes.**
 
 Referências oficiais de mercado e API: [Agendor](https://www.agendor.com.br/planos-precos/crm), [HubSpot developer](https://developers.hubspot.com/developer-platform-basics), [RD Station CRM v2](https://developers.rdstation.com/reference/crm-v2-introduction), [Make](https://www.make.com/en/pricing), [Zapier](https://zapier.com/pricing), [n8n licença](https://support.n8n.io/article/can-i-use-your-license-for-my-use-case). Consulte os planos reais antes da integração.
+
+## Delta de escolha vigente (2026-10-29): micro-ICP C1 aprovado
+O fundador aprovou **consultorias comerciais B2B com CRM ativo e leads próprios** como primeiro micro-ICP de planejamento dentro da opção C. A ordem anterior de micro-ICPs era uma recomendação e foi substituída por esta decisão explícita, sem alterar os dados incertos.
+- [Buyer/personas, jornada comercial, objeções e hipóteses H01..H10](consultoria-b2b-micro-icp.md).
+- [AS-IS manual, fontes autorizadas e contrato API CRM](consultoria-b2b-manual-process-and-sources.md).
+- [Concorrência nativa, métricas, filtros e GO/NO_GO](consultoria-b2b-validation-go-nogo.md).
+Não afirmar que 2–10 pessoas, 30 leads/mês ou 4 min/lead são realidade; são apenas limites candidatos a testar. Nenhuma prospecção, custo ou implementação autorizada.

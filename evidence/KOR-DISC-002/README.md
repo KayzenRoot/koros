@@ -58,3 +58,12 @@ ICP específico, clientes reais, demanda e ROI, consentimentos, CRM e source API
 - [Proposta de valor](../../docs/product-m01/agency-value-proposition.md): diferencial como camada de validação/aprovação/auditoria antes do CRM; duas simulações de ROI **sintéticas**, não custos observados.
 - Sem fornecedor final, contrato, cliente entrevistado, interesse de compra, dados reais, prova de sandbox/API, software ou gasto. Entrevistas e validação permanecem NOT_RUN.
 - PR #36 Draft, somente documentação, ECC fora de gates. Novo HEAD/checks a revalidar após publicação.
+
+## Delta de aceite PM01-D01-S1-C1 e pesquisa oficial (2026-10-29)
+**Aprovação explícita:** primeiro micro-ICP de planejamento = **consultorias comerciais B2B com CRM ativo e leads próprios**, mantendo Core genérico e outras agências como mercado futuro. A aprovação NÃO autoriza clientes/entrevistas, cadastro, teste de API, contratação, gastos, código, deploy nem Ready/merge.
+- [Buyers, personas, jornada de compra, H01..H10 e objeções](../../docs/product-m01/consultoria-b2b-micro-icp.md).
+- [Processo AS-IS e TO-BE, fontes próprias/permitidas, APIs e comportamentos de erro](../../docs/product-m01/consultoria-b2b-manual-process-and-sources.md).
+- [Concorrentes nativos, métricas e eligibility GO/NO_GO](../../docs/product-m01/consultoria-b2b-validation-go-nogo.md).
+**Principais novas evidências públicas:** Agendor API REST V3 4 req/s e webhooks, integração Pluga em planos pagos; HubSpot developer-test grátis, workflows/duplicate management avançados em planos pagos; RD CRM v2 somente Basic/Pro/Advanced, 120 req/min; Google Forms watch usa Cloud Pub/Sub com requisitos de auth/renovação; Zapier HITL pago e Free 100 tarefas, Make Free 1.000 créditos. Links oficiais localizados nos três documentos. Nenhuma conta individual/entitlement comprovado; despesas de Cloud Pub/Sub desconhecidas, **não presume R$0**.
+**Fato versus hipótese:** nenhuma consultoria entrevistada, nenhum lead avaliado, nenhum tempo/ROI medido, preços do KOROS UNKNOWN, nenhuma integração testada. Simulações de 60/300 leads meramente matemáticas. LGPD: verificar controlador/operador por cliente conforme https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados . 
+**Restrição:** somente issue #24 / PR #36 Draft. 3 novos arquivos Markdown, updates em documentos #24 e Evidence, CI e read-back a conferir no novo HEAD. Sem ECC e sem alteração de main/ruleset.

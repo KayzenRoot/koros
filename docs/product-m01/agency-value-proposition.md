@@ -47,3 +47,8 @@ Definições: `horas_recuperadas = leads_mes * minutos_manual_por_lead / 60 * fr
 
 ## Estratégia de comercialização como hipótese, não ação
 Primeiro a consultoria com leads próprios; depois, se funcionar, agências com vários clientes mediante tenancy/contratos e testes cross-tenant adicionais. Estrutura de **taxa de implantação + recorrência** já aceita; precificação, descontos, promessas e material publicitário só após validação. Nenhuma mensagem, formulário, contato de empresa ou campanha foi enviado.
+
+## Refinamento de posicionamento do micro-ICP C1 (2026-10-29)
+**Buyer prioritário agora aprovado:** direção da consultoria comercial B2B com CRM ativo e leads próprios; restante do mercado agências B2B continua futura alternativa, sem reabrir decisão.
+**Hipótese de mensagem, NÃO slogan lançado:** 'Antes de entrar no CRM, seus leads passam por validação e aprovação com histórico claro.' Evitar afirmar que só KOROS possui approval, pois **Zapier Human in the Loop já oferece aprovação em planos pagos**. O comparativo deve medir ganho real de tempo, taxa de duplicidade, audit trail e custo total das alternativas.
+A métrica de economia deve subtrair o tempo de aprovação e de correção; simulações sintéticas revisadas em [valuation gates](consultoria-b2b-validation-go-nogo.md), não usar como preço de venda. Conformidade LGPD depende de controlador, operador, finalidade e consentimento/hipótese legal de cada origem, não é algo garantido por existir SaaS.

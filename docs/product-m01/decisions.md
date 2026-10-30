@@ -79,3 +79,10 @@ Pesquisa pública aprofundada das quatro opções na [issue #24](https://github.
 - **Não escolhido:** CRM final, fornecedor LLM, canal de entrada, preço, integrações reais, stack, arquitetura física, contrato com clientes, piloto, gastos ou código.
 - **Evidência:** [ICP detalhado](agency-consultancy-icp.md), [matriz de CRMs/concorrentes](crm-provider-competitive-matrix.md), [proposta de valor e ROI ilustrativo](agency-value-proposition.md), [issue #24](https://github.com/KayzenRoot/koros/issues/24).
 - **Gate:** a seleção do ICP está aprovada como DIREÇÃO, mas demanda, entrevistas, custos e contratos continuam `UNKNOWN / NOT_RUN`. Não declarar PRODUCT-M01 IMPLEMENTED ou #24 integralmente validada. PR #36 segue Draft, sem Ready ou merge. ECC fora do pipeline.
+
+## PM01-D01-S1-C1 — Micro-ICP escolhido pelo fundador (2026-10-29)
+**APPROVED_FOR_PLANNING:** dentro da escolha PM01-D01-S1 C (agências B2B e consultorias comerciais com CRM), a prioridade **agora é consultorias comerciais B2B com CRM ativo e LEADS PRÓPRIOS**. Essa decisão substitui somente a antiga observação 'primeiro micro-ICP recomendado/pendente' da seção histórica, sem apagar evidências ou reduzir a arquitetura multissetorial.
+**Racional do aceite:** iniciar com uma operação que responde pelos próprios leads e usa o próprio CRM, reduzindo a complexidade de múltiplos controladores/contas de clientes e de implantar um CRM novo, mantendo processo lead→CRM com aprovação humana.
+**Não selecionados:** CRM definitivo, canal/fornecedor de formulário, licença ou conta API, stack, volume exato, preços, economia, cliente/piloto ou contrato. Agências B2B permanecem mercado secundário já incluído na diretriz ampla.
+**Documentos:** [micro-ICP/buyers/jornada](consultoria-b2b-micro-icp.md) · [processo manual e fontes oficiais](consultoria-b2b-manual-process-and-sources.md) · [métricas e GO/NO_GO](consultoria-b2b-validation-go-nogo.md).
+**Somente issue #24:** esta atualização não aprova nem altera escopo/execução das issues #25..#35. Fase atual documental; não houve contatos, testes, dados reais, custos ou código. PR #36 permanece Draft, sem Ready/merge; ECC fora dos gates.

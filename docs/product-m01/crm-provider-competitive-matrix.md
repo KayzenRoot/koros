@@ -36,3 +36,15 @@ Antes de cada conector, obter e registrar:
 - **Se usar RD Station Free sem API v2:** não abrir integração real; usar mock e classificar dependência paga ou migrar ICP sem impor custo.
 - **Se a conta possui Pipedrive elegível:** integração possível, mas preço/escopo concretos UNKNOWN.
 **Nenhuma destas escolhas foi autorizada como fornecedor final; a issue #24 é somente ICP/comparação.**
+
+## Deltas verificados na pesquisa de micro-ICP (2026-10-29)
+**Importante:** documentação de API aberta ≠ prova automática de entitlement da conta do cliente. O Agendor publica API REST V3 e limite de **4 requisições/segundo**, mas diferencia integrações nativas Pluga/automação que exigem planos pagos; revalidar direito de API específica no Free antes de escolher piloto.
+- Agendor API e limites: https://ajuda.agendor.com.br/pt-BR/articles/2660512-o-agendor-pode-ser-integrado-ao-meu-sistema-atual
+- Agendor Free e recursos: https://ajuda.agendor.com.br/pt-BR/articles/5371555-o-agendor-tem-plano-gratuito
+- Agendor Pluga NÃO Free: https://ajuda.agendor.com.br/pt-BR/articles/2691414-como-fazer-integracoes-atraves-da-pluga
+- HubSpot workflows Professional/Enterprise: https://knowledge.hubspot.com/get-started/automate-your-processes ; duplicidades avançadas por assinatura: https://knowledge.hubspot.com/pt/records/manage-duplicate-records
+- Zapier **Human in the Loop** com Request Approval exige plano pago: https://help.zapier.com/hc/en-us/articles/38731463206029-Request-approval-to-keep-your-workflow-running-with-Human-in-the-Loop
+- Zapier Free duas etapas/100 tasks: https://help.zapier.com/hc/en-us/articles/32337438839565-What-s-included-in-Zapier-s-Free-plan
+- Google Forms push: requer Cloud Pub/Sub e renovação semanal da watch, com custo cloud a verificar: https://developers.google.com/workspace/forms/api/guides/push-notifications
+Esses fatos **não** provam superioridade do KOROS. O recurso de aprovação humana já existe em outras ferramentas, de modo que o diferencial deve ser mensurado por custo total, UX, segurança/trace e confiabilidade no caso concreto. Nenhum fornecedor foi escolhido.
+[Contrato de integração/entrada](consultoria-b2b-manual-process-and-sources.md) e [matriz competitiva](consultoria-b2b-validation-go-nogo.md).

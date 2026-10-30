@@ -89,3 +89,7 @@ A issue #24 dispõe de [pesquisa profunda dos quatro subsegmentos](segment-compa
 - **Não aprova** Agendor, HubSpot, RD Station, Pipedrive nem qualquer fonte/CRM/LLM; não altera contrato de execução T-01..T-12, ainda NOT_RUN.
 - **Não conclui** a validade comercial: requer evidência de dor recorrente, direito de integração, ROI e concorrência nativa. #24 mantém OPEN para decisão de micro-ICP e validação futura.
 - Demais #25..#35: inalteradas por esta entrega.
+
+## Delta PM01-D01-S1-C1: aprofundamento exclusivo da issue #24 (2026-10-29)
+**Aprovado o micro-ICP:** consultorias comerciais B2B com CRM ativo e seus próprios leads. O trecho histórico "consultoria recomendada, não aprovada" é PRE-DECISÃO e está substituído por este delta.
+Documentos #24: [personas e jornada](consultoria-b2b-micro-icp.md), [AS-IS e fontes](consultoria-b2b-manual-process-and-sources.md), [concorrência e GO/NO_GO](consultoria-b2b-validation-go-nogo.md). A issue segue OPEN/PLANNED: pesquisa de mercado real, API no plano do cliente, medição/ROI e piloto NOT_RUN. Testes T-01..T-12 continuam NOT_RUN; questões técnicas das issues #25..#35 não foram executadas nem alteradas.
