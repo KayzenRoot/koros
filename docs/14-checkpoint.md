@@ -66,3 +66,10 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 ### Read-back técnico da KOR-PM07-WO-001 no HEAD inicial da PR #71 (delta PROPOSTO, 2026-10-30)
 - PR #71 Draft HEAD inicial `f038134201ce5af2f7460776245694fdbafdca99`: `m02-baseline` e `codeql-js` no run `41087652565` SUCCESS, 14/14 testes Node, 10 arquivos syntax-check, CI manifest/action/credential guard PASS, smoke PASS. `governance-docs` run `41087652423`, CodeQL check, SonarCloud e dois Socket SUCCESS. **Nenhum scanner SUCCESS é automaticamente evidência de zero findings**; inventário granular do CodeQL ainda NOT_VERIFIED.
 - Typecheck JS/TS e build de produção continuam NOT_APPLICABLE / NOT_IMPLEMENTED; ênfase em não alegar produção. O HEAD deve ser rechecado após esta atualização documental. **Não foi autorizado merge, Ready, deploy ou próxima WO.**
+
+## Checkpoint Delta PROPOSTO | KOR-ROADMAP-001 (2026-10-30)
+- **Context Lock:** `main=21ed96b05aa5a567089b384f11d4a202ca290328`; **#45/PR #69 MERGED**; **#61/PR #71 MERGED**; **#70 MERGED**; #45/#61 `CLOSED`. PR #36 Draft `d9f88b6…`; PR #68 Draft neste HEAD. Nenhuma alteração de main/ruleset.
+- **Escopo documental:** roadmap e fila reconciliados; [plano técnico M02](product-m02/README.md) `PROPOSED_FOR_FOUNDER_APPROVAL`; ADR-017/018 `PROPOSED_IN_PR`; ADR-006/009 permanecem PENDING.
+- **Estado:** `BASELINE_CODE=MERGED`; `CI_FREE=MERGED`; `PRODUCT_CODE=NOT_STARTED`; `M02_PLAN=PROPOSED`; `AUTH/DB/RLS=NOT_IMPLEMENTED`; `T-01..T-12/CRM-R01..R12=NOT_RUN`.
+- **Próximo:** #47 (dados/migrations) → #46 (auth/RBAC) → #48/#49 (M03), somente após aceite do plano M02 e Context Lock próprio.
+- **Governança:** PR #68 Draft; sem Ready, merge, deploy, gasto ou dados reais. Este checkpoint é PROPOSTO, não canônico.

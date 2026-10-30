@@ -25,5 +25,8 @@ Todos os links representam **planejamento**, não capacidades entregues. Em conf
 
 - [ADR-016: runtime local e contrato mínimo da WO #45](architecture/ADR-016-runtime-baseline.md) (PROPOSTO na PR #69, não arquitetura de produção)
 - [Evidence Bundle do primeiro baseline técnico](../evidence/KOR-PM02-WO-001/README.md) (somente código local sintético e testes do escopo)
-
 - [Evidence Bundle da WO KOR-PM07-WO-001, CI de aplicação e segurança](../evidence/KOR-PM07-WO-001/README.md) (delta PROPOSTO, testes somente após execução do GitHub Actions)
+- [Roadmap de módulos e epics M01..M09](product-roadmap/README.md) (PROPOSTO, não implementado)
+- [Fila e rastreabilidade de Work Orders](product-roadmap/execution-queue.md)
+- [Plano técnico de M02: dados, tenancy e auth](product-m02/README.md) (PROPOSTO, pendente de aceite)
+- [Evidence Bundle do planejamento de módulos](../evidence/KOR-ROADMAP-001/README.md)
