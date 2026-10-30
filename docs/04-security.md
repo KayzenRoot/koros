@@ -13,3 +13,6 @@
 
 ## Testes-gate
 SAST/SCA/secrets/SBOM, CI, política deny-all inicial, autenticação, fluxo de aprovação, replay, webhook forgery, SSRF, prompt injection, isolamento, backup/restore. **HIGH ou CRITICAL conhecido = STOP**, sem exceção informal. Sem evidência não declarar seguro.
+
+## Escopo do gate de CI KOR-PM07-WO-001 (2026-10-30; PROPOSTO)
+Um `ci:integrity` sintético bloqueia novas dependências npm, lockfiles não auditados, `uses:` sem SHA em GitHub Actions, arquivos TypeScript sem verificador real e tokens óbvios em arquivos de origem. Testes negativos de cada classe são incluídos. `codeql-js` com upload no GitHub será evidência de SAST **somente se o check concluir com sucesso no HEAD auditado**. Limites: pattern matching não é secret scanning exaustivo; sem dependências não existe SCA de bibliotecas de terceiros; CodeQL/Socket não substituem threat model e auditoria de HIGH/CRITICAL. Nunca desabilitar um gate falho apenas para gerar check verde.

@@ -1,6 +1,15 @@
-name: KOROS M02 Baseline
+name: KOROS Application CI
 on:
   pull_request:
+    paths:
+      - package.json
+      - .gitignore
+      - src/**
+      - scripts/**
+      - test/**
+      - .github/workflows/koros-baseline.yml
+  push:
+    branches: [main]
     paths:
       - package.json
       - .gitignore
@@ -11,6 +20,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: koros-app-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   m02-baseline:
     name: m02-baseline
@@ -26,13 +38,35 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
-      - name: Print toolchain
+      - name: Toolchain
         run: node --version && npm --version
-      - name: Syntax-only lint
+      - name: Fail-closed source and dependency integrity
+        run: npm run ci:integrity
+      - name: Syntax-only lint (NOT a typecheck)
         run: npm run lint
-      - name: Unit and local HTTP smoke tests
+      - name: Unit and negative integration tests
         run: npm test
-      - name: Build baseline validation
+      - name: Baseline syntax build (NOT deploy artifact)
         run: npm run build
-      - name: Local-only smoke
+      - name: Local-only HTTP smoke
         run: npm run smoke
+
+  codeql-js:
+    name: codeql-js
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Initialize CodeQL JavaScript
+        uses: github/codeql-action/init@fe4161a26a8629af62121b670040955b330f9af2 # v4.31.6
+        with:
+          languages: javascript-typescript
+      - name: Analyze JavaScript
+        uses: github/codeql-action/analyze@fe4161a26a8629af62121b670040955b330f9af2 # v4.31.6

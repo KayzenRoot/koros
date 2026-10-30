@@ -11,7 +11,8 @@
     "start": "node src/main.mjs",
     "test": "node --test",
     "lint": "node scripts/verify-syntax.mjs",
-    "check": "npm run lint && npm test",
+    "ci:integrity": "node scripts/ci-integrity.mjs",
+    "check": "npm run ci:integrity && npm run lint && npm test",
     "build": "node scripts/verify-syntax.mjs",
     "smoke": "node scripts/smoke.mjs"
   }
