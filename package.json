@@ -19,7 +19,7 @@
     "db:rollback": "node scripts/db-migrate.mjs down-latest",
     "db:rollback:all": "node scripts/db-migrate.mjs down-all",
     "db:seed": "node scripts/db-migrate.mjs seed",
-    "test:db": "node --test test/data-model.test.mjs",
+    "test:db": "node --test test/data-model.test.mjs test/auth-integration.test.mjs",
     "test:auth": "node --test test/auth-integration.test.mjs"
   },
   "dependencies": {
