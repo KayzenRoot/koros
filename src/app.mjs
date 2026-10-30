@@ -1,6 +1,8 @@
 import { createServer } from 'node:http';
 import { PUBLIC_CONFIG, VERSION, parsePort } from './config.mjs';
 import { AuthError, getSession, getTenantContext, login, logout, requirePermission } from './auth/service.mjs';
+import { IngestionError } from './ingestion/errors.mjs';
+import { ingestLead } from './ingestion/service.mjs';
 import {
   clearCookie,
   csrfCookie,
@@ -56,6 +58,42 @@ function requireCsrf(req, cookies) {
   const header = req.headers['x-csrf-token'];
   const cookie = cookies.get(CSRF_COOKIE);
   if (typeof header !== 'string' || !safeEqual(header, cookie)) throw new AuthError(403, 'csrf_failed');
+}
+
+async function readRawBody(req, limit = 16 * 1024) {
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of req) {
+    size += chunk.length;
+    if (size > limit) throw new IngestionError(413, 'payload_too_large');
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks);
+}
+
+function headerValue(req, name) {
+  const value = req.headers[name];
+  return typeof value === 'string' ? value : '';
+}
+
+async function handleWebhook(req, res) {
+  const contentType = String(req.headers['content-type'] || '').split(';', 1)[0].trim().toLowerCase();
+  if (contentType !== 'application/json') throw new IngestionError(415, 'unsupported_media_type');
+  const rawBody = await readRawBody(req);
+  const result = await ingestLead({
+    tenantId: headerValue(req, 'x-koros-tenant'),
+    provider: headerValue(req, 'x-koros-provider'),
+    account: headerValue(req, 'x-koros-account'),
+    timestamp: headerValue(req, 'x-koros-timestamp'),
+    signature: headerValue(req, 'x-koros-signature'),
+    rawBody,
+  });
+  reply(res, result.status === 'accepted' ? 202 : 200, {
+    status: result.status,
+    eventId: result.eventId,
+    leadId: result.leadId,
+    tenantId: result.tenantId,
+  });
 }
 
 async function getSessionOrThrow(req) {
@@ -130,6 +168,10 @@ export async function handleRequest(req, res) {
       await handleLogout(req, res);
       return;
     }
+    if (req.method === 'POST' && pathname === '/v1/webhooks/leads') {
+      await handleWebhook(req, res);
+      return;
+    }
     if (req.method === 'GET' && pathname === '/v1/auth/session') {
       await handleSession(req, res);
       return;
@@ -160,7 +202,7 @@ export async function handleRequest(req, res) {
     }
     reply(res, 404, { error: 'not_found' });
   } catch (error) {
-    if (error instanceof AuthError) {
+    if (error instanceof AuthError || error instanceof IngestionError) {
       reply(res, error.status, { error: error.code });
       return;
     }

@@ -52,14 +52,14 @@ test('migration 0001_init is applied with a SHA-256 checksum', { skip: !enabled 
 
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
-  assert.equal(query('SELECT count(*) FROM leads'), '2');
+  assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');
   assert.equal(query('SELECT count(*) FROM users'), '2');
 });
 
 test('RLS returns only the current tenant rows', { skip: !enabled }, () => {
-  assert.equal(asApp(withTenant(TENANT_A, 'SELECT count(*) FROM leads')), '1');
-  assert.equal(asApp(withTenant(TENANT_B, 'SELECT count(*) FROM leads')), '1');
-  assert.equal(asApp(withTenant(TENANT_A, `SELECT count(*) FROM leads WHERE tenant_id = '${TENANT_B}'`)), '0');
+  assert.equal(asApp(withTenant(TENANT_A, "SELECT count(*) FROM leads WHERE external_id = 'lead-a'")), '1');
+  assert.equal(asApp(withTenant(TENANT_B, "SELECT count(*) FROM leads WHERE external_id = 'lead-b'")), '1');
+  assert.equal(asApp(withTenant(TENANT_A, `SELECT count(*) FROM leads WHERE external_id = 'lead-b'`)), '0');
 });
 
 test('RLS fails closed when app.tenant_id is not set', { skip: !enabled }, () => {

@@ -84,6 +84,8 @@ jobs:
       PSQL_BIN: psql
       KOROS_DB_TESTS: "1"
       KOROS_DATABASE_URL: postgres://koros_app:koros_test_only_password@127.0.0.1:5432/koros_test
+      KOROS_WEBHOOK_SECRET_A: test-webhook-secret-a
+      KOROS_WEBHOOK_SECRET_B: test-webhook-secret-b
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

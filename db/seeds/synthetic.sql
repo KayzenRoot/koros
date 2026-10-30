@@ -61,3 +61,9 @@ INSERT INTO retention_policies (policy_id, tenant_id, data_class, retention_days
   ('a0000000-0000-4000-8000-000000000009', '11111111-1111-4111-8111-111111111111', 'synthetic-run', 30, 'synthetic test only'),
   ('b0000000-0000-4000-8000-000000000009', '22222222-2222-4222-8222-222222222222', 'synthetic-run', 30, 'synthetic test only')
 ON CONFLICT DO NOTHING;
+
+INSERT INTO connections (connection_id, tenant_id, provider, external_account, scopes, secret_ref, status) VALUES
+  ('a2000000-0000-4000-8000-000000000001', '11111111-1111-4111-8111-111111111111', 'synthetic-webhook', 'source-a', '{leads:write}', 'KOROS_WEBHOOK_SECRET_A', 'ACTIVE'),
+  ('b2000000-0000-4000-8000-000000000001', '22222222-2222-4222-8222-222222222222', 'synthetic-webhook', 'source-b', '{leads:write}', 'KOROS_WEBHOOK_SECRET_B', 'ACTIVE')
+ON CONFLICT DO NOTHING;
+
