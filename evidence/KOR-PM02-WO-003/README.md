@@ -55,7 +55,9 @@ Os testes cobrem: migration aplicada/checksum, seed de dois tenants, RLS por ten
 - Primeiro run: `SonarCloud Code Analysis` **FAIL**; quality gate `new_security_rating=3` (C).
 - Achados: 2x `jssecurity:S8705` em `scripts/db-migrate.mjs` (argumentos dinâmicos no `spawnSync`).
 - Correção: comando fixo `psql`, argumentos fixos e SQL/migrations por **stdin**; nenhum `-c`/`-f` dinâmico.
-- Revalidação local após a correção: **12/12** testes DB, rollback/reapply **12/12**, `npm run check` e smoke PASS.
+- Segundo run: restaram `javascript:S4036` (PATH do `psql`) e `jssecurity:S8707` (path traversal).
+- Correção final: caminho absoluto do `psql` (`/usr/bin/psql` no CI e `C:\Program Files\PostgreSQL\17\bin\psql.exe` no Windows) e allowlist estática de migrations; nenhum caminho dinâmico.
+- Revalidação local após a correção: **12/12** testes DB, rollback/reapply **12/12**, `npm run check`, smoke e docs PASS.
 
 ## 6. Riscos e STOP
 

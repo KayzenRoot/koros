@@ -1,14 +1,27 @@
-import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { basename, join, resolve } from 'node:path';
+import { join } from 'node:path';
 
 const ROOT = process.cwd();
 const MIGRATIONS_DIR = join(ROOT, 'db', 'migrations');
 const SEED_FILE = join(ROOT, 'db', 'seeds', 'synthetic.sql');
-const PSQL = 'psql';
-const PSQL_ARGS = ['-X', '-w', '-v', 'ON_ERROR_STOP=1', '-tA'];
-const VERSION_RE = /^[0-9]{4}_[a-z0-9_]+$/;
+
+// Fixed, absolute client path. The CI job installs postgresql-client at /usr/bin/psql;
+// the supported local Windows installation uses the PostgreSQL 17 path below.
+const PSQL = process.platform === 'win32'
+  ? 'C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe'
+  : '/usr/bin/psql';
+const PSQL_ARGS = Object.freeze(['-X', '-w', '-v', 'ON_ERROR_STOP=1', '-tA']);
+
+// Static allowlist: adding a migration requires a code review and a new entry here.
+const MIGRATIONS = Object.freeze([
+  Object.freeze({
+    version: '0001_init',
+    up: join(MIGRATIONS_DIR, '0001_init.sql'),
+    down: join(MIGRATIONS_DIR, '0001_init.down.sql'),
+  }),
+]);
 
 function fail(message) {
   console.error(`DB_MIGRATE_FAIL: ${message}`);
@@ -27,12 +40,8 @@ function runSql(sql) {
   return runPsql(sql);
 }
 
-function runFile(file) {
-  return runPsql(readFileSync(file, 'utf8'));
-}
-
-function checksum(file) {
-  return createHash('sha256').update(readFileSync(file)).digest('hex');
+function checksum(content) {
+  return createHash('sha256').update(content).digest('hex');
 }
 
 function ensureMigrationsTable() {
@@ -54,52 +63,39 @@ function applied() {
   return map;
 }
 
-function migrationFiles() {
-  if (!existsSync(MIGRATIONS_DIR)) fail(`missing ${MIGRATIONS_DIR}`);
-  return readdirSync(MIGRATIONS_DIR)
-    .filter((name) => name.endsWith('.sql') && !name.endsWith('.down.sql'))
-    .sort();
-}
-
-function versionOf(file) {
-  const version = basename(file, '.sql');
-  if (!VERSION_RE.test(version)) fail(`invalid migration name: ${file}`);
-  return version;
-}
-
 function up() {
   ensureMigrationsTable();
   const done = applied();
-  for (const name of migrationFiles()) {
-    const version = versionOf(name);
-    const file = join(MIGRATIONS_DIR, name);
-    const sum = checksum(file);
-    if (done.has(version)) {
-      if (done.get(version) !== sum) fail(`checksum mismatch for applied migration ${version}`);
-      console.info(`SKIP ${version} (already applied)`);
+  for (const migration of MIGRATIONS) {
+    if (!existsSync(migration.up)) fail(`missing migration: ${migration.up}`);
+    const sql = readFileSync(migration.up, 'utf8');
+    const sum = checksum(sql);
+    if (done.has(migration.version)) {
+      if (done.get(migration.version) !== sum) fail(`checksum mismatch for applied migration ${migration.version}`);
+      console.info(`SKIP ${migration.version} (already applied)`);
       continue;
     }
-    console.info(`APPLY ${version}`);
-    runFile(file);
-    runSql(`INSERT INTO schema_migrations (version, checksum) VALUES ('${version}', '${sum}');`);
+    console.info(`APPLY ${migration.version}`);
+    runPsql(sql);
+    runSql(`INSERT INTO schema_migrations (version, checksum) VALUES ('${migration.version}', '${sum}');`);
   }
 }
 
 function down(version) {
-  if (!version || !VERSION_RE.test(version)) fail('usage: db-migrate down <version>');
-  const file = join(MIGRATIONS_DIR, `${version}.down.sql`);
-  if (!existsSync(file)) fail(`missing down migration: ${file}`);
+  const migration = MIGRATIONS.find((item) => item.version === version);
+  if (!migration) fail(`unknown migration: ${version ?? '<empty>'}`);
+  if (!existsSync(migration.down)) fail(`missing down migration: ${migration.down}`);
   const done = applied();
-  if (!done.has(version)) fail(`migration not applied: ${version}`);
-  console.info(`ROLLBACK ${version}`);
-  runFile(file);
-  runSql(`DELETE FROM schema_migrations WHERE version = '${version}';`);
+  if (!done.has(migration.version)) fail(`migration not applied: ${migration.version}`);
+  console.info(`ROLLBACK ${migration.version}`);
+  runPsql(readFileSync(migration.down, 'utf8'));
+  runSql(`DELETE FROM schema_migrations WHERE version = '${migration.version}';`);
 }
 
 function seed() {
   if (!existsSync(SEED_FILE)) fail(`missing seed: ${SEED_FILE}`);
   console.info('SEED synthetic data');
-  runFile(SEED_FILE);
+  runPsql(readFileSync(SEED_FILE, 'utf8'));
 }
 
 function status() {
