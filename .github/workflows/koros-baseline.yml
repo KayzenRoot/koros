@@ -41,7 +41,7 @@ jobs:
           node-version: '24'
           package-manager-cache: false
       - name: Install reviewed dependencies when a lockfile exists
-        run: if [ -f package-lock.json ]; then npm ci; else echo "No lockfile yet; skipping npm ci"; fi
+        run: if [ -f package-lock.json ]; then npm ci --ignore-scripts; else echo "No lockfile yet; skipping npm ci"; fi
       - name: Toolchain
         run: node --version && npm --version
       - name: Fail-closed source and dependency integrity
@@ -93,7 +93,7 @@ jobs:
           node-version: '24'
           package-manager-cache: false
       - name: Install reviewed dependencies when a lockfile exists
-        run: if [ -f package-lock.json ]; then npm ci; else echo "No lockfile yet; skipping npm ci"; fi
+        run: if [ -f package-lock.json ]; then npm ci --ignore-scripts; else echo "No lockfile yet; skipping npm ci"; fi
       - name: Ensure PostgreSQL client
         run: command -v psql >/dev/null || (sudo apt-get update && sudo apt-get install -y postgresql-client)
       - name: Source and dependency integrity
