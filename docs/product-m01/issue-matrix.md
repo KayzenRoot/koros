@@ -82,3 +82,10 @@ A ordem pode ser paralelizada em pesquisa sem apagar dependências. **Nenhuma de
 
 ## Delta exclusivo de pesquisa da issue #24 (2026-10-29)
 A issue #24 dispõe de [pesquisa profunda dos quatro subsegmentos](segment-comparison.md) e [scorecard com filtros GO/NO_GO](icp-validation-scorecard.md). PM01-D01..D05 permanecem `APPROVED_FOR_PLANNING`, mas **subsegmento específico NÃO APROVADO**. #24 permanece OPEN, e nenhuma evidência comercial foi tratada como entrevista ou compromisso. Demais #25..#35: sem modificação de escopo/estado nesta rodada. Pontuação 85/73/67/57 é hipótese ponderada, não market share ou ROI.
+
+## PM01-D01-S1 aprovado, delta exclusivo de issue #24 (2026-10-29)
+**Escolha C:** agências de marketing B2B e consultorias comerciais já usando CRM, idealmente leads próprios, **APPROVED_FOR_PLANNING** pelo fundador. A nota histórica "subsegmento específico NÃO aprovado" é anterior e foi substituída por esta seção.
+- **Saídas documentais somente de #24:** [ICP](agency-consultancy-icp.md), [fornecedores e concorrentes](crm-provider-competitive-matrix.md), [proposta de valor](agency-value-proposition.md).
+- **Não aprova** Agendor, HubSpot, RD Station, Pipedrive nem qualquer fonte/CRM/LLM; não altera contrato de execução T-01..T-12, ainda NOT_RUN.
+- **Não conclui** a validade comercial: requer evidência de dor recorrente, direito de integração, ROI e concorrência nativa. #24 mantém OPEN para decisão de micro-ICP e validação futura.
+- Demais #25..#35: inalteradas por esta entrega.

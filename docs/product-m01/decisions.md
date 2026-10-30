@@ -68,3 +68,14 @@ Pesquisa pública aprofundada das quatro opções na [issue #24](https://github.
 - D alternativa: negócios com agendamentos 67/100, APIs frequentemente pagas/restritas.
 - B alternativa: serviços domiciliares 57/100, pouco acesso de API de marketplace comprovado.
 **Estado:** `FOUNDER_DECISION_PENDING`. Não promove PM01-D01-S1 ao status de aprovado nem inicia prospecção, dev, gasto ou alteração de infraestrutura. As cinco escolhas PM01-D01..D05 continuam aprovadas como direção ampla.
+
+## PM01-D01-S1 — Decisão explícita do fundador (2026-10-29)
+**STATUS VIGENTE: APPROVED_FOR_PLANNING / OPÇÃO C.** Esta seção substitui o status `FOUNDER_DECISION_PENDING` e a menção de "C recomendada" na seção histórica imediatamente anterior, sem apagar a trilha de alternativas.
+
+- **ICP escolhido:** agências de marketing B2B e consultorias comerciais **que já utilizam CRM**, preferencialmente responsáveis pelos próprios leads.
+- **Motivação aprovada:** maior compatibilidade com o fluxo lead→CRM anteriormente escolhido, acesso potencial a sistemas com API e onboarding SaaS gerenciado simples, sem prender o core KOROS ao setor.
+- **Recorte inicial proposto para aprofundamento:** consultorias comerciais B2B e agências de geração de demanda que gerem leads próprios. A ordem entre esses micro-ICPs é RECOMENDAÇÃO A VALIDAR, não nova aprovação automática.
+- **Opção de contingência histórica:** manutenção técnica se mercado B2B com CRM demonstrar baixo valor incremental. Não é prioridade atual.
+- **Não escolhido:** CRM final, fornecedor LLM, canal de entrada, preço, integrações reais, stack, arquitetura física, contrato com clientes, piloto, gastos ou código.
+- **Evidência:** [ICP detalhado](agency-consultancy-icp.md), [matriz de CRMs/concorrentes](crm-provider-competitive-matrix.md), [proposta de valor e ROI ilustrativo](agency-value-proposition.md), [issue #24](https://github.com/KayzenRoot/koros/issues/24).
+- **Gate:** a seleção do ICP está aprovada como DIREÇÃO, mas demanda, entrevistas, custos e contratos continuam `UNKNOWN / NOT_RUN`. Não declarar PRODUCT-M01 IMPLEMENTED ou #24 integralmente validada. PR #36 segue Draft, sem Ready ou merge. ECC fora do pipeline.

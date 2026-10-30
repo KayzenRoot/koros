@@ -50,3 +50,11 @@ ICP específico, clientes reais, demanda e ROI, consentimentos, CRM e source API
 - Alerta crítico: API RD Station CRM v2 exige plano pago Basic/Pro/Advanced; Calendly webhook exige assinatura paga; Trinks API solicita liberação e serviço adicional; Auvo exige plano ativo. HubSpot possui conta developer grátis; Agendor lista API aberta no Free. Nenhum entitlement de cliente foi comprovado.
 - Recomendação **C (agências/consultorias com CRM)** sujeita a aceite do fundador, segundo lugar manutenção técnica; PM01-D01 amplo aprovado não foi alterado. Nenhum prospect/contato/cadastro, API call, dado real, código, deploy ou gasto.
 - Delta limitado a issue #24 e documentos de pesquisa, mantendo PR #36 Draft e ECC fora dos gates. Revalidar HEAD/checks e colocar resultado em review `COMMENTED` após commit, sem fingir aprovação.
+
+## Acceptance/Research Delta | PM01-D01-S1 C (2026-10-29)
+- **Aprovação explícita do fundador** de opção C para planejamento: agências B2B e consultorias comerciais com CRM, preferencialmente com leads próprios. O termo "recomendação pendente" nos históricos anteriores está SUPERCEDIDO, não foi apagado.
+- [Documento ICP](../../docs/product-m01/agency-consultancy-icp.md): buyer, usuário, aprovador, sub-ICPs, H01..H07, exclusões e regras de GO/NO_GO. Micro-ICP preferido (consultoria B2B, leads próprios) é recomendação, não aprovado isoladamente.
+- [Matriz oficial de fornecedores](../../docs/product-m01/crm-provider-competitive-matrix.md): Agendor Free até 3 usuários com API; HubSpot developer test grátis; RD Station CRM v2 requer planos pagos; Make, Zapier e n8n como concorrentes/restrições de licença.
+- [Proposta de valor](../../docs/product-m01/agency-value-proposition.md): diferencial como camada de validação/aprovação/auditoria antes do CRM; duas simulações de ROI **sintéticas**, não custos observados.
+- Sem fornecedor final, contrato, cliente entrevistado, interesse de compra, dados reais, prova de sandbox/API, software ou gasto. Entrevistas e validação permanecem NOT_RUN.
+- PR #36 Draft, somente documentação, ECC fora de gates. Novo HEAD/checks a revalidar após publicação.

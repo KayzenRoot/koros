@@ -118,3 +118,7 @@ Escala 1 a 5 (5 mais favorável) avaliada pela Nexlabs Technology **sem entrevis
 - **Não fecha** #24, não muda PM01-D01 amplo já aprovado, não altera escopo de #25..#35, não aprova subsegmento sem clique do fundador.
 - Fonte original/tempo, segmento/planos, riscos e lacunas estão registrados. URLs podem mudar; releitura obrigatória antes de qualquer piloto/contratação.
 - Sem merge, código, custo, clientes, dados pessoais, contatos externos ou dependência ECC. A `main` permanece protegida.
+
+## Delta de decisão de 2026-10-29 (posterior à pesquisa comparativa)
+**PM01-D01-S1 opção C = APPROVED_FOR_PLANNING.** O status "C recomendada/pending" dos itens históricos anteriores foi superado pelo aceite explícito do fundador. ICP vigente: agências B2B e consultorias comerciais com CRM já existente e preferência por leads próprios.
+Os índices 85/73/67/57 continuam apenas **hipóteses iniciais de comparação** e não foram convertidos em prova de mercado. A recomendação de micro-ICP e testes de diferenciação estão [no refinamento](agency-consultancy-icp.md). Nenhuma outra direção (CRM, contrato, piloto) foi aprovada.

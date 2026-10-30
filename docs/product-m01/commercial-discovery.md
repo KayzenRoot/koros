@@ -48,3 +48,11 @@ O fundador já escolheu as cinco diretrizes PM01-D01..D05. O próximo detalhe le
 A comparação pública em profundidade foi registrada em [segment-comparison.md](segment-comparison.md), com mercado nacional IBGE/Sebrae, concorrentes por segmento, acessos de API, planos efetivos e pontuação **hipotética**, não numérica de mercado. O [scorecard](icp-validation-scorecard.md) separa elegibilidade e baseline das hipóteses ainda sem entrevista.
 
 **Recomendação, NÃO ACEITE DO FUNDADOR:** primeiro validar agências de marketing B2B e consultorias comerciais **com CRM já implantado**, idealmente seus próprios leads; reserva manutenção técnica como segundo candidato se CRM nativo já resolver a dor. **PM01-D01 amplo permanece aprovado** (serviços) e esta escolha específica permanece `PENDING_DECISION`, vinculada exclusivamente à issue #24. Não iniciar contato, teste de API, registro de conta ou gastos.
+
+## Atualização PM01-D01-S1 após decisão do fundador (2026-10-29)
+**Escolha C APROVADA PARA PLANEJAMENTO:** agências de marketing B2B e consultorias comerciais já utilizando CRM, preferencialmente leads próprios. O trecho histórico acima que chama C de "recomendação não aceita" registra o estado **antes** desta aprovação e não deve ser usado como estado atual.
+- [ICP, personas, subsegmentos e critérios de exclusão](agency-consultancy-icp.md).
+- [Comparativo de fornecedores/planos/API e concorrentes](crm-provider-competitive-matrix.md).
+- [Proposta de valor e teste de diferenciação versus CRM/Make/Zapier](agency-value-proposition.md).
+- **Orientação ainda não aprovada:** investigar primeiro consultorias comerciais com leads próprios, depois agência de geração de demanda; volume de leads, ROI e contrato continuam UNKNOWN.
+- Nenhum fornecedor contratado, cliente entrevistado, preço definido ou plataforma implementada.

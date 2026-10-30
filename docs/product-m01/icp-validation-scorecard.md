@@ -37,3 +37,10 @@
 - **NO_GO:** API paga não aceita pelo cliente, sem consentimento, política insegura, CRM já resolve plenamente o problema, ausência de tempo manual a recuperar, custo previsto maior que benefício esperado.
 - **PIVOT:** se agências não demonstrarem dor além de HubSpot/Agendor/RD/Make, priorizar manutenção técnica e medir triagem pré-OS sem substituir Auvo/Field Control.
 - Nenhum cliente foi contatado, conta criada, teste executado ou preço proposto.
+
+## Perfil aprovado e atualização de uso (2026-10-29)
+**Aprovação do fundador:** PM01-D01-S1 C, agências de marketing B2B/consultorias comerciais com CRM ativo e preferência por leads próprios. A linha anterior "Founder decision pending" era histórico pré-aceite; o subsegmento de SERVIÇOS está escolhido como direção. **O micro-ICP e os thresholds continuam hipóteses**.
+- Consultar [ICP detalhado](agency-consultancy-icp.md) para buyer, usuário e controlador de dados.
+- Conferir em cada futuro cliente se o CRM já faz o mesmo serviço e se a API contratada permite escrita; sem isso => NO_GO.
+- Volumes 30+ leads/mês, 4+ min/lead e 2–10 pessoas são filtros hipotéticos de triagem, não fatos de mercado. Validar por coleta consentida futura.
+- Sem entrevistas, clientes, cadastros, testes de API ou compra nesta etapa.
