@@ -51,3 +51,10 @@
 
 ## Checkpoint Delta PROPOSTO (não promovido)
 `WO KOR-PM02-WO-001: esqueleto local de processo e três GET públicos, contrato estrutural tenant, testes de sintaxe/unidade/smoke, CI mínima verificada após commit. Architecture baseline independente somente para esta WO. ADR-006/009 e real tenants/CRM permanecem PENDING. Nenhuma entrega de app ao cliente, produção, billing ou deploy. Próxima WO ainda não iniciada.`
+
+## Read-back pós-merge verificado — 2026-10-30 (registro proposto em PR documental)
+- **PR #69:** `MERGED/CLOSED` via GitHub REST com `merge_method=squash` e `expected_head_sha=56e006435531e5d596a22f52e3b52db59a4d3ade`, sem bypass; commit squash `e24d7cf458f61d1b98850f34a304023ee1d87ce1`.
+- **Main anterior:** `30819b2622d5dc865931d5c55e9e9e9586648276` = pai único do squash. Git tree do commit mesclado e da PR origem `319d7c0d91a3a1348d71f691aae52f76f16780d7`, sem drift de conteúdo.
+- **Checks da PR prontos após Ready:** `governance-docs` [run 41084134782](https://github.com/KayzenRoot/koros/actions/runs/41084134782) `success`, `m02-baseline` [run 41083625071](https://github.com/KayzenRoot/koros/actions/runs/41083625071) `success` (Node24, 10/10 teste, verificação sintaxe, smoke), Socket PR Alerts/Project Report `success`. `mergeable_state=clean`, nenhuma review thread aberta. Ruleset #26074776 `active`, PR obrigatório, squash-only, required `governance-docs` App 15368, bypass_actors vazio. Rota administrativa de branch protection devolveu `403`; o ruleset foi lido, e merge real testou seu enforcement.
+- **Checks pós-push em main:** `governance-docs` [run 41084211605](https://github.com/KayzenRoot/koros/actions/runs/41084211605) `completed/success`, Socket Project Report `completed/success`. **Não** atribuir `m02-baseline` à execução na main: ele só executou na PR, mas conteúdo de árvore do squash é igual.
+- **Limites persistentes:** segurança de produção, autenticação, RLS/RBAC, CRM/IA e persistência `NOT_IMPLEMENTED/NOT_RUN`; `M02_COMPLETE=NO`; PR #36/#68 não mergeadas, #45 OPEN. Registro na PR de documentação do pós-merge **ainda não promovido**. Sem nova WO, merge dessa segunda PR, deploy ou gastos.
