@@ -33,3 +33,8 @@ export function hasPermission(role, permission) {
   if (!isRole(role) || typeof permission !== 'string') return false;
   return PERMISSIONS[role].includes(permission);
 }
+
+export function permissionsForRole(role) {
+  if (!isRole(role)) return [];
+  return [...PERMISSIONS[role]];
+}

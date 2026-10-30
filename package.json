@@ -19,14 +19,15 @@
     "db:rollback": "node scripts/db-migrate.mjs down-latest",
     "db:rollback:all": "node scripts/db-migrate.mjs down-all",
     "db:seed": "node scripts/db-migrate.mjs seed",
-    "test:db": "node --test --test-concurrency=1 test/data-model.test.mjs test/auth-integration.test.mjs test/ingestion-integration.test.mjs test/outbox-integration.test.mjs test/workflow-integration.test.mjs test/approval-integration.test.mjs test/control-integration.test.mjs",
+    "test:db": "node --test --test-concurrency=1 test/data-model.test.mjs test/auth-integration.test.mjs test/ingestion-integration.test.mjs test/outbox-integration.test.mjs test/workflow-integration.test.mjs test/approval-integration.test.mjs test/control-integration.test.mjs test/dashboard-integration.test.mjs",
     "test:auth": "node --test test/auth-integration.test.mjs",
     "test:ingestion": "node --test test/ingestion-integration.test.mjs",
     "test:outbox": "node --test test/outbox-integration.test.mjs",
     "test:workflow": "node --test test/workflow-integration.test.mjs",
     "test:approval": "node --test test/approval-integration.test.mjs",
     "test:ai": "node --test test/ai-unit.test.mjs test/ai-evaluation.test.mjs",
-    "test:control": "node --test test/control-integration.test.mjs"
+    "test:control": "node --test test/control-integration.test.mjs",
+    "test:dashboard": "node --test test/dashboard-integration.test.mjs"
   },
   "dependencies": {
     "pg": "8.23.1"
