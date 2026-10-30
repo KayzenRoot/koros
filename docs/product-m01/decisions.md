@@ -60,3 +60,11 @@ O fundador aprovou por mensagem inequívoca estas **cinco opções A**, com impl
 - Aprovação humana significa antes de toda escrita externa no fluxo inicial, sem exceções silenciosas, com vínculo ao payload aprovado.
 - PM01-D01..D05 = **APPROVED_FOR_PLANNING**. As issues #24..#35 permanecem **PLANNED** até entregáveis e evidência; PR #36 permanece Draft.
 - [Fluxo autorizado](lead-to-crm-contract.md) · [Arquitetura e instalação propostas](architecture-onboarding-security.md) · [Plano de validação](commercial-discovery.md).
+
+## PM01-D01-S1 | Subsegmento de serviços, recomendação PENDING (2026-10-29)
+Pesquisa pública aprofundada das quatro opções na [issue #24](https://github.com/KayzenRoot/koros/issues/24) e em [segment-comparison.md](segment-comparison.md):
+- **C RECOMENDADA para decisão futura:** agências/consultorias comerciais B2B já usando CRM via API autorizada, priorizando operações próprias e aprovação humana. Score **hipotético** 85/100, ainda sem entrevista/demanda/ROI.
+- A alternativa: manutenção e instalações técnicas, pontuação hipotética 73/100; considerar se a automação nativa de CRM já satisfaz agência.
+- D alternativa: negócios com agendamentos 67/100, APIs frequentemente pagas/restritas.
+- B alternativa: serviços domiciliares 57/100, pouco acesso de API de marketplace comprovado.
+**Estado:** `FOUNDER_DECISION_PENDING`. Não promove PM01-D01-S1 ao status de aprovado nem inicia prospecção, dev, gasto ou alteração de infraestrutura. As cinco escolhas PM01-D01..D05 continuam aprovadas como direção ampla.

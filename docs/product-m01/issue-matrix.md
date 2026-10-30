@@ -79,3 +79,6 @@ A ordem pode ser paralelizada em pesquisa sem apagar dependências. **Nenhuma de
 | T-12 | Restore/rollback/update com migração incompatível | STOP seguro e integridade preservada |
 
 **Observação:** nenhum teste foi executado. `governance-docs` valida documentos, não fornece segurança de produção.
+
+## Delta exclusivo de pesquisa da issue #24 (2026-10-29)
+A issue #24 dispõe de [pesquisa profunda dos quatro subsegmentos](segment-comparison.md) e [scorecard com filtros GO/NO_GO](icp-validation-scorecard.md). PM01-D01..D05 permanecem `APPROVED_FOR_PLANNING`, mas **subsegmento específico NÃO APROVADO**. #24 permanece OPEN, e nenhuma evidência comercial foi tratada como entrevista ou compromisso. Demais #25..#35: sem modificação de escopo/estado nesta rodada. Pontuação 85/73/67/57 é hipótese ponderada, não market share ou ROI.

@@ -43,3 +43,8 @@ A tabela não define empresas ou contagem de mercado. Evitar segmentos com dados
 
 ## Próxima conversa no chat
 O fundador já escolheu as cinco diretrizes PM01-D01..D05. O próximo detalhe legítimo é definir **qual subsegmento de serviços vale a primeira prospecção**, com critérios de priorização, deixando CRM/stack/hospedagem pendentes até pesquisa concreta. Isso não reabre ECC e não autoriza entrevistas/contatos externos.
+
+## Pesquisa comparativa independente e critérios de 2026-10-29
+A comparação pública em profundidade foi registrada em [segment-comparison.md](segment-comparison.md), com mercado nacional IBGE/Sebrae, concorrentes por segmento, acessos de API, planos efetivos e pontuação **hipotética**, não numérica de mercado. O [scorecard](icp-validation-scorecard.md) separa elegibilidade e baseline das hipóteses ainda sem entrevista.
+
+**Recomendação, NÃO ACEITE DO FUNDADOR:** primeiro validar agências de marketing B2B e consultorias comerciais **com CRM já implantado**, idealmente seus próprios leads; reserva manutenção técnica como segundo candidato se CRM nativo já resolver a dor. **PM01-D01 amplo permanece aprovado** (serviços) e esta escolha específica permanece `PENDING_DECISION`, vinculada exclusivamente à issue #24. Não iniciar contato, teste de API, registro de conta ou gastos.

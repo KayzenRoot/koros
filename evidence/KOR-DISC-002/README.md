@@ -43,3 +43,10 @@ O fundador aceitou expressamente **PM01-D01=A**, **PM01-D02=A**, **PM01-D03=A**,
 ICP específico, clientes reais, demanda e ROI, consentimentos, CRM e source API, ambientes sandbox, preço, LLM, infraestrutura, benchmarks, direitos/licenças, LGPD contratual, provas de isolamento, implementação e 12 testes técnicos seguem **UNKNOWN/PENDING/NOT_RUN**. Código de produto, deploy e compras: **NÃO FEITOS**.
 
 **A PR #36 continua Draft; base/main continuam protegidas. Read-back do HEAD e 3 checks deve ser confirmado após o commit.**
+
+## Research Delta — issue #24 (2026-10-29; fontes públicas, sem contato)
+- Estudo documental [segment-comparison.md](../../docs/product-m01/segment-comparison.md): quatro subsegmentos, dados IBGE PAS2024/Sebrae2025, dores e riscos hipotéticos, concorrentes Auvo/Field Control/GetNinjas/HubSpot/Agendor/RD/Pipedrive/Trinks/AgendaPro/Calendly, APIs com restrições de plano e preços publicados, scorecard ponderado interno 85/73/67/57 sem pretensão estatística.
+- [Scorecard](../../docs/product-m01/icp-validation-scorecard.md) e regras GO/NO_GO para futuro piloto; números de volume/minutos/ROI são hipóteses, NÃO validações.
+- Alerta crítico: API RD Station CRM v2 exige plano pago Basic/Pro/Advanced; Calendly webhook exige assinatura paga; Trinks API solicita liberação e serviço adicional; Auvo exige plano ativo. HubSpot possui conta developer grátis; Agendor lista API aberta no Free. Nenhum entitlement de cliente foi comprovado.
+- Recomendação **C (agências/consultorias com CRM)** sujeita a aceite do fundador, segundo lugar manutenção técnica; PM01-D01 amplo aprovado não foi alterado. Nenhum prospect/contato/cadastro, API call, dado real, código, deploy ou gasto.
+- Delta limitado a issue #24 e documentos de pesquisa, mantendo PR #36 Draft e ECC fora dos gates. Revalidar HEAD/checks e colocar resultado em review `COMMENTED` após commit, sem fingir aprovação.
