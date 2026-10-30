@@ -104,3 +104,11 @@ Fora deste incremento: cobrança real, preço, faturamento, LLM/CRM real, UI, ro
 
 `GET /login` e `GET /dashboard` servem HTML estático com CSP restritiva; `GET /assets/dashboard.css`, `/assets/dashboard.js` e `/assets/login.js` servem assets fixos. Não há rota de escrita, detalhe por ID ou parâmetro de tenant. Erros de sessão retornam `401` JSON; o cliente redireciona ao login. Fora deste incremento: aprovação pela UI, edição, templates, upload, WebSocket e testes de navegador. Evidência em [KOR-PM05-WO-001](../evidence/KOR-PM05-WO-001/README.md).
 
+## Fila de aprovação da M05-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+`GET /v1/approvals` exige sessão e `approval:decide`; retorna `pending` (até 50) com run, escopo, payload proposto, campos, versão e expiração, e `history` (até 20) com decisão/data. `POST /v1/approvals/{approval_id}/decision` exige sessão, cookie+header CSRF e `approval:decide`, aceita `{decision:'APPROVED'|'REJECTED'}` e chama o gate server-side por ator, sem token no cliente.
+
+O servidor usa row lock, recompõe `payload_hash`/`operation_hash`, exige status `PENDING`, expira TTL, transiciona a FSM e audita. Duplo clique/replay retorna `IDEMPOTENT`; decisão concorrente contrária retorna `ALREADY_DECIDED`; payload adulterado retorna `PAYLOAD_MISMATCH`; sessão perdida `401`; CSRF inválido `403`; viewer `403`.
+
+Fora deste incremento: upload/edição de payload, múltiplos aprovadores/quórum, comentários, notificações em tempo real, token de aprovação pela UI e testes de navegador. Evidência em [KOR-PM05-WO-002](../evidence/KOR-PM05-WO-002/README.md).
+

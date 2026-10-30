@@ -27,6 +27,9 @@ test('dashboard page exposes queue, runs, failures, limits and accessible landma
   assert.match(html, /id="runs-body"/);
   assert.match(html, /id="limits"/);
   assert.match(html, /id="permissions"/);
+  assert.match(html, /id="approvals-section"/);
+  assert.match(html, /id="approvals-list"/);
+  assert.match(html, /id="approval-history-body"/);
   assert.match(html, /<script type="module" src="\/assets\/dashboard\.js"><\/script>/);
 });
 

@@ -3,6 +3,8 @@ import { PUBLIC_CONFIG, VERSION, parsePort } from './config.mjs';
 import { AuthError, getSession, getTenantContext, login, logout, requirePermission } from './auth/service.mjs';
 import { IngestionError } from './ingestion/errors.mjs';
 import { ingestLead } from './ingestion/service.mjs';
+import { ApprovalError } from './approval/errors.mjs';
+import { decideApprovalByActorInTenant, listApprovals } from './approval/service.mjs';
 import { DASHBOARD_ASSETS } from './dashboard/assets.mjs';
 import { dashboardPage, loginPage } from './dashboard/pages.mjs';
 import { getDashboardSummary } from './dashboard/service.mjs';
@@ -195,6 +197,25 @@ async function handleProtected(req, res, permission) {
   reply(res, 200, { ok: true, tenantId, role: session.role, permission });
 }
 
+const APPROVAL_HTTP_STATUS = Object.freeze({
+  INVALID_INPUT: 400,
+  FORBIDDEN: 403,
+  FORGED_APPROVAL: 403,
+  NOT_FOUND: 404,
+  INVALID_STATE: 409,
+  ALREADY_DECIDED: 409,
+  NOT_APPROVED: 409,
+  NOT_REVOCABLE: 409,
+  APPROVAL_IN_USE: 409,
+  PAYLOAD_MISMATCH: 409,
+  IDEMPOTENCY_CONFLICT: 409,
+  APPROVAL_EXPIRED: 410,
+});
+
+function approvalHttpStatus(code) {
+  return APPROVAL_HTTP_STATUS[code] ?? 500;
+}
+
 async function handleDashboardSummary(req, res) {
   const { session } = await getSessionOrThrow(req);
   requirePermission(session, 'session:read');
@@ -203,6 +224,31 @@ async function handleDashboardSummary(req, res) {
     role: session.role,
   });
   reply(res, 200, summary);
+}
+
+async function handleApprovals(req, res) {
+  const { session } = await getSessionOrThrow(req);
+  requirePermission(session, 'approval:decide');
+  const result = await listApprovals({ tenantId: session.tenantId });
+  reply(res, 200, result);
+}
+
+async function handleApprovalDecision(req, res, approvalId) {
+  const { session, cookies } = await getSessionOrThrow(req);
+  requireCsrf(req, cookies);
+  requirePermission(session, 'approval:decide');
+  const body = await readJson(req);
+  const result = await decideApprovalByActorInTenant({
+    tenantId: session.tenantId,
+    approvalId,
+    actorUserId: session.userId,
+    decision: body.decision,
+  });
+  reply(res, 200, {
+    status: result.status,
+    approvalId,
+    decision: result.approval.decision,
+  });
 }
 
 export async function handleRequest(req, res) {
@@ -221,8 +267,17 @@ export async function handleRequest(req, res) {
       await handleWebhook(req, res);
       return;
     }
+    const approvalDecisionPath = pathname.match(/^\/v1\/approvals\/([0-9a-fA-F-]{36})\/decision$/);
+    if (req.method === 'POST' && approvalDecisionPath) {
+      await handleApprovalDecision(req, res, approvalDecisionPath[1]);
+      return;
+    }
     if (req.method === 'GET' && pathname === '/v1/auth/session') {
       await handleSession(req, res);
+      return;
+    }
+    if (req.method === 'GET' && pathname === '/v1/approvals') {
+      await handleApprovals(req, res);
       return;
     }
     if (req.method === 'GET' && pathname === '/v1/dashboard/summary') {
@@ -273,6 +328,10 @@ export async function handleRequest(req, res) {
   } catch (error) {
     if (error instanceof AuthError || error instanceof IngestionError) {
       reply(res, error.status, { error: error.code });
+      return;
+    }
+    if (error instanceof ApprovalError) {
+      reply(res, approvalHttpStatus(error.code), { error: error.code });
       return;
     }
     reply(res, 500, { error: 'internal_error' });

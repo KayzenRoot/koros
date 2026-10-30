@@ -21,3 +21,9 @@ Empty, loading, stale, retry, blocked, error, success; feedback visual não conf
 Telas: login; visão geral (total, fila, falhas, concluídos, pausados); limites/orçamento e kill switch; fila; falhas; runs recentes; permissões da sessão. A UI pt-BR mostra somente os agregados e campos retornados pela API, com estados vazios explícitos e mensagens de erro.
 
 Acessibilidade inicial: `lang="pt-BR"`, skip link, landmarks, headings, labels, tabelas com caption/`scope`, `aria-live`, foco visível, alvos de 44 px, layout responsivo e `prefers-reduced-motion`. **Limites:** sem auditoria WCAG automatizada, navegador real/Playwright, testes de contraste instrumentados, ações de aprovação ou edição nesta WO. Evidência em [KOR-PM05-WO-001](../evidence/KOR-PM05-WO-001/README.md).
+
+## Fila de aprovação da M05-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+A seção de aprovações só aparece para papéis com `approval:decide`. Cada cartão mostra escopo, run, estado, versão, validade, campos e payload JSON; o histórico mostra decisão/data. Confirmar/rejeitar envia CSRF + sessão; a UI não carrega token, não altera payload e não decide localmente. Durante o envio os botões ficam desabilitados; `IDEMPOTENT`, `ALREADY_DECIDED`, `PAYLOAD_MISMATCH`, expiração e erros de sessão têm feedback explícito.
+
+**Limites:** não há edição do payload, comentário, quórum, notificação em tempo real, aprovação por token na UI, Playwright ou auditoria WCAG. Evidência em [KOR-PM05-WO-002](../evidence/KOR-PM05-WO-002/README.md).

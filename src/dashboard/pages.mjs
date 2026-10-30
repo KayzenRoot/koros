@@ -73,6 +73,23 @@ const DASHBOARD_PAGE = `<!doctype html>
       <div id="limits" class="panel limits"></div>
     </section>
 
+    <section id="approvals-section" aria-labelledby="approvals-title" hidden>
+      <div class="section-heading">
+        <h2 id="approvals-title">Aprovações pendentes</h2>
+        <span id="approvals-status" class="muted" role="status" aria-live="polite"></span>
+      </div>
+      <p id="approvals-empty" class="muted" hidden>Nenhuma aprovação pendente.</p>
+      <div id="approvals-list" class="approval-list"></div>
+      <h3>Histórico de decisões</h3>
+      <div class="table-wrap">
+        <table>
+          <caption class="visually-hidden">Histórico de aprovações</caption>
+          <thead><tr><th scope="col">Run</th><th scope="col">Escopo</th><th scope="col">Decisão</th><th scope="col">Data</th></tr></thead>
+          <tbody id="approval-history-body"><tr><td colspan="4" class="empty">Sem decisões registradas.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
     <section aria-labelledby="queue-title">
       <div class="section-heading">
         <h2 id="queue-title">Fila</h2>
