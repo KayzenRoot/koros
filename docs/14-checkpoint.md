@@ -40,3 +40,42 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - **Escopo:** documentação aprovada pelo fundador; nenhuma implementação, deploy, alteração da VPS, gastos ou início de KOR-DISC-002. Marca KOROS, licenças do Intelligence, LGPD, custos, arquitetura e piloto permanecem **PENDING**.
 - **Nota histórica:** referências anteriores neste arquivo a `main` desprotegida, PR Draft e G1 pendente são fotografias do estado de 2026-10-28 **antes** das respectivas correções. O estado atual é o descrito nesta seção.
 - **Promoção:** este delta pós-merge exige PR própria e auditoria protegida para entrar na `main`. Até esse futuro merge autorizado, o registro canônico da `main` inclui o histórico pré-merge e a evidência pública complementar fica na PR #1.
+
+## Checkpoint atual de direção — Nexlabs Technology / PRODUCT-M01 (2026-10-29)
+**Estado encontrado no preflight:** `main=30819b2622d5dc865931d5c55e9e9e9586648276`, protegida, ruleset #26074776 ativo sem bypass, required `governance-docs` do GitHub Actions App 15368. Antes desta documentação, nenhuma PR aberta após encerrar #21 e #22 sem merge.
+- **Mudança explícita do fundador:** ECC NÃO é dependência, gate ou etapa necessária para desenvolver KOROS; skills, se usadas, são auxiliares opcionais. NÃO realizar nova instalação/trust/MCP/hosted ECC; não existe nenhum check ECC obrigatório na `main`.
+- **Encerramento histórico:** PRs #21/#22 fechadas, sem merge; Epic #5 e 14 issues técnicas antigas (#6-#12, #14-#20) fechadas `not_planned`. A issue #13 ficou aberta devido a bloqueio explícito de segurança da integração para sua atualização; não contornar. Documentos em branches fechadas preservados como histórico, sem promoção a fonte canônica.
+- **Trabalho atual:** [PRODUCT-M01 / KOR-DISC-002](product-m01/README.md) em planejamento, Epic #23 e issues de descoberta #24–#35. Não há aprovação do primeiro ICP, instalação comercial, arquitetura física, frameworks de produto ou pilotos.
+- **Qualidade:** continuar PR protegida, source pack, CI documental, qualidade/segurança futura por evidência no código real, zero bypass; sem assinatura Pro, compras, deploy ou implementação do MVP.
+- **Rastro:** novas decisões/provas em [documento de escolhas](product-m01/decisions.md) e [Evidence Bundle](../evidence/KOR-DISC-002/README.md). Esta seção é PROPOSED na PR documental até passar checks e merge protegido explicitamente autorizado. O checkpoint histórico anterior continua registrado para auditoria.
+
+## Delta de decisão KOR-DISC-002 / PRODUCT-M01 — 2026-10-29
+- **Aprovação do fundador:** PM01-D01..D05 = `APPROVED_FOR_PLANNING`: serviços com leads/agendamentos primeiro, core genérico com templates/conectores, SaaS gerenciado com caminho self-host futuro, primeiro fluxo leads→CRM com aprovação humana e controle server-side independente da IA.
+- **PR de registro:** [#36](https://github.com/KayzenRoot/koros/pull/36), Draft sobre `main=30819b2622d5dc865931d5c55e9e9e9586648276` protegida. Nenhum merge autorizado.
+- **Epic e subtarefas:** [#23](https://github.com/KayzenRoot/koros/issues/23), #24..#35 abertas e PLANNED. Todas as tarefas de pesquisa, engenharia/contratos e provas negativas ainda pendem. A seleção do fluxo não equivale a conclusão da descoberta comercial.
+- **Norma:** ECC não é gate ou requisito. GitHub source of truth apenas após PR protegida/merge legítimo. `governance-docs` App 15368 continua required, checks Socket informativos.
+- **Bloqueios comerciais/técnicos:** ICP mais específico, entrevistas/demanda, API de origem e CRM, preços, custo por tenant, modelo LLM, implementação, licenças, LGPD, dados reais e piloto permanecem `UNKNOWN/NOT_RUN`.
+- **Escopo desta alteração:** Markdown na PR #36, sem código, dependência ECC, infra, deploy, gasto, bypass ou alterações em main/ruleset. O HEAD final e CI devem ser lidos depois do commit.
+
+## Checkpoint Delta PROPOSTO, não promovido à main — issue #24 / 2026-10-30
+- **Aceite novo:** `PM01-D01-S1-CRM-REF-01=A APPROVED_FOR_PLANNING`: Agendor v3 primeira referência documental sintética para Pessoa/Contato; HubSpot DBV/Projects segunda referência de portabilidade. Cliente não é obrigado a trocar CRM.
+- **Restrições de execução:** PR #36 permanece Draft, issue #24 OPEN. As referências não constituem fornecedor definitivo, integração, software, homologação nem ROI. `CRM-R01..R12=NOT_RUN`, T-01..T-12 = NOT_RUN; testes com clientes, preços e LGPD real = UNKNOWN.
+- **Auditoria candidata:** [issue24-plan-ready-audit.md](../evidence/KOR-DISC-002/issue24-plan-ready-audit.md) separa `PLAN_READY_DOCUMENTAL_CANDIDATE` de `PLAN_APPROVED` e `MARKET_VALIDATED`; a promoção deste delta à verdade de main só ocorrerá após auditoria, autorização e merge normal futuros.
+- **Sem alterações ao ruleset, dependências ECC, workflow CI, contas, merge, deploy, dados reais ou custos.** HEAD/CI do commit documental final exigem read-back.
+
+## Checkpoint Delta PROPOSTO | Founder accepted #24 documentary readiness — 2026-10-30
+- **Novo marco na branch (não na main):** `PM01-D01-S1-PLAN-READY-01=FOUNDER_ACCEPTED_DOCUMENTAL_READINESS`. O fundador aprovou a prontidão DOCUMENTAL da issue #24, com parecer `GO_DOCUMENTAL`; não aprovou implantação, validação comercial, passagem da fase PRODUCT-M01 nem merge.
+- **Preflight:** PR #36 em Draft no HEAD `72177a6b36d1e8e75663ce5984420b1b406b0e26`, `main=30819b2622d5dc865931d5c55e9e9e9586648276`, três checks `success`, revisão `COMMENTED`; revalidar gates do HEAD criado pelo aceite.
+- **Estado preservado:** #24 OPEN para validação comercial futura, #25..#35 sem avanço, `PLAN_APPROVED=NO` (transição de fase), `MARKET_VALIDATED=NO`, `IMPLEMENTED_VERIFIED=NO`, ADR-009 PENDING. `T-01..T-12` e `CRM-R01..R12` NOT_RUN, dados reais e direitos de conta/CRM UNKNOWN.
+- **STOP:** somente documentação na PR; nenhuma escrita na main, Ready, merge, código, contas, testes de API, contato, gastos, deploy, ECC ou mudança de ruleset.
+
+## Checkpoint Delta PROPOSTO | preparação do protocolo comercial da #24 — 2026-10-30
+- Work Order `KOR-DISC-002-01`, subetapa documental `KOR-DISC-002-01-CV-PREP-01`: [protocolo de validação comercial](product-m01/issue24-commercial-validation-protocol.md) e [pesquisa pública](../evidence/KOR-DISC-002/issue24-desk-research-2026-10-30.md) acrescentados **apenas na branch Draft**.
+- **Nova pesquisa:** dados CNAE/Sebrae/Mapa empresas confirmam universo setorial amplo, não compradores; concorrentes CRM/Make/Zapier refutam alegação de exclusividade de aprovação humana. O filtro/benchmark futuro será contra o **plano real** de CRM do cliente; pré-registro de limiares proposto, não aprovado.
+- **Estado:** `GO_DOC_PROTOCOL_ONLY` (sujeito a auditoria HEAD/CI), `FIELD_VALIDATION=NOT_RUN`, `MARKET_VALIDATED=NO`, `PLAN_APPROVED=NO` como passagem de fase; manter `FOUNDER_ACCEPTED_DOCUMENTAL_READINESS` do marco anterior. Não promover checkpoint à main.
+- **Preservar:** issue #24 aberta, PR #36 Draft, #25..#35 não iniciadas, ADR-009 pendente, nenhuma entrevista/contato, conta/token, API, código, custo, Ready, merge ou deploy.
+
+## Checkpoint Delta PROPOSTO | CV-CRITERIA-APPROVED e desbloqueio de PLANEJAMENTO de módulos — 2026-10-30
+- Fundador aprovou os **critérios** futuros da validação da issue #24 (`APPROVED_FOR_FUTURE_VALIDATION_PLANNING`), sem autorizar pesquisa de campo, contatos, dados reais ou piloto. Não confundir critérios aprovados com validação comercial comprovada.
+- Direção: concluir planejamento de todas as issues dos PRODUCT-M02..M09, evitando repetições comerciais. Administração pessoal (empresa/INPI/cadastros/contratos) **DEFERRED_FOR_BUILD**, a revisitar antes de oferta/produção; segurança, licenças de código, LGPD em projeto e testes negativos não são adiados.
+- Este checkpoint segue PROPOSTO somente na PR #36 Draft; não promover à main nem avançar implementação por inferência. `MARKET_VALIDATED=NO`, `IMPLEMENTED_VERIFIED=NO`, `FIELD_VALIDATION=NOT_RUN`, T-01..T-12/CRM-R01..R12 NOT_RUN.

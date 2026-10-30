@@ -22,3 +22,11 @@ Todos os links representam **planejamento**, não capacidades entregues. Em conf
 - [19 Work Order](19-work-order-KOR-PLAN-001.md)
 - [Evidence Bundle inicial](../evidence/KOR-PLAN-001/README.md)
 **Estados:** APPROVED apenas para decisão humana explícita; PROPOSED, PENDING, BLOCKED, REJECTED, NOT_RUN ou NÃO VERIFICADO no restante. Checkpoint promovido somente após auditoria. Planejamento não autoriza execução técnica.
+
+## Planejamento atual do KOROS (Nexlabs Technology)
+- [PRODUCT-M01 · KOR-DISC-002: descoberta e core multissetorial](product-m01/README.md)
+- [Decisões de produto a escolher](product-m01/decisions.md)
+- [Issues, dependências, critérios de aceite](product-m01/issue-matrix.md)
+- [Evidence Bundle documental](../evidence/KOR-DISC-002/README.md)
+
+A integração ECC antiga foi retirada do fluxo obrigatório pelo fundador. `governance-docs` permanece o único required check na `main`.
