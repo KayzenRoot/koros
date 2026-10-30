@@ -21,6 +21,11 @@ const MIGRATIONS = Object.freeze([
     up: join(MIGRATIONS_DIR, '0001_init.sql'),
     down: join(MIGRATIONS_DIR, '0001_init.down.sql'),
   }),
+  Object.freeze({
+    version: '0002_auth',
+    up: join(MIGRATIONS_DIR, '0002_auth.sql'),
+    down: join(MIGRATIONS_DIR, '0002_auth.down.sql'),
+  }),
 ]);
 
 function fail(message) {
@@ -92,6 +97,20 @@ function down(version) {
   runSql(`DELETE FROM schema_migrations WHERE version = '${migration.version}';`);
 }
 
+function downLatest() {
+  const done = applied();
+  const migration = [...MIGRATIONS].reverse().find((item) => done.has(item.version));
+  if (!migration) fail('no applied migration to roll back');
+  down(migration.version);
+}
+
+function downAll() {
+  const done = applied();
+  for (const migration of [...MIGRATIONS].reverse()) {
+    if (done.has(migration.version)) down(migration.version);
+  }
+}
+
 function seed() {
   if (!existsSync(SEED_FILE)) fail(`missing seed: ${SEED_FILE}`);
   console.info('SEED synthetic data');
@@ -112,6 +131,8 @@ const command = process.argv[2] || 'up';
 try {
   if (command === 'up') up();
   else if (command === 'down') down(process.argv[3]);
+  else if (command === 'down-latest') downLatest();
+  else if (command === 'down-all') downAll();
   else if (command === 'seed') seed();
   else if (command === 'status') status();
   else fail(`unknown command: ${command}`);

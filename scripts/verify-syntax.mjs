@@ -1,19 +1,16 @@
 import { spawnSync } from 'node:child_process';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
-const files = [
-  'src/app.mjs',
-  'src/config.mjs',
-  'src/main.mjs',
-  'src/tenant-envelope.mjs',
-  'scripts/ci-integrity.mjs',
-  'scripts/db-migrate.mjs',
-  'scripts/smoke.mjs',
-  'scripts/verify-syntax.mjs',
-  'test/app.test.mjs',
-  'test/ci-integrity.test.mjs',
-  'test/data-model.test.mjs',
-  'test/tenant-envelope.test.mjs',
-];
+const roots = ['src', 'scripts', 'test'];
+const extensions = new Set(['.js', '.mjs', '.cjs']);
+const files = roots
+  .flatMap((root) =>
+    readdirSync(root, { recursive: true })
+      .filter((name) => extensions.has(name.slice(name.lastIndexOf('.'))))
+      .map((name) => join(root, name)),
+  )
+  .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 
 for (const file of files) {
   const result = spawnSync(process.execPath, ['--check', file], { stdio: 'inherit' });
