@@ -1,6 +1,6 @@
 # Evidence Bundle KOR-PM03-WO-002 — contrato CRM e mocks Agendor/HubSpot
 
-**Data:** 2026-10-30. **Issue:** [#49](https://github.com/KayzenRoot/koros/issues/49). **Módulo:** [PRODUCT-M03 #38](https://github.com/KayzenRoot/koros/issues/38). **PR:** [#77](https://github.com/KayzenRoot/koros/pull/77) (Draft, sem merge). **Base main:** `6d992a655052daa59d05b201eb470dbe2ed81cfc`. **HEAD de código:** `0bbd0dd431ea7200a5051769a8244fb4bab131ab`. **Branch:** `feat/KOR-PM03-WO-002-crm-adapter`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PASS_CODE_COMMIT`.
+**Data:** 2026-10-30. **Issue:** [#49](https://github.com/KayzenRoot/koros/issues/49). **Módulo:** [PRODUCT-M03 #38](https://github.com/KayzenRoot/koros/issues/38). **PR:** [#77](https://github.com/KayzenRoot/koros/pull/77) (Draft, sem merge). **Base main:** `6d992a655052daa59d05b201eb470dbe2ed81cfc`. **HEAD de código:** `0bbd0dd431ea7200a5051769a8244fb4bab131ab`. **Branch:** `feat/KOR-PM03-WO-002-crm-adapter`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PASS`.
 
 ## 1. Context Lock
 
@@ -73,7 +73,7 @@ Os 30 skips são os testes de integração de banco que exigem `KOROS_DB_TESTS=1
 - Não há cliente HTTP, token, OAuth, sandbox real, webhook real ou dado de cliente.
 - O CRM real permanece **PENDING** até contrato de fornecedor, termos, escopo mínimo de credencial e sandbox aprovados.
 
-## 7. CI no HEAD de código
+## 7. CI
 
 Consulta em 2026-10-30 para `0bbd0dd431ea7200a5051769a8244fb4bab131ab`; todos os checks concluíram com sucesso.
 
@@ -87,4 +87,4 @@ Consulta em 2026-10-30 para `0bbd0dd431ea7200a5051769a8244fb4bab131ab`; todos os
 | SonarCloud Code Analysis | SUCCESS | [PR 77](https://sonarcloud.io/dashboard?id=KayzenRoot_koros&pullRequest=77) |
 | Socket Security | SUCCESS | [PR alerts](https://socket.dev) |
 
-Este arquivo é atualizado em um commit somente de evidência; por isso o workflow de aplicação não reexecuta no HEAD documental, mas o código é idêntico ao HEAD acima. O `governance-docs` deve ser lido novamente no HEAD final. Nenhum resultado é extrapolado para além dos runs acima.
+Este arquivo é atualizado em um commit somente de evidência. O conjunto completo de checks reexecutou nesse commit (`fa03f8f9e6da9c050bd1de7149cc3a551c8d335a`) com sucesso; o histórico corrente, incluindo qualquer atualização documental posterior, deve ser lido em [PR #77 checks](https://github.com/KayzenRoot/koros/pull/77/checks). Nenhum resultado é extrapolado para além dos runs acima.
