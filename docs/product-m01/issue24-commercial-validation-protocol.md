@@ -77,3 +77,6 @@ A [CNAE IBGE 7020-4/00](https://cnae.ibge.gov.br/?subclasse=7020400&tipo=cnae&ve
 
 ## 9. Estado e STOP
 **`GO_DOC_PROTOCOL_ONLY`** após read-back técnico-documental, condicionado a CI e revisão. `FIELD_VALIDATION=NOT_RUN`; `TAM/SAM/SOM=UNKNOWN`; `COMMERCIAL_VALIDATED=NO`; `GO_API=NO`; `GO_PILOT=NO`; `PLAN_APPROVED=NO` (transição de fase); `IMPLEMENTED_VERIFIED=NO`. Não transformar documentação em execução; manter issue #24 OPEN, PR #36 Draft, #25..#35 intactas, Checkpoint Delta PROPOSTO e sem merge/Ready/código/contas/contatos/custos/deploy.
+
+## 10. CV-CRITERIA-APPROVED | Estado após decisão do fundador (2026-10-30)
+Os números de amostra e thresholds propostos neste protocolo foram **aceitos como critérios para PLANEJAMENTO DE VALIDAÇÃO FUTURA**, não como resultados, exigências de entrevistar agora ou condição para planejar/construir o software sintético. A direção do fundador prioriza preparar todos os módulos para construção. Empresa/INPI/cadastros/contratos comerciais ficam adiados à fase de lançamento; segurança de código, uso de dados autorizados, LGPD by design e licenças de dependência permanecem obrigatórias quando relevantes. `GO_CONTACT=NO`, `COMMERCIAL_VALIDATED=NO`, `FIELD_VALIDATION=NOT_RUN`, sem contas, gastos ou deploy.

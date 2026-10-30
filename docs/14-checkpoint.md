@@ -74,3 +74,8 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - **Nova pesquisa:** dados CNAE/Sebrae/Mapa empresas confirmam universo setorial amplo, não compradores; concorrentes CRM/Make/Zapier refutam alegação de exclusividade de aprovação humana. O filtro/benchmark futuro será contra o **plano real** de CRM do cliente; pré-registro de limiares proposto, não aprovado.
 - **Estado:** `GO_DOC_PROTOCOL_ONLY` (sujeito a auditoria HEAD/CI), `FIELD_VALIDATION=NOT_RUN`, `MARKET_VALIDATED=NO`, `PLAN_APPROVED=NO` como passagem de fase; manter `FOUNDER_ACCEPTED_DOCUMENTAL_READINESS` do marco anterior. Não promover checkpoint à main.
 - **Preservar:** issue #24 aberta, PR #36 Draft, #25..#35 não iniciadas, ADR-009 pendente, nenhuma entrevista/contato, conta/token, API, código, custo, Ready, merge ou deploy.
+
+## Checkpoint Delta PROPOSTO | CV-CRITERIA-APPROVED e desbloqueio de PLANEJAMENTO de módulos — 2026-10-30
+- Fundador aprovou os **critérios** futuros da validação da issue #24 (`APPROVED_FOR_FUTURE_VALIDATION_PLANNING`), sem autorizar pesquisa de campo, contatos, dados reais ou piloto. Não confundir critérios aprovados com validação comercial comprovada.
+- Direção: concluir planejamento de todas as issues dos PRODUCT-M02..M09, evitando repetições comerciais. Administração pessoal (empresa/INPI/cadastros/contratos) **DEFERRED_FOR_BUILD**, a revisitar antes de oferta/produção; segurança, licenças de código, LGPD em projeto e testes negativos não são adiados.
+- Este checkpoint segue PROPOSTO somente na PR #36 Draft; não promover à main nem avançar implementação por inferência. `MARKET_VALIDATED=NO`, `IMPLEMENTED_VERIFIED=NO`, `FIELD_VALIDATION=NOT_RUN`, T-01..T-12/CRM-R01..R12 NOT_RUN.
