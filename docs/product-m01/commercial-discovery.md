@@ -1,0 +1,45 @@
+# PRODUCT-M01 | Descoberta comercial, ICP e validação do primeiro produto
+**Startup:** Nexlabs Technology | **PM01-D01 A aceita:** começar validação em empresas de **serviços com leads e agendamentos**. **Status de mercado:** hipóteses, NÃO VALIDADO.
+
+## Hipótese ICP para pesquisa, não segmento comprovado
+| Perfil candidato | Dor a investigar | Fluxo candidato | Dependência crítica |
+|---|---|---|---|
+| Clínicas/estúdios de serviços NÃO clínicos | leads perdidos, retorno lento, agendamento | lead→CRM com revisão humana | consentimento e políticas de comunicação, dados potencialmente sensíveis |
+| Prestadores de manutenção/instalação | solicitações em diferentes canais, duplicação de cadastro | lead→CRM com categorização | API de CRM, catálogo de serviços |
+| Serviços de consultoria/agências | qualificação manual e follow-up disperso | lead→CRM com classificação | fonte oficial e CRM/sandbox |
+| Serviços para casa e empresas | triagem de orçamento, perda de oportunidade | lead→CRM com revisão | classificação sem prometer preço/decisão automática |
+
+A tabela não define empresas ou contagem de mercado. Evitar segmentos com dados médicos, financeiros ou regulados no piloto inicial até avaliar o risco. Não contactar terceiros nesta fase sem aprovação.
+
+## Entrevista de descoberta (roteiro sugerido)
+1. Como o lead chega hoje? Quais canais e sistemas são realmente usados?
+2. Quantos leads/semana e quanto tempo por lead? Há números registrados?
+3. Onde ocorrem perdas, retrabalho, dados duplicados e atrasos?
+4. Quais campos podem ser automatizados com segurança e quais precisam de aprovação?
+5. Qual CRM/ERP possui API oficial e sandbox e quem tem poder para autorizar?
+6. Quanto custa hoje o trabalho, e qual seria o ganho econômico mensurável?
+7. Como a empresa prefere ativar o serviço: SaaS gerenciado, infraestrutura própria, ou outro?
+8. Quais restrições de dados, LGPD, integração e consentimento se aplicam?
+9. O que impede a compra? Suporte, segurança, preço, treinamento, precisão da IA?
+10. Existe interesse em piloto com dados fictícios e critérios de aceite definidos?
+
+## Evidências necessárias antes de prometer adequação
+- Entrevistas reais com registro de fonte/consentimento, ou marcar UNKNOWN, nunca inventar.
+- Pelo menos 3 propostas comerciais hipotéticas comparadas por ICP; a seleção final do ICP exige confirmação.
+- Baseline real de tempo por lead, taxa de duplicação, volume, custo operacional, taxa de intervenção, erros e disponibilidade do CRM, com proteção de dados.
+- Teste em sandbox de um conector escolhido e um workflow sintético, só em fase futura de implementação autorizada.
+- Modelagem de margem por cliente: preço de setup/assinatura (não decidido) menos infraestrutura, IA, API, suporte, tributos e aquisição; budget/caps antes de transação.
+- Critérios de descarte: CRM sem API permitida, perda de dados pessoais, integração cara, ROI não demonstrável, risco de autonomia excessiva ou falta de aprovador.
+
+## Hipóteses de métricas e política de decisão
+| Métrica | Como medir | Meta atual |
+|---|---|---|
+| Tempo manual por lead | cronômetro/processo observado e consentido | PENDING baseline |
+| Tempo até primeiro valor | onboarding e primeiro fluxo sintético concluído | PENDING benchmark |
+| Duplicação por evento | external_id e reconciliação | Objetivo técnico 0 duplicações nos cenários de teste, não promessa de mundo real |
+| Taxa de correções humanas | total de recomendações revisadas | PENDING baseline |
+| Custo por lead e margem | logs de uso + cotação dos provedores | PENDING cotação |
+| Intenção de pagamento | entrevista/proposta comercial sem cobrança | UNKNOWN |
+
+## Próxima conversa no chat
+O fundador já escolheu as cinco diretrizes PM01-D01..D05. O próximo detalhe legítimo é definir **qual subsegmento de serviços vale a primeira prospecção**, com critérios de priorização, deixando CRM/stack/hospedagem pendentes até pesquisa concreta. Isso não reabre ECC e não autoriza entrevistas/contatos externos.

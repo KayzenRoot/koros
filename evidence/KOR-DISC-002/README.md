@@ -23,3 +23,23 @@
 
 ## Resultado final (preencher em comentário de auditoria na PR)
 Read-back de HEAD, diff, links, required check e veredito após publicação da PR Draft. Não inventar hashes não conhecidos antes do commit.
+
+## Acceptance Delta — founder approved PM01-D01..05 (2026-10-29)
+O fundador aceitou expressamente **PM01-D01=A**, **PM01-D02=A**, **PM01-D03=A**, **PM01-D04=A**, **PM01-D05=A** como **diretrizes de PLANEJAMENTO** do KOROS da Nexlabs Technology. Sem autorização de merge, implementação, gastos, deploy nem coleta de dados reais.
+- **D01:** primeiro público de validação = serviços com leads/agendamentos; outros segmentos preservados pelo core.
+- **D02:** SaaS gerenciado primeiro; caminho de portabilidade/self-host projetado, não disponível no MVP inicial.
+- **D03:** core único genérico, templates configuráveis e conectores oficiais. Stack e licenças ainda PENDING.
+- **D04:** primeiro fluxo escolhido para planejar = lead autorizado → dedupe/classificação → aprovação humana → CRM via API oficial, ainda não validado/implementado.
+- **D05:** IA sem autoridade para conceder permissão ou gravar no CRM; políticas server-side com fail-closed.
+
+### Artefatos acrescentados à branch da PR #36
+- `docs/product-m01/decisions.md`: ata/estado de D01..D05.
+- `docs/product-m01/lead-to-crm-contract.md`: fluxo, entidades, máquina de estados e casos adversos.
+- `docs/product-m01/architecture-onboarding-security.md`: core, fronteira tenant, SaaS e caminho self-host futuro.
+- `docs/product-m01/commercial-discovery.md`: subsegmentos hipotéticos, entrevistas, métricas/risco.
+- `docs/product-m01/issue-matrix.md`: rastreabilidade de 12 issues e testes T-01..T-12.
+
+### Lacunas (não mascarar como concluído)
+ICP específico, clientes reais, demanda e ROI, consentimentos, CRM e source API, ambientes sandbox, preço, LLM, infraestrutura, benchmarks, direitos/licenças, LGPD contratual, provas de isolamento, implementação e 12 testes técnicos seguem **UNKNOWN/PENDING/NOT_RUN**. Código de produto, deploy e compras: **NÃO FEITOS**.
+
+**A PR #36 continua Draft; base/main continuam protegidas. Read-back do HEAD e 3 checks deve ser confirmado após o commit.**

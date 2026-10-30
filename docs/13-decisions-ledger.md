@@ -24,3 +24,15 @@ Somente o fundador/autoridade designada promove decisões de produto; auditor va
 | ADR-015 | **PENDING_DECISION** | Segmento inicial, dor prioritária, primeiro workflow e critérios de viabilidade comercial. |
 
 O cancelamento de ECC não prova produto ou pipeline de testes de aplicativo instalado; controles documentais existentes continuam em vigor. Nova análise e escolha do fundador serão registradas em `docs/product-m01/decisions.md`.
+
+## Atualização válida mais recente para as ADRs de produto (2026-10-29)
+O fundador aprovou as cinco escolhas PM01-D01..D05. Esta seção **substitui o status PROPOSED/PENDING** das entradas equivalentes anteriores (ADR-005, ADR-007, ADR-013..015) **somente como direção de planejamento**, sem apagar o histórico.
+
+| ADR / decisão | Status atual | Diretriz aceita | Limites |
+|---|---|---|---|
+| ADR-013 / PM01-D03 | APPROVED_FOR_PLANNING | Core genérico multissetorial, templates versionados, conectores oficiais e política fora da IA | Stack, isolamento físico e implementação PENDING |
+| ADR-014 / PM01-D02 | APPROVED_FOR_PLANNING | SaaS gerenciado inicial, self-host planejado para fase posterior | Nenhum deploy, cloud/instalador/benchmark aprovado |
+| ADR-015 / PM01-D01/D04 | APPROVED_FOR_PLANNING | Serviços com leads/agendamentos como público inicial; primeiro fluxo leads→CRM com aprovação humana | ICP específico, provedor CRM, canal, preços, clientes e licenças PENDING |
+| PM01-D05 | APPROVED_FOR_PLANNING | IA apenas propõe/classifica, servidor autoriza por política explícita e approval válida | RBAC, hashes, logs e testes ainda NOT_IMPLEMENTED |
+
+Detalhes e riscos em [decisões do produto](product-m01/decisions.md). **ADR-006/ADR-008/ADR-009/ADR-010/ADR-011 continuam PENDING.** Nenhuma aprovação para ECC obrigatório; ADR-012 permanece em vigor.

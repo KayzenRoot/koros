@@ -48,3 +48,11 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - **Trabalho atual:** [PRODUCT-M01 / KOR-DISC-002](product-m01/README.md) em planejamento, Epic #23 e issues de descoberta #24–#35. Não há aprovação do primeiro ICP, instalação comercial, arquitetura física, frameworks de produto ou pilotos.
 - **Qualidade:** continuar PR protegida, source pack, CI documental, qualidade/segurança futura por evidência no código real, zero bypass; sem assinatura Pro, compras, deploy ou implementação do MVP.
 - **Rastro:** novas decisões/provas em [documento de escolhas](product-m01/decisions.md) e [Evidence Bundle](../evidence/KOR-DISC-002/README.md). Esta seção é PROPOSED na PR documental até passar checks e merge protegido explicitamente autorizado. O checkpoint histórico anterior continua registrado para auditoria.
+
+## Delta de decisão KOR-DISC-002 / PRODUCT-M01 — 2026-10-29
+- **Aprovação do fundador:** PM01-D01..D05 = `APPROVED_FOR_PLANNING`: serviços com leads/agendamentos primeiro, core genérico com templates/conectores, SaaS gerenciado com caminho self-host futuro, primeiro fluxo leads→CRM com aprovação humana e controle server-side independente da IA.
+- **PR de registro:** [#36](https://github.com/KayzenRoot/koros/pull/36), Draft sobre `main=30819b2622d5dc865931d5c55e9e9e9586648276` protegida. Nenhum merge autorizado.
+- **Epic e subtarefas:** [#23](https://github.com/KayzenRoot/koros/issues/23), #24..#35 abertas e PLANNED. Todas as tarefas de pesquisa, engenharia/contratos e provas negativas ainda pendem. A seleção do fluxo não equivale a conclusão da descoberta comercial.
+- **Norma:** ECC não é gate ou requisito. GitHub source of truth apenas após PR protegida/merge legítimo. `governance-docs` App 15368 continua required, checks Socket informativos.
+- **Bloqueios comerciais/técnicos:** ICP mais específico, entrevistas/demanda, API de origem e CRM, preços, custo por tenant, modelo LLM, implementação, licenças, LGPD, dados reais e piloto permanecem `UNKNOWN/NOT_RUN`.
+- **Escopo desta alteração:** Markdown na PR #36, sem código, dependência ECC, infra, deploy, gasto, bypass ou alterações em main/ruleset. O HEAD final e CI devem ser lidos depois do commit.

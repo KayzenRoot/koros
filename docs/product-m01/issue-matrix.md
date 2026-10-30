@@ -35,3 +35,47 @@ Cada issue tem: motivação, tarefas detalhadas, testes negativos a desenhar, ev
 - CI `governance-docs` validado na PR de documentação; software nunca chamado de entregue por um check documental.
 
 **STOP:** decisões pendentes são bloqueio à implementação, não à conversa/planejamento. Nenhuma obrigação ECC ou dependência de instalação local.
+
+## Status de decisão após aceite explícito (2026-10-29)
+**PM01-D01..D05: APPROVED_FOR_PLANNING; nenhuma issue foi IMPLEMENTADA ou encerrada.** A direção está definida, mas todas as pesquisas, requisitos detalhados, testes e contratos de integração continuam pendentes.
+
+| Issue | O que deve ser especificado AGORA | Critério do planejamento | Prova futura / NÃO EXECUTADA |
+|---|---|---|---|
+| #24 ICP | Serviços com leads/agendamentos; comparar 4 subsegmentos | Scorecard risco × demanda × frequência × API × acesso ao cliente, decisão do fundador | Entrevistas autorizadas; baseline |
+| #25 Automações | 12 processos candidatos; distinguir lead→CRM primeiro de outros | Checklist trigger/entrada/saída/custo/consentimento/aprovação para cada fluxo | Pesquisa e demanda reais |
+| #26 MVP | Lead→CRM supervisionado; estados, dedupe, idempotência, limites | Contrato do [fluxo](lead-to-crm-contract.md) e cenários positivos/negativos | API oficial sandbox e testes |
+| #27 Core | Núcleo multissetorial + templates + conectores versionados | Matriz de domínios, interfaces, estado, compatibilidade e ADR | Código e testes cross-segment |
+| #28 Instalação | SaaS gerenciado primeiro; wizard + portabilidade self-host futura | [Contrato de onboarding](architecture-onboarding-security.md) e tradeoff de isolamento/custos | Benchmark e teste de setup real |
+| #29 Segurança | RBAC/tenant, LGPD, autorização server-side | Threat model e matriz de papéis, consentimento e retenção | Testes negativos de isolamento |
+| #30 Integrações | Fonte e CRM oficial a escolher; versionamento e quotas | API contract + capability/pin/retry + read/write scopes, sem inventar fornecedor | Sandbox/termos/provedor |
+| #31 Automação/IA | IA propõe; approval gate servidor + payload_hash | Máquina de estados e invariantes, fail-closed | Testes de injection/approval/replay |
+| #32 UX | Dashboard, conexão de provedores, template, aprovações | Jornada por papel, wireframes e cenários de erro | Testes de usabilidade |
+| #33 Comercial | Setup + assinaturas 1/3/6/12 meses (estrutura já aceita) | Hipóteses e unit economics sem preços presumidos | Cotações, preços, margem |
+| #34 Validação | Entrevistas/protocolo piloto futuro sem dados reais | [Roteiro](commercial-discovery.md), indicadores, GO/NO_GO e consentimento | Prospeção e entrevistas não autorizadas nesta etapa |
+| #35 Fechamento | Matriz completa, Source Pack, risco e versionamento | 12 issues alinhadas, ADRs, CI docs e aprovação explícita | Implementação em PRs futuras |
+
+## Dependency DAG de planejamento
+`#24 (ICP) → #25 (problemas) → #26 (fluxo)`;
+`#26 → #27 (core) → #28 (entrega)`;
+`#27/#28 → #29 (segurança) → #30 (APIs) → #31 (IA/gate) → #32 (UX)`;
+`#24/#26/#28 → #33 (economia) → #34 (validação)`;
+`#24..#34 → #35 (aceite)`.
+A ordem pode ser paralelizada em pesquisa sem apagar dependências. **Nenhuma decisão comercial substitui prova negativa técnica.**
+
+## Conjunto mínimo de testes futuros T-01..T-12 (todos NOT_RUN)
+| Test ID | Cenário | Resultado esperado |
+|---|---|---|
+| T-01 | Webhook legítimo assinado + dado válido | Um run VALIDATED, sem CRM ainda |
+| T-02 | Origem sem autenticação ou assinatura inválida | Rejeitar, auditar |
+| T-03 | Lead duplicado, replay, duas entregas concorrentes | Uma única operação lógica por tenant/external_id |
+| T-04 | Payload malicioso/prompt injection no texto | Não altera política nem adquire permissões |
+| T-05 | Aprovação rejeitada, expirada ou de outro tenant | Nenhuma escrita no CRM |
+| T-06 | Aprovação de payload v1 e tentativa de v2 | Invalidação, nova aprovação exigida |
+| T-07 | Timeout depois de possível escrita no CRM | RECONCILE antes de qualquer retry |
+| T-08 | Quota/segredo expirado/provedor indisponível | Pause/BLOCK, sem falsas confirmações |
+| T-09 | Operador sem RBAC suficiente | Negação server-side, mesmo com UI manipulada |
+| T-10 | Template de setor A no tenant B | Sem acesso cruzado nem credenciais compartilhadas |
+| T-11 | Setup novo cliente e cancelamento | Dados isolados, exportação e revogação planejadas |
+| T-12 | Restore/rollback/update com migração incompatível | STOP seguro e integridade preservada |
+
+**Observação:** nenhum teste foi executado. `governance-docs` valida documentos, não fornece segurança de produção.

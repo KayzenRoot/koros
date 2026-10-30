@@ -22,18 +22,18 @@ Cada camada será detalhada como módulo autônomo após as decisões do M01. N�
 - Para o primeiro MVP, reduzir escopo por caso de uso e validar repetibilidade em outros segmentos com contratos de extensão.
 - Qualquer alegação de custo, benchmark, compatibilidade, direitos ou integração deve ter origem e status `VERIFIED/PROPOSED/UNKNOWN`.
 
-## 4. Fluxo de uso exemplar (hipótese, NÃO escolha do fundador)
+## 4. Jornada de uso e fluxo inicial (direção aprovada, ainda não implementada)
 `Cliente cadastra empresa → seleciona tipo de negócio → escolhe template → conecta canal/CRM/ERP autorizado → executa teste seco → liga automação sob cotas → recebe evento → policy/IA valida → aprovação humana quando exigida → API oficial executa ação → dashboard mostra execução, custo e auditoria.`
 
-**Primeiros candidatos de vertical** (analisar, não assumir): empresas de serviços com agendamentos/leads, comércio local com atendimento e pedidos, e-commerce com acompanhamento de pedidos, pequenas operações administrativas. Não automatizar pagamentos ou decisões reguladas sem autorização específica.
+**Segmento escolhido para validação:** empresas de serviços com leads e agendamentos. Comércio e e-commerce continuam alvos futuros do mesmo core, sem prioridade inicial. Não automatizar pagamentos ou decisões reguladas sem autorização específica.
 
 ## 5. Como oferecer instalação simples
-Comparar três caminhos em [decisões](decisions.md):
+Direção **PM01-D02 A aprovada:** SaaS gerenciado primeiro, com isolamento efetivo e wizard de configuração; self-host fica como objetivo futuro de portabilidade. As demais opções seguem registradas em [decisões](decisions.md):
 - **A (recomendado para validação inicial):** SaaS administrado com isolamento por empresa e wizard de integração; projetar desde já contrato portátil para futura instalação dedicada/self-host, sem prometer que já existe.
 - **B:** primeira versão self-host por cliente com pacote Docker/Compose e wizard local, mais controle com mais pré-requisitos, manutenção e suporte.
 - **C:** híbrido completo desde o MVP, combinando ambos; maior complexidade de instalação/upgrade, custo operacional e superfície de segurança.
 
-A decisão requer benchmark e caso de uso escolhido. O core não deve exigir instalação do cliente quando usar SaaS gerenciado, mas deve suportar autenticação e integração segura com seus sistemas.
+A direção foi aprovada pelo fundador, mas requer benchmark antes da arquitetura física e da definição de custos. O core não deve exigir instalação do cliente quando usar SaaS gerenciado, mas deve suportar autenticação e integração segura com seus sistemas.
 
 ## 6. Separação em módulos futuros (SUGESTÃO)
 | Identificador de produto | Capacidade | Gate antes do código |
@@ -64,3 +64,14 @@ Candidatos: tempo de setup real, tempo até primeira automação, integração a
 [Decisões](decisions.md) · [Matriz de issues](issue-matrix.md) · [Evidence Bundle](../../evidence/KOR-DISC-002/README.md) · [Backlog](../11-backlog.md).
 
 **STOP:** sem ECC obrigatório, sem novo workflow nesta PR, sem mudança de ruleset, pagamentos, acesso a clientes, dados reais, deploy, instalação de produto, licenciamento presumido ou merge não autorizado.
+
+## 10. Baseline de produto aprovado no chat (2026-10-29)
+Cinco decisões A: **PM01-D01..D05 APPROVED_FOR_PLANNING**. O primeiro **MVP candidato** é o fluxo **lead autorizado → validação → deduplicação → classificação por IA → aprovação humana → escrita no CRM por API oficial → auditoria**. Clientes iniciais de validação: **empresas de serviços que lidam com leads e agendamentos**. Instalação inicial prevista: **SaaS gerenciado**, com núcleo desenhado para possível self-host depois. A IA não autoriza ações.
+
+**Fase corrente:** especificação e descoberta. Ainda não existe CRM escolhido, contato com clientes, API homologada, preço, código de produto, deployment ou comprovação de ROI. O fundador não aprovou merge da PR #36.
+
+Leituras de execução conceitual:
+- [Contrato do fluxo leads → CRM](lead-to-crm-contract.md)
+- [Arquitetura genérica, isolamento e onboarding](architecture-onboarding-security.md)
+- [ICP, validação comercial e preços pendentes](commercial-discovery.md)
+- [Matriz de rastreabilidade das issues](issue-matrix.md)
