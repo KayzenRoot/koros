@@ -100,6 +100,15 @@ function adapterHasContact(adapter, externalId) {
   }
 }
 
+async function storedDecision(approvalId) {
+  return withTenant(TENANT_A, async (client) => {
+    const result = await client.query('SELECT decision FROM approvals WHERE approval_id = $1', [
+      approvalId,
+    ]);
+    return result.rows[0].decision;
+  });
+}
+
 async function enqueueApproved(run, payload, approval) {
   return withTenant(TENANT_A, (client) =>
     enqueueAction({
@@ -229,13 +238,7 @@ test('a cross-tenant approval token is not found and cannot change the run', opt
       }),
     (error) => error.code === APPROVAL_ERROR.NOT_FOUND,
   );
-  const stored = await withTenant(TENANT_A, async (client) => {
-    const result = await client.query('SELECT decision FROM approvals WHERE approval_id = $1', [
-      requested.approval.approval_id,
-    ]);
-    return result.rows[0].decision;
-  });
-  assert.equal(stored, 'PENDING');
+  assert.equal(await storedDecision(requested.approval.approval_id), 'PENDING');
   assert.equal((await getRun({ tenantId: TENANT_A, runId: run.run_id })).state, 'PENDING_APPROVAL');
   assert.equal(await outboxCount(run.run_id), 0);
 });
@@ -278,13 +281,7 @@ test('a forged approval token fails closed without mutation', options, async () 
     () => decide(requested.approval, 'forged-token'),
     (error) => error.code === APPROVAL_ERROR.FORGED_APPROVAL,
   );
-  const stored = await withTenant(TENANT_A, async (client) => {
-    const result = await client.query('SELECT decision FROM approvals WHERE approval_id = $1', [
-      requested.approval.approval_id,
-    ]);
-    return result.rows[0].decision;
-  });
-  assert.equal(stored, 'PENDING');
+  assert.equal(await storedDecision(requested.approval.approval_id), 'PENDING');
   assert.equal((await getRun({ tenantId: TENANT_A, runId: run.run_id })).state, 'PENDING_APPROVAL');
   assert.equal(await outboxCount(run.run_id), 0);
 });

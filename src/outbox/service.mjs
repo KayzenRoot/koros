@@ -231,24 +231,26 @@ async function claimWithClient(client, { tenantId, now, actionId, leaseSeconds }
   );
 
   if (recovered.rowCount > 0) {
-    for (const row of recovered.rows) {
-      await transitionRun({
-        client,
-        tenantId,
-        runId: row.run_id,
-        targetState: 'RECONCILING',
-        reason: 'OUTBOX_LEASE_EXPIRED',
-        now,
-      });
-      await insertAuditEvent(client, {
-        tenantId,
-        runId: row.run_id,
-        action: 'OUTBOX_LEASE_EXPIRED',
-        entity: 'outbox_action',
-        entityId: row.action_id,
-        metadata: {},
-      });
-    }
+    await Promise.all(
+      recovered.rows.map(async (row) => {
+        await transitionRun({
+          client,
+          tenantId,
+          runId: row.run_id,
+          targetState: 'RECONCILING',
+          reason: 'OUTBOX_LEASE_EXPIRED',
+          now,
+        });
+        await insertAuditEvent(client, {
+          tenantId,
+          runId: row.run_id,
+          action: 'OUTBOX_LEASE_EXPIRED',
+          entity: 'outbox_action',
+          entityId: row.action_id,
+          metadata: {},
+        });
+      }),
+    );
   }
 
   const result = await client.query(
