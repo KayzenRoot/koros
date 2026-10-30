@@ -5,15 +5,29 @@ import { fileURLToPath } from 'node:url';
 /**
  * Baseline-only integrity gate. This is NOT a general-purpose secrets scanner,
  * SCA engine, type checker, or production build verifier.
+ *
+ * The single reviewed runtime dependency is pinned here. Any other change to
+ * dependencies, devDependencies, optionalDependencies or peerDependencies is
+ * rejected until a new review updates this allowlist and the lockfile.
  */
+const ALLOWED_DEPENDENCIES = Object.freeze({ pg: '8.23.1' });
+
 export function auditManifest(pkg) {
   const findings = [];
   if (!pkg || typeof pkg !== 'object' || Array.isArray(pkg)) return ['INVALID_PACKAGE'];
   if (pkg.private !== true) findings.push('PACKAGE_MUST_BE_PRIVATE');
   if (pkg.license !== 'UNLICENSED') findings.push('PACKAGE_LICENSE_CHANGED');
   for (const key of ['dependencies', 'devDependencies', 'optionalDependencies', 'peerDependencies']) {
-    if (pkg[key] !== undefined && (typeof pkg[key] !== 'object' || pkg[key] === null || Array.isArray(pkg[key]) || Object.keys(pkg[key]).length > 0)) {
-      findings.push('DEPENDENCY_REVIEW_REQUIRED:' + key);
+    const deps = pkg[key];
+    if (deps === undefined) continue;
+    if (typeof deps !== 'object' || deps === null || Array.isArray(deps)) {
+      findings.push('INVALID_DEPENDENCY_MAP:' + key);
+      continue;
+    }
+    for (const [name, version] of Object.entries(deps)) {
+      if (key !== 'dependencies' || ALLOWED_DEPENDENCIES[name] !== version) {
+        findings.push(`DEPENDENCY_REVIEW_REQUIRED:${key}:${name}@${version}`);
+      }
     }
   }
   return findings;
@@ -58,7 +72,26 @@ export function auditRepository(root) {
   const findings = [];
   const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
   findings.push(...auditManifest(manifest));
-  for (const name of ['package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock', 'pnpm-lock.yaml']) {
+  const direct = manifest.dependencies && typeof manifest.dependencies === 'object' ? manifest.dependencies : {};
+  const lockfile = join(root, 'package-lock.json');
+  if (Object.keys(direct).length > 0) {
+    if (!existsSync(lockfile)) {
+      findings.push('LOCKFILE_REQUIRED');
+    } else {
+      try {
+        const lock = JSON.parse(readFileSync(lockfile, 'utf8'));
+        const rootDeps = lock.packages?.['']?.dependencies ?? {};
+        if (JSON.stringify(rootDeps) !== JSON.stringify(direct)) findings.push('LOCKFILE_MANIFEST_MISMATCH');
+        const lockedPg = lock.packages?.['node_modules/pg']?.version;
+        if (lockedPg !== ALLOWED_DEPENDENCIES.pg) findings.push('LOCKFILE_PG_VERSION_MISMATCH:' + String(lockedPg));
+      } catch {
+        findings.push('LOCKFILE_INVALID');
+      }
+    }
+  } else if (existsSync(lockfile)) {
+    findings.push('LOCKFILE_WITHOUT_REVIEWED_DEPENDENCY');
+  }
+  for (const name of ['npm-shrinkwrap.json', 'yarn.lock', 'pnpm-lock.yaml']) {
     if (existsSync(join(root, name))) findings.push('LOCKFILE_REVIEW_REQUIRED:' + name);
   }
   const source = [];
@@ -87,7 +120,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
       for (const f of findings) console.error('INTEGRITY_FAIL ' + f);
       process.exitCode = 1;
     } else {
-      console.info('PASS: no declared npm dependencies, unpinned workflow actions, TypeScript files without typecheck, or obvious credentials in scoped source');
+      console.info('PASS: only the reviewed pg dependency is declared; actions are SHA-pinned; no TypeScript without typecheck or obvious credentials in scoped source');
     }
   } catch (error) {
     console.error('INTEGRITY_FAIL ' + error.message);

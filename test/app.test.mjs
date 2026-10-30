@@ -27,13 +27,13 @@ test('version is sourced from the baseline contract', async () => {
   assert.deepEqual(await res.json(), { version: VERSION });
 });
 
-test('public config never enables tenant access or external writes', async () => {
+test('public config advertises session-bound tenant access and no external writes', async () => {
   const res = await fetch(`${origin}/config`);
   assert.equal(res.status, 200);
   assert.deepEqual(await res.json(), PUBLIC_CONFIG);
-  assert.equal(PUBLIC_CONFIG.tenantAccess, 'deny-all');
+  assert.equal(PUBLIC_CONFIG.tenantAccess, 'authenticated-session-only');
   assert.equal(PUBLIC_CONFIG.externalWrites, false);
-  assert.equal(PUBLIC_CONFIG.authentication, 'not-implemented');
+  assert.equal(PUBLIC_CONFIG.authentication, 'session-rbac');
   assert.doesNotMatch(JSON.stringify(PUBLIC_CONFIG), /password|secret|token|api[_-]?key/i);
 });
 

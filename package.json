@@ -16,8 +16,13 @@
     "build": "node scripts/verify-syntax.mjs",
     "smoke": "node scripts/smoke.mjs",
     "db:migrate": "node scripts/db-migrate.mjs up",
-    "db:rollback": "node scripts/db-migrate.mjs down 0001_init",
+    "db:rollback": "node scripts/db-migrate.mjs down-latest",
+    "db:rollback:all": "node scripts/db-migrate.mjs down-all",
     "db:seed": "node scripts/db-migrate.mjs seed",
-    "test:db": "node --test test/data-model.test.mjs"
+    "test:db": "node --test test/data-model.test.mjs",
+    "test:auth": "node --test test/auth-integration.test.mjs"
+  },
+  "dependencies": {
+    "pg": "8.23.1"
   }
 }

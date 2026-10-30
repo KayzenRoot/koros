@@ -10,9 +10,12 @@ const safePackage = {
   license: 'UNLICENSED', type: 'module', scripts: { test: 'node --test' },
 };
 
-test('baseline manifest remains dependency-free and private', () => {
+test('manifest allows only the exact reviewed pg dependency and remains private', () => {
   assert.deepEqual(auditManifest(safePackage), []);
-  assert.deepEqual(auditManifest({ ...safePackage, dependencies: { bad: '*' } }), ['DEPENDENCY_REVIEW_REQUIRED:dependencies']);
+  assert.deepEqual(auditManifest({ ...safePackage, dependencies: { pg: '8.23.1' } }), []);
+  assert.deepEqual(auditManifest({ ...safePackage, dependencies: { pg: '8.23.0' } }), ['DEPENDENCY_REVIEW_REQUIRED:dependencies:pg@8.23.0']);
+  assert.deepEqual(auditManifest({ ...safePackage, dependencies: { bad: '*' } }), ['DEPENDENCY_REVIEW_REQUIRED:dependencies:bad@*']);
+  assert.deepEqual(auditManifest({ ...safePackage, devDependencies: { pg: '8.23.1' } }), ['DEPENDENCY_REVIEW_REQUIRED:devDependencies:pg@8.23.1']);
   assert.deepEqual(auditManifest({ ...safePackage, private: false }), ['PACKAGE_MUST_BE_PRIVATE']);
   assert.deepEqual(auditManifest({ ...safePackage, license: 'MIT' }), ['PACKAGE_LICENSE_CHANGED']);
 });
@@ -45,7 +48,7 @@ test('repository integrity negative cases fail closed', () => {
     assert(auditRepository(dir).some(x => x.includes('TYPESCRIPT_NEEDS_REAL_TYPECHECK')));
     rmSync(join(dir, 'src/unchecked.ts'));
     writeFileSync(join(dir, 'package-lock.json'), '{}');
-    assert(auditRepository(dir).some(x => x.includes('LOCKFILE_REVIEW_REQUIRED')));
+    assert(auditRepository(dir).some(x => x.includes('LOCKFILE_WITHOUT_REVIEWED_DEPENDENCY')));
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

@@ -4,8 +4,8 @@ export const VERSION = '0.1.0';
 export const PUBLIC_CONFIG = Object.freeze({
   environment: 'local-synthetic',
   bindAddress: '127.0.0.1',
-  authentication: 'not-implemented',
-  tenantAccess: 'deny-all',
+  authentication: 'session-rbac',
+  tenantAccess: 'authenticated-session-only',
   dataMode: 'synthetic-only',
   externalWrites: false,
   crmIntegration: false,

@@ -40,10 +40,12 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
-      - name: Install reviewed dependencies when a lockfile exists
-        run: if [ -f package-lock.json ]; then npm ci --ignore-scripts; else echo "No lockfile yet; skipping npm ci"; fi
       - name: Toolchain
         run: node --version && npm --version
+      - name: Install reviewed dependencies
+        run: npm ci
+      - name: Dependency audit
+        run: npm audit --omit=dev
       - name: Fail-closed source and dependency integrity
         run: npm run ci:integrity
       - name: Syntax-only lint (NOT a typecheck)
@@ -92,10 +94,12 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
-      - name: Install reviewed dependencies when a lockfile exists
-        run: if [ -f package-lock.json ]; then npm ci --ignore-scripts; else echo "No lockfile yet; skipping npm ci"; fi
+      - name: Install reviewed dependencies
+        run: npm ci
       - name: Ensure PostgreSQL client
         run: command -v psql >/dev/null || (sudo apt-get update && sudo apt-get install -y postgresql-client)
+      - name: Dependency audit
+        run: npm audit --omit=dev
       - name: Source and dependency integrity
         run: npm run ci:integrity
       - name: Apply migrations
@@ -106,8 +110,10 @@ jobs:
         run: npm run db:seed
       - name: Data, RLS and audit tests
         run: npm run test:db
+      - name: Auth, RBAC and session tests
+        run: npm run test:auth
       - name: Rollback, reapply and retest
-        run: npm run db:rollback && npm run db:migrate && npm run db:seed && npm run test:db
+        run: npm run db:rollback:all && npm run db:migrate && npm run db:seed && npm run test:db && npm run test:auth
 
   codeql-js:
     name: codeql-js
