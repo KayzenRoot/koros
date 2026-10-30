@@ -1,6 +1,6 @@
 # Evidence Bundle KOR-PM04-WO-004 — auditoria, custos e kill switch
 
-**Data:** 2026-10-30. **Issue:** [#54](https://github.com/KayzenRoot/koros/issues/54). **Módulo:** [PRODUCT-M04 #39](https://github.com/KayzenRoot/koros/issues/39). **Base main:** `be5da86b87148299ce2339c583d7e3a35fd92de8`. **Branch:** `feat/KOR-PM04-WO-004-audit-cost-killswitch`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PENDING`.
+**Data:** 2026-10-30. **Issue:** [#54](https://github.com/KayzenRoot/koros/issues/54). **Módulo:** [PRODUCT-M04 #39](https://github.com/KayzenRoot/koros/issues/39). **PR:** [#82](https://github.com/KayzenRoot/koros/pull/82) (Draft, sem merge). **Base main:** `be5da86b87148299ce2339c583d7e3a35fd92de8`. **HEAD de código:** `4536241ae9d35914cf8caa84f1c8589f82bf2384`. **Branch:** `feat/KOR-PM04-WO-004-audit-cost-killswitch`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PASS`.
 
 ## 1. Context Lock
 
@@ -70,8 +70,18 @@ PostgreSQL 17 local, porta 55432, banco `koros_test`.
 - **Limites:** custo/tokens simulados; sem cobrança real, sem faturamento, sem reconciliação de reserva órfã, sem UI/alertas, sem operação distribuída. O kill switch é único por tenant, não por operação.
 - Nenhum merge, deploy, gasto ou dado real.
 
-## 7. CI esperado
+## 7. CI
 
-- `m02-baseline`, `m02-data` (inclui control), `governance-docs`, CodeQL, Sonar e Socket.
-- Nenhum required check novo; `governance-docs` permanece o required existente.
-- O resultado do HEAD final deve ser consultado no PR; nenhum `SUCCESS` é presumido.
+Consulta em 2026-10-30 para `4536241ae9d35914cf8caa84f1c8589f82bf2384`; todos os checks concluíram com sucesso.
+
+| Check | Resultado | Run |
+|---|---|---|
+| `m02-baseline` | SUCCESS | [job 124357737514](https://github.com/KayzenRoot/koros/actions/runs/41141845931/job/124357737514) |
+| `m02-data` | SUCCESS | [job 124357737311](https://github.com/KayzenRoot/koros/actions/runs/41141845931/job/124357737311) |
+| `governance-docs` | SUCCESS | [job 124357736985](https://github.com/KayzenRoot/koros/actions/runs/41141845848/job/124357736985) |
+| `codeql-js` | SUCCESS | [job 124357737731](https://github.com/KayzenRoot/koros/actions/runs/41141845931/job/124357737731) |
+| CodeQL | SUCCESS | [run 124358130962](https://github.com/KayzenRoot/koros/runs/124358130962) |
+| SonarCloud Code Analysis | SUCCESS | [PR 82](https://sonarcloud.io/dashboard?id=KayzenRoot_koros&pullRequest=82) |
+| Socket Security | SUCCESS | [PR alerts](https://socket.dev) |
+
+Este arquivo é atualizado em um commit somente de evidência; o histórico corrente de checks, incluindo a reexecução no HEAD documental, deve ser lido em [PR #82 checks](https://github.com/KayzenRoot/koros/pull/82/checks). Nenhum resultado é extrapolado para além dos runs acima.
