@@ -6,7 +6,8 @@ import { basename, join, resolve } from 'node:path';
 const ROOT = process.cwd();
 const MIGRATIONS_DIR = join(ROOT, 'db', 'migrations');
 const SEED_FILE = join(ROOT, 'db', 'seeds', 'synthetic.sql');
-const PSQL = process.env.PSQL_BIN || 'psql';
+const PSQL = 'psql';
+const PSQL_ARGS = ['-X', '-w', '-v', 'ON_ERROR_STOP=1', '-tA'];
 const VERSION_RE = /^[0-9]{4}_[a-z0-9_]+$/;
 
 function fail(message) {
@@ -15,21 +16,19 @@ function fail(message) {
   process.exit(1);
 }
 
-function psqlArgs(extra) {
-  return ['-X', '-w', '-v', 'ON_ERROR_STOP=1', ...extra];
-}
-
-function runSql(sql) {
-  const result = spawnSync(PSQL, psqlArgs(['-tA', '-c', sql]), { encoding: 'utf8' });
+function runPsql(input) {
+  const result = spawnSync(PSQL, PSQL_ARGS, { input, encoding: 'utf8' });
   if (result.error) fail(`${PSQL} could not start: ${result.error.message}`);
   if (result.status !== 0) fail((result.stderr || result.stdout || 'psql failed').trim());
   return (result.stdout || '').trim();
 }
 
+function runSql(sql) {
+  return runPsql(sql);
+}
+
 function runFile(file) {
-  const result = spawnSync(PSQL, psqlArgs(['-f', file]), { encoding: 'utf8' });
-  if (result.error) fail(`${PSQL} could not start: ${result.error.message}`);
-  if (result.status !== 0) fail(`${file}: ${(result.stderr || result.stdout || 'psql failed').trim()}`);
+  return runPsql(readFileSync(file, 'utf8'));
 }
 
 function checksum(file) {

@@ -50,6 +50,13 @@ Os testes cobrem: migration aplicada/checksum, seed de dois tenants, RLS por ten
 - `m02-baseline` continua igual; `governance-docs` segue required; `m02-data` **não** foi tornado required nesta WO.
 - CI do HEAD final deve ser consultado após o push; nenhum `SUCCESS` é presumido.
 
+### Correção após o primeiro run do SonarCloud (2026-10-30)
+
+- Primeiro run: `SonarCloud Code Analysis` **FAIL**; quality gate `new_security_rating=3` (C).
+- Achados: 2x `jssecurity:S8705` em `scripts/db-migrate.mjs` (argumentos dinâmicos no `spawnSync`).
+- Correção: comando fixo `psql`, argumentos fixos e SQL/migrations por **stdin**; nenhum `-c`/`-f` dinâmico.
+- Revalidação local após a correção: **12/12** testes DB, rollback/reapply **12/12**, `npm run check` e smoke PASS.
+
 ## 6. Riscos e STOP
 
 - **Alto:** RLS não substitui a autorização server-side; a #46 precisa vincular sessão→tenant e membership.
