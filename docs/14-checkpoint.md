@@ -56,3 +56,9 @@ G0 aprovar fundação documental; G1 configurar proteção GitHub/checks antes d
 - **Norma:** ECC não é gate ou requisito. GitHub source of truth apenas após PR protegida/merge legítimo. `governance-docs` App 15368 continua required, checks Socket informativos.
 - **Bloqueios comerciais/técnicos:** ICP mais específico, entrevistas/demanda, API de origem e CRM, preços, custo por tenant, modelo LLM, implementação, licenças, LGPD, dados reais e piloto permanecem `UNKNOWN/NOT_RUN`.
 - **Escopo desta alteração:** Markdown na PR #36, sem código, dependência ECC, infra, deploy, gasto, bypass ou alterações em main/ruleset. O HEAD final e CI devem ser lidos depois do commit.
+
+## Checkpoint Delta PROPOSTO, não promovido à main — issue #24 / 2026-10-30
+- **Aceite novo:** `PM01-D01-S1-CRM-REF-01=A APPROVED_FOR_PLANNING`: Agendor v3 primeira referência documental sintética para Pessoa/Contato; HubSpot DBV/Projects segunda referência de portabilidade. Cliente não é obrigado a trocar CRM.
+- **Restrições de execução:** PR #36 permanece Draft, issue #24 OPEN. As referências não constituem fornecedor definitivo, integração, software, homologação nem ROI. `CRM-R01..R12=NOT_RUN`, T-01..T-12 = NOT_RUN; testes com clientes, preços e LGPD real = UNKNOWN.
+- **Auditoria candidata:** [issue24-plan-ready-audit.md](../evidence/KOR-DISC-002/issue24-plan-ready-audit.md) separa `PLAN_READY_DOCUMENTAL_CANDIDATE` de `PLAN_APPROVED` e `MARKET_VALIDATED`; a promoção deste delta à verdade de main só ocorrerá após auditoria, autorização e merge normal futuros.
+- **Sem alterações ao ruleset, dependências ECC, workflow CI, contas, merge, deploy, dados reais ou custos.** HEAD/CI do commit documental final exigem read-back.

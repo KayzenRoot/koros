@@ -96,3 +96,7 @@ Documentos #24: [personas e jornada](consultoria-b2b-micro-icp.md), [AS-IS e fon
 
 ## Delta de CRM de referência na issue #24 (2026-10-30)
 [Agendor vs HubSpot aprofundado por fontes oficiais](crm-reference-agendor-vs-hubspot.md): API, direitos por plano, objetos, upsert, mappings, webhook, quotas, auth, migrações, custos e 12 provas futuras `CRM-R01..R12`, todas `NOT_RUN`. **PM01-D01-S1-CRM-REF-01 ainda PENDING** de decisão do fundador. O micro-ICP C1 é aprovado, mas CRM **não**. Este delta é exclusivo #24, sem execução de #25..#35 ou alteração de seus estados.
+
+## Delta de aceite de CRM de referência — issue #24 (2026-10-30)
+**PM01-D01-S1-CRM-REF-01 opção A = APPROVED_FOR_PLANNING**, conforme decisão explícita do fundador: Agendor REST v3 apenas como primeira referência documental/sintética para Pessoa/Contato; HubSpot DBV/Projects segunda referência de portabilidade. **O trecho anterior que registra PENDING é histórico pré-aceite.** Nenhum fornecedor de produção foi selecionado e nenhum cliente precisa mudar de CRM.
+**Gate #24:** [auditoria documental PLAN_READY](../../evidence/KOR-DISC-002/issue24-plan-ready-audit.md) e [contrato comparativo](crm-reference-agendor-vs-hubspot.md). (CRM-R01..R12) e T-01..T-12 permanecem `NOT_RUN`; #25..#35 permanecem fora do escopo/inalteradas. Não usar a aprovação de referência como sinal de implementação ou conclusão da pesquisa de campo.

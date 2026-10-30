@@ -1,9 +1,9 @@
 # PRODUCT-M01 / KOR-DISC-002-01 | Agendor vs HubSpot como CRM de referência
-**Empresa:** Nexlabs Technology · **Produto:** KOROS · **Micro-ICP aprovado:** consultorias comerciais B2B com CRM ativo e leads próprios · **Issue:** [#24](https://github.com/KayzenRoot/koros/issues/24) · **Data da pesquisa:** 2026-10-30 · **Estado:** RESEARCH_DOCUMENTED / CRM_REFERENCE_DECISION_PENDING / IMPLEMENTATION_NOT_STARTED.
+**Empresa:** Nexlabs Technology · **Produto:** KOROS · **Micro-ICP aprovado:** consultorias comerciais B2B com CRM ativo e leads próprios · **Issue:** [#24](https://github.com/KayzenRoot/koros/issues/24) · **Data da pesquisa:** 2026-10-30 · **Estado:** RESEARCH_DOCUMENTED / CRM_REFERENCE_APPROVED_FOR_PLANNING_A / IMPLEMENTATION_NOT_STARTED.
 **Restrições:** PR #36 Draft, sem merge, código, testes de API, inscrição, contato, despesas, deploy ou ECC obrigatório.
 
 ## 1. Conclusão executiva e natureza dos fatos
-**Recomendação para decisão FUTURA do fundador, ainda NÃO aprovada:** **Agendor** como CRM de referência **exclusivamente para desenho e contrato sintético**, HubSpot como segundo provedor e caso de interoperabilidade futura. **O KOROS não deve exigir que clientes migrem seu CRM.** Recomenda-se Agendor para um primeiro mapeamento por documentação local em português, plano Free com API explicitamente listada e métodos `upsert` de Pessoa/Empresa. HubSpot é superior em modelo público de apps com OAuth por várias contas e ambiente de testes, mas tem superfície de modelo maior e transição de API/legacy apps durante 2026–27.
+**Direção aprovada para planejamento pelo fundador em 2026-10-30, exclusivamente como referência documental:** **Agendor** como CRM de referência **exclusivamente para desenho e contrato sintético**, HubSpot como segundo provedor e caso de interoperabilidade futura. **O KOROS não deve exigir que clientes migrem seu CRM.** Recomenda-se Agendor para um primeiro mapeamento por documentação local em português, plano Free com API explicitamente listada e métodos `upsert` de Pessoa/Empresa. HubSpot é superior em modelo público de apps com OAuth por várias contas e ambiente de testes, mas tem superfície de modelo maior e transição de API/legacy apps durante 2026–27.
 
 **EVIDÊNCIA OFICIAL:** URLs de páginas do fornecedor, docs e publicações de changelog. **ESTIMATIVA/HIPÓTESE:** custo de horas do executor, ranking, vantagem de venda e exemplos de volume. **UNKNOWN/NOT_RUN:** permissão e plano de conta cliente, latência, quotas efetivas, assinatura de webhook, direitos LGPD, suporte do provider, preço final KOROS e custo operacional. Nenhuma API foi chamada.
 
@@ -124,7 +124,7 @@ Critérios: menor fricção de piloto Free 25%, clareza de operações de contat
 **Nota:** pontuação é exercício de decisão, não resultado empírico.
 
 ## 9. Recomendação de aprovação e regras de STOP
-**PM01-D01-S1-CRM-REF-01 (PROPOSED, founder PENDING):** 
+**PM01-D01-S1-CRM-REF-01 (seção de alternativas histórica anterior ao aceite):** 
 - **A (recomendação para o PRIMEIRO contrato sintético de cadastro):** Agendor REST v3 como **CRM de referência documental**, modelando apenas `people` e `organization` sem escrita real, com HubSpot DBV/Projects como benchmark de portabilidade e segundo candidato. Isso não obriga primeiro cliente a usar Agendor.
 - **B:** HubSpot DBV/Projects como CRM de referência documental desde o começo, com app OAuth multiportal e Developer Test futuro; maior alinhamento à visão SaaS multicliente, porém exige acompanhar migrações e complexidade inicial.
 - **C:** permanecer 100% agnóstico e modelar somente `ILeadCRM` sintético sem referência de API concreta. Evita comprometimento, mas não responde completamente à necessidade de mapear limites reais.
@@ -162,3 +162,9 @@ Critérios: menor fricção de piloto Free 25%, clareza de operações de contat
 - [HubSpot limites e cotas](https://legal.hubspot.com/hubspot-product-and-services-catalog/technical-limits): OFFICIAL, subject to edition and API/app type.
 - [HubSpot Search limite 5/s](https://community.hubspot.com/t/increasing-our-api-limits/116905): OFFICIAL developer announcement 2024, recheck current DBV.
 **Preservar a procedência:** não tratar versões de docs ou preços observados como promessas contratuais; testes reais, concessões e upgrades proibidos nesta WO.
+
+## 12. Decisão atual consolidada: aprovação documental da alternativa A (2026-10-30)
+**PM01-D01-S1-CRM-REF-01 = APPROVED_FOR_PLANNING / A:** **Agendor REST v3** é a primeira referência documental **somente sintética para entidade Pessoa/Contato**; **HubSpot DBV/Projects** é a segunda referência de portabilidade e arquitetura de integração SaaS com múltiplas contas. As alternativas B/C da seção 9 são HISTÓRICO DE DECISÃO, não opções atualmente pendentes.
+**Invariantes:** (i) cliente não é obrigado a trocar de CRM; (ii) `upsert` pode atualizar dados e requer diff e autorização humana exata; (iii) fonte de lead oficial e permissão server-side antes de escrita; (iv) sem dependência de funcionalidades premium não comprovadas; (v) R-01, R-03, R-05, R-06, R-08, R-11, R-12, R-13 e R-14 permanecem obrigações futuras de projeto, não testes executados.
+**Escopo autorizado:** atualizar esta pesquisa/decision/issue e preparar auditoria documental. **Não autoriza** implementar SDK, gerar app OAuth, solicitar tokens, criar contas, testar webhooks, operar com PII, fazer deploy, gerar custos ou avançar automaticamente a #25.
+**Limitações:** limites/valores de docs oficiais foram observados por pesquisa, mas entitlement de cliente, quotas efetivas, CNPJ/propriedades custom, assinaturas de eventos e custo real de SaaS continuam `UNKNOWN`. Todos `CRM-R01..R12=NOT_RUN`. Consulte [audit trail](../../evidence/KOR-DISC-002/issue24-plan-ready-audit.md).

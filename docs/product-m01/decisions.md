@@ -87,7 +87,7 @@ Pesquisa pública aprofundada das quatro opções na [issue #24](https://github.
 **Documentos:** [micro-ICP/buyers/jornada](consultoria-b2b-micro-icp.md) · [processo manual e fontes oficiais](consultoria-b2b-manual-process-and-sources.md) · [métricas e GO/NO_GO](consultoria-b2b-validation-go-nogo.md).
 **Somente issue #24:** esta atualização não aprova nem altera escopo/execução das issues #25..#35. Fase atual documental; não houve contatos, testes, dados reais, custos ou código. PR #36 permanece Draft, sem Ready/merge; ECC fora dos gates.
 
-## PM01-D01-S1-CRM-REF-01 | CRM de referência em pesquisa (2026-10-30)
+## PM01-D01-S1-CRM-REF-01 | Pesquisa histórica anterior ao aceite (2026-10-30)
 **ESTADO: FOUNDER_DECISION_PENDING (somente recomendação, NÃO aprovada).** Dois CRMs avaliados por [estudo oficial comparativo](crm-reference-agendor-vs-hubspot.md):
 - **Opção A recomendada como contrato de referência sintético:** Agendor REST v3, com pessoas/empresas e documentação concreta de upsert, API aberta anunciada em Free. HubSpot moderno/Projects permanece segundo conector/prova de portabilidade. **NÃO** significa obrigar cliente a usar Agendor.
 - **B:** HubSpot DBV/Projects + OAuth multiportal como referência desde início. Ambiente developer test gratuito e maior alinhamento à distribuição SaaS, mas upgrade/manutenção de versão e onboarding são mais complexos.
@@ -95,3 +95,14 @@ Pesquisa pública aprofundada das quatro opções na [issue #24](https://github.
 **Tradeoff:** score heurístico de plataforma multiempresa favorece HubSpot 89/100 contra Agendor 71/100; Agendor é preferido somente para especificar a operação mínima de lead→contato em português e sem exigir aquisição de plano por padrão. Scores são arbitrários, NÃO dados de mercado/benchmark. Diretriz de ICP **PM01-D01-S1-C1 permanece APPROVED_FOR_PLANNING**, sem aprovar CRM concreto.
 **Informação nova:** preço Agendor Free R$0/3 usuários, API/Pluga/Make/Zapier listados no Free pela tabela oficial atual; controles MFA/privacidade pagos, limitações de campos custom e confiança token. HubSpot Free US$0/2 usuários e limite de 1k contatos, developer test Free, Service Keys sem webhook, migração de APIs legadas até 2027. Entitlement real e custos = UNKNOWN.
 **Proibido:** conta/criação de OAuth/Webhook, token, API call, gasto, implementação, contato, merge, deploy, ECC required. Somente issue #24, PR #36 Draft.
+
+## PM01-D01-S1-CRM-REF-01 — Aceite explícito do fundador (2026-10-30)
+**STATUS VIGENTE: APPROVED_FOR_PLANNING, OPÇÃO A.** O fundador autorizou **Agendor REST v3 como primeira REFERÊNCIA DOCUMENTAL SINTÉTICA para Pessoa/Contato**, com **HubSpot API versionada por data (DBV) e Projects como segunda referência para portabilidade**, sem obrigar clientes a migrarem de CRM.
+- A referência do Agendor serve para desenhar contrato, entidades, cenários e fixtures **no papel**; **não** determina fornecedor final, dependência de produto, código, SDK, conexão, token, conta ou CRM efetivo de um futuro cliente.
+- HubSpot permanece padrão comparativo para OAuth/Projects e portabilidade multiempresa, igualmente **sem integração implantada**.
+- O aceite **não altera** PM01-D01..D05, PM01-D01-S1 C ou PM01-D01-S1-C1 previamente aprovadas; mantém consultorias comerciais B2B com CRM ativo e leads próprios como micro-ICP.
+- **PENDING/UNKNOWN:** CRM do primeiro cliente real, entitlement na conta/plano, regras de assinatura de webhooks, autorização LGPD, precificação KOROS, cotas efetivas, ambiente de teste, direitos contratuais e arquitetura definitiva.
+- **Futuro GO técnico:** exige Work Order e autorização separados, fonte oficial atualizada, schemas e prova negativa de atualização indevida, replay, tenant crossing e aprovação inválida; `CRM-R01..R12=NOT_RUN`.
+- **Histórico:** a seção anterior rotulada PENDING mostra o estado da pesquisa ANTES do aceite e não prevalece sobre esta decisão. Os scores 89/71 são hipóteses de desenho, não benchmarking.
+- Documentos: [Agendor × HubSpot](crm-reference-agendor-vs-hubspot.md) · [Auditoria PLAN_READY #24](../../evidence/KOR-DISC-002/issue24-plan-ready-audit.md).
+**STOP:** só issue #24 / PR #36 Draft. Sem Ready, merge, código, conta, API test, contato, gastos, deploy ou ECC requerido.

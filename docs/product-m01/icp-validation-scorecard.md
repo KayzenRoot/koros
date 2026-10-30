@@ -1,6 +1,6 @@
 # KOR-DISC-002-01 | Scorecard de ICP e roteiro de validação futuro
-**Issue:** #24 · **Estado:** PROPOSED / FOUNDER_DECISION_PENDING, entrevistas NOT_RUN · **Start:** serviços e leads/agendamentos já aprovados pelo fundador.
-**Recomendação condicional:** agências/consultorias comerciais B2B que já possuem CRM oficial, priorizando leads próprios para evitar mais um relacionamento de controladoria de dados; alternativa manutenção/instalação técnica.
+**Issue:** #24 · **Estado vigente:** PM01-D01-S1-C1 APPROVED_FOR_PLANNING; CRM-REF-01 A APPROVED_FOR_PLANNING; entrevistas NOT_RUN · **Start:** serviços e leads/agendamentos já aprovados pelo fundador.
+**Prioridade de planejamento aprovada:** consultorias comerciais B2B com CRM ativo e leads próprios. Agendor é referência documental sintética, HubSpot segunda referência. Alternativa histórica: manutenção técnica somente se o ICP atual falhar nos gates comerciais.
 
 ## Scorecard para aplicar em cada futura empresa (sem dados reais agora)
 | Campo | Pergunta objetiva / forma de comprovar | Estado desta pesquisa |

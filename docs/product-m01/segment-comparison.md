@@ -1,6 +1,6 @@
 # KOR-DISC-002-01 | Comparativo de quatro mercados de serviços para o KOROS
-**Empresa:** Nexlabs Technology · **Produto:** KOROS · **Issue:** [#24](https://github.com/KayzenRoot/koros/issues/24) · **Pesquisa pública:** 2026-10-29 · **Estado:** RESEARCH_COMPLETE / RECOMMENDATION_PROPOSED / FOUNDER_DECISION_PENDING.
-**Decisões já aprovadas:** PM01-D01 (serviços com leads/agendamentos como primeiro público amplo), PM01-D02 (SaaS gerenciado primeiro), PM01-D03 (core genérico+templates+conectores), PM01-D04 (lead→CRM com aprovação), PM01-D05 (autorização fora da IA). **Nenhuma decisão sobre subsegmento foi aprovada.**
+**Empresa:** Nexlabs Technology · **Produto:** KOROS · **Issue:** [#24](https://github.com/KayzenRoot/koros/issues/24) · **Pesquisa pública:** 2026-10-29 · **Estado vigente (2026-10-30):** RESEARCH_COMPLETE / ICP_B2B_APPROVED_FOR_PLANNING / CRM_REFERENCE_AGENDOR_A_APPROVED_FOR_PLANNING, sem validação comercial.
+**Decisões já aprovadas:** PM01-D01 (serviços com leads/agendamentos como primeiro público amplo), PM01-D02 (SaaS gerenciado primeiro), PM01-D03 (core genérico+templates+conectores), PM01-D04 (lead→CRM com aprovação), PM01-D05 (autorização fora da IA). **Atualização de 2026-10-30:** subsegmento C e micro-ICP consultorias comerciais B2B com CRM ativo e leads próprios foram aprovados para planejamento; Agendor v3 referência documental inicial, HubSpot DBV/Projects secundária. Parágrafos PENDING posteriores preservam o histórico pré-aceite.
 
 ## 1. Método e níveis de evidência
 - **EVIDÊNCIA OFICIAL:** dado publicado por IBGE, Sebrae, fornecedor ou documentação oficial de API; link e ressalva quando preço/recurso variam por plano.
