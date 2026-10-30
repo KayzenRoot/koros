@@ -22,3 +22,6 @@ Todos os links representam **planejamento**, não capacidades entregues. Em conf
 - [19 Work Order](19-work-order-KOR-PLAN-001.md)
 - [Evidence Bundle inicial](../evidence/KOR-PLAN-001/README.md)
 **Estados:** APPROVED apenas para decisão humana explícita; PROPOSED, PENDING, BLOCKED, REJECTED, NOT_RUN ou NÃO VERIFICADO no restante. Checkpoint promovido somente após auditoria. Planejamento não autoriza execução técnica.
+
+- [ADR-016: runtime local e contrato mínimo da WO #45](architecture/ADR-016-runtime-baseline.md) (PROPOSTO na PR #69, não arquitetura de produção)
+- [Evidence Bundle do primeiro baseline técnico](../evidence/KOR-PM02-WO-001/README.md) (somente código local sintético e testes do escopo)
