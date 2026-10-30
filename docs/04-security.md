@@ -26,3 +26,9 @@ A implementação em PR Draft usa `scrypt` nativo, sessão server-side com token
 ## Adapter CRM mock da M03-WO-002 (2026-10-30; PROPOSED_IN_PR)
 
 O contrato CRM aceita apenas campos allowlisted, exige tenant UUID e capacidade explícita, e vincula a escrita a uma aprovação `approved`, com hash SHA-256 do payload canônico e expiração. O mock não importa cliente HTTP, não lê tokens e falha fechado para campo desconhecido, objeto ausente, entitlement insuficiente e escrita sem aprovação. **Limite:** os adapters Agendor/HubSpot são sintéticos e em memória; nenhuma chamada real, OAuth ou persistência CRM foi implementada. Evidência em [KOR-PM03-WO-002](../evidence/KOR-PM03-WO-002/README.md).
+
+## Outbox da M03-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+O enqueue é atômico com a transição do run, exige aprovação persistida e hash do payload canônico, e usa uma chave idempotente por tenant/fonte/external_id/versão. O claim usa `FOR UPDATE SKIP LOCKED` e lease curto; timeout é tratado como resultado incerto e reconciliado por `external_id` antes de novo upsert. Quota esgotada pausa a ação e bloqueia o run; erros terminais falham sem retry. O outbox armazena apenas payload sintético e código de erro normalizado, nunca segredo, token ou resposta bruta do provedor.
+
+**Limites:** a implementação é local/por processo, sem scheduler distribuído, DLQ, alertas, rate limit distribuído ou CRM real; não há prova de operação em produção. Evidência em [KOR-PM03-WO-003](../evidence/KOR-PM03-WO-003/README.md).
