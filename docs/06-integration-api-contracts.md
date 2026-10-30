@@ -54,3 +54,15 @@ Implementação local em `src/outbox/`, ainda sem CRM real. A chave idempotente 
 
 Fora deste incremento: scheduler distribuído, múltiplos workers em produção, CRM real, rate limit distribuído, DLQ, alertas e UI. O adapter é o mock da M03-WO-002; nenhum token, API ou dado real. Evidência em [KOR-PM03-WO-003](../evidence/KOR-PM03-WO-003/README.md).
 
+## FSM de workflows da M04-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+Estados canônicos: `RECEIVED`, `VALIDATED`, `PROPOSED`, `PENDING_APPROVAL`, `REJECTED`, `EXPIRED`, `APPROVED`, `QUEUED`, `RECONCILING`, `COMPLETED`, `FAILED`, `PAUSED`. `REJECTED`, `EXPIRED`, `COMPLETED` e `FAILED` são terminais. O caminho feliz é `RECEIVED → VALIDATED → PROPOSED → PENDING_APPROVAL → APPROVED → QUEUED → RECONCILING → COMPLETED`; `QUEUED` pode concluir diretamente no sucesso do dispatch, e `RECONCILING → QUEUED` representa retry após reconciliação sem registro remoto.
+
+`createRun` grava `RECEIVED` com unique `(tenant_id, idempotency_key)`; replay retorna o mesmo run e não cria auditoria duplicada. Chave repetida com lead/workflow diferente retorna `IDEMPOTENCY_CONFLICT`.
+
+`transitionRun` abre `SELECT ... FOR UPDATE`, exige `expectedState` opcional, valida a aresta antes do `UPDATE` e grava `audit_events` `RUN_STATE_CHANGED` com `from`, `to` e motivo. Repetir o estado atual é idempotente e não audita de novo; transição ilegal, estado terminal ou `expectedState` obsoleto falham fechado (`INVALID_TRANSITION`/`STATE_MISMATCH`). Não existe aresta direta de `PENDING_APPROVAL` ou `APPROVED` para `COMPLETED`.
+
+O outbox da M03-WO-003 usa os mesmos estados: enqueue `APPROVED → QUEUED`, timeout/lease `RECONCILING`, quota `PAUSED`, sucesso `COMPLETED`, falha terminal `FAILED`. Os estados legados da M02/M03 continuam aceitos no check do banco para compatibilidade, mas o serviço FSM só permite os canônicos.
+
+Fora deste incremento: editor visual de workflow, catálogo de templates, IA, UI, scheduler e CRM real. Evidência em [KOR-PM04-WO-001](../evidence/KOR-PM04-WO-001/README.md).
+

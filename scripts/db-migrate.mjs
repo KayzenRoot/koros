@@ -31,6 +31,11 @@ const MIGRATIONS = Object.freeze([
     up: join(MIGRATIONS_DIR, '0003_outbox.sql'),
     down: join(MIGRATIONS_DIR, '0003_outbox.down.sql'),
   }),
+  Object.freeze({
+    version: '0004_workflow_fsm',
+    up: join(MIGRATIONS_DIR, '0004_workflow_fsm.sql'),
+    down: join(MIGRATIONS_DIR, '0004_workflow_fsm.down.sql'),
+  }),
 ]);
 
 function fail(message) {

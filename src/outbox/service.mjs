@@ -6,6 +6,8 @@ import {
   contactPayloadHash,
 } from '../crm/contract.mjs';
 import { withTenant } from '../db.mjs';
+import { WORKFLOW_ERROR } from '../workflow/errors.mjs';
+import { transitionRun } from '../workflow/service.mjs';
 import { OUTBOX_ERROR, OutboxError } from './errors.mjs';
 import {
   FAILURE_CLASS,
@@ -176,14 +178,25 @@ export async function enqueueAction({
   }
 
   const action = inserted.rows[0];
-  const runUpdate = await client.query(
-    `UPDATE runs
-        SET state = 'DISPATCHING', updated_at = $3
-      WHERE tenant_id = $1 AND run_id = $2 AND state = 'APPROVED'`,
-    [tenantId, normalizedRunId, now],
-  );
-  if (runUpdate.rowCount !== 1) {
-    throw new OutboxError(OUTBOX_ERROR.RUN_NOT_APPROVED);
+  try {
+    await transitionRun({
+      client,
+      tenantId,
+      runId: normalizedRunId,
+      expectedState: 'APPROVED',
+      targetState: 'QUEUED',
+      reason: 'OUTBOX_ENQUEUED',
+      now,
+    });
+  } catch (error) {
+    if (
+      error?.code === WORKFLOW_ERROR.STATE_MISMATCH ||
+      error?.code === WORKFLOW_ERROR.NOT_FOUND ||
+      error?.code === WORKFLOW_ERROR.INVALID_TRANSITION
+    ) {
+      throw new OutboxError(OUTBOX_ERROR.RUN_NOT_APPROVED);
+    }
+    throw error;
   }
 
   await insertAudit(client, {
@@ -223,14 +236,15 @@ async function claimWithClient(client, { tenantId, now, actionId, leaseSeconds }
   );
 
   if (recovered.rowCount > 0) {
-    const runIds = recovered.rows.map((row) => row.run_id);
-    await client.query(
-      `UPDATE runs
-          SET state = 'UNCERTAIN_EXTERNAL_RESULT', updated_at = $3
-        WHERE tenant_id = $1 AND run_id = ANY($2::uuid[])`,
-      [tenantId, runIds, now],
-    );
     for (const row of recovered.rows) {
+      await transitionRun({
+        client,
+        tenantId,
+        runId: row.run_id,
+        targetState: 'RECONCILING',
+        reason: 'OUTBOX_LEASE_EXPIRED',
+        now,
+      });
       await insertAudit(client, {
         tenantId,
         runId: row.run_id,
@@ -319,10 +333,14 @@ async function transitionClaimedAction({
     if (updated.rowCount !== 1) {
       return { processed: false, stale: true, actionId: action.action_id };
     }
-    await client.query(
-      'UPDATE runs SET state = $3, updated_at = $4 WHERE tenant_id = $1 AND run_id = $2',
-      [tenantId, action.run_id, runState, now],
-    );
+    await transitionRun({
+      client,
+      tenantId,
+      runId: action.run_id,
+      targetState: runState,
+      reason: auditAction,
+      now,
+    });
     await insertAudit(client, {
       tenantId,
       runId: action.run_id,
@@ -352,10 +370,14 @@ async function completeClaimedAction({ tenantId, action, now, outcome, auditActi
     if (updated.rowCount !== 1) {
       return { processed: false, stale: true, actionId: action.action_id };
     }
-    await client.query(
-      'UPDATE runs SET state = $3, updated_at = $4 WHERE tenant_id = $1 AND run_id = $2',
-      [tenantId, action.run_id, 'COMPLETED', now],
-    );
+    await transitionRun({
+      client,
+      tenantId,
+      runId: action.run_id,
+      targetState: 'COMPLETED',
+      reason: auditAction,
+      now,
+    });
     await insertAudit(client, {
       tenantId,
       runId: action.run_id,
@@ -384,7 +406,7 @@ async function handleClaimedFailure({ tenantId, action, error, now, maxAttempts,
       now,
       status: 'PAUSED',
       outcome: 'PAUSED',
-      runState: 'BLOCKED',
+      runState: 'PAUSED',
       auditAction: 'OUTBOX_PAUSED',
       errorCode,
       metadata,
@@ -399,7 +421,7 @@ async function handleClaimedFailure({ tenantId, action, error, now, maxAttempts,
       status: 'UNCERTAIN',
       outcome: 'UNCERTAIN',
       nextAt: nextAttemptAt(now, Math.max(action.attempts, 1)),
-      runState: 'UNCERTAIN_EXTERNAL_RESULT',
+      runState: 'RECONCILING',
       auditAction: 'OUTBOX_UNCERTAIN',
       errorCode,
       metadata,
@@ -414,7 +436,7 @@ async function handleClaimedFailure({ tenantId, action, error, now, maxAttempts,
       status: 'PENDING',
       outcome: 'RETRY_SCHEDULED',
       nextAt: nextAttemptAt(now, action.attempts),
-      runState: 'DISPATCHING',
+      runState: 'QUEUED',
       auditAction: 'OUTBOX_RETRY_SCHEDULED',
       errorCode,
       metadata,
@@ -566,7 +588,7 @@ async function reconcileClaimedAction({ tenantId, adapter, action, now, maxAttem
         status: 'PENDING',
         outcome: 'RECONCILED_ABSENT',
         nextAt: nextAttemptAt(now, Math.max(action.attempts, 1)),
-        runState: 'DISPATCHING',
+        runState: 'QUEUED',
         auditAction: 'OUTBOX_RECONCILED_ABSENT',
         errorCode: 'NOT_FOUND',
         metadata: { stage: 'RECONCILE', attempts: action.attempts },
@@ -631,12 +653,15 @@ export async function resumePausedAction({ tenantId, actionId, now = new Date() 
     );
     if (updated.rowCount !== 1) throw new OutboxError(OUTBOX_ERROR.NOT_FOUND);
     const action = updated.rows[0];
-    await client.query(
-      `UPDATE runs
-          SET state = 'DISPATCHING', updated_at = $3
-        WHERE tenant_id = $1 AND run_id = $2 AND state = 'BLOCKED'`,
-      [tenantId, action.run_id, now],
-    );
+    await transitionRun({
+      client,
+      tenantId,
+      runId: action.run_id,
+      expectedState: 'PAUSED',
+      targetState: 'QUEUED',
+      reason: 'OUTBOX_RESUMED',
+      now,
+    });
     await insertAudit(client, {
       tenantId,
       runId: action.run_id,

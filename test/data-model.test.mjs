@@ -68,6 +68,18 @@ test('migration 0003_outbox adds lease, idempotency tuple and PAUSED state', { s
   );
 });
 
+test('migration 0004_workflow_fsm adds canonical states and keeps legacy compatibility', { skip: !enabled }, () => {
+  assert.equal(query("SELECT count(*) FROM schema_migrations WHERE version = '0004_workflow_fsm'"), '1');
+  assert.match(
+    query("SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'runs_state_check'"),
+    /QUEUED/,
+  );
+  assert.match(
+    query("SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'runs_state_check'"),
+    /DISPATCHING/,
+  );
+});
+
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
   assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');

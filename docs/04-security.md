@@ -32,3 +32,9 @@ O contrato CRM aceita apenas campos allowlisted, exige tenant UUID e capacidade 
 O enqueue é atômico com a transição do run, exige aprovação persistida e hash do payload canônico, e usa uma chave idempotente por tenant/fonte/external_id/versão. O claim usa `FOR UPDATE SKIP LOCKED` e lease curto; timeout é tratado como resultado incerto e reconciliado por `external_id` antes de novo upsert. Quota esgotada pausa a ação e bloqueia o run; erros terminais falham sem retry. O outbox armazena apenas payload sintético e código de erro normalizado, nunca segredo, token ou resposta bruta do provedor.
 
 **Limites:** a implementação é local/por processo, sem scheduler distribuído, DLQ, alertas, rate limit distribuído ou CRM real; não há prova de operação em produção. Evidência em [KOR-PM03-WO-003](../evidence/KOR-PM03-WO-003/README.md).
+
+## FSM de workflows da M04-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+A FSM é deny-by-default: só arestas declaradas são aceitas, estados terminais não voltam e `PENDING_APPROVAL`/`APPROVED` não podem saltar para `COMPLETED`. A transição usa `SELECT ... FOR UPDATE` por tenant, `expectedState` opcional para detectar worker obsoleto e auditoria `RUN_STATE_CHANGED`. Replay do mesmo estado é idempotente e não duplica auditoria; criação de run é única por `(tenant_id, idempotency_key)`.
+
+O outbox usa a mesma FSM para `QUEUED`, `RECONCILING`, `PAUSED`, `COMPLETED` e `FAILED`, eliminando atualização direta de estado de run. **Limites:** a FSM não autoriza nem executa LLM; não há UI, editor de workflow, scheduler ou CRM real. Evidência em [KOR-PM04-WO-001](../evidence/KOR-PM04-WO-001/README.md).
