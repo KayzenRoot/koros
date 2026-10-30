@@ -7,6 +7,7 @@ on:
       - src/**
       - scripts/**
       - test/**
+      - db/**
       - .github/workflows/koros-baseline.yml
   push:
     branches: [main]
@@ -16,6 +17,7 @@ on:
       - src/**
       - scripts/**
       - test/**
+      - db/**
       - .github/workflows/koros-baseline.yml
   workflow_dispatch:
 permissions:
@@ -38,6 +40,8 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
+      - name: Install reviewed dependencies when a lockfile exists
+        run: if [ -f package-lock.json ]; then npm ci --ignore-scripts; else echo "No lockfile yet; skipping npm ci"; fi
       - name: Toolchain
         run: node --version && npm --version
       - name: Fail-closed source and dependency integrity
@@ -50,6 +54,60 @@ jobs:
         run: npm run build
       - name: Local-only HTTP smoke
         run: npm run smoke
+
+  m02-data:
+    name: m02-data
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: koros_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d koros_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: koros_test
+      PSQL_BIN: psql
+      KOROS_DB_TESTS: "1"
+      KOROS_DATABASE_URL: postgres://koros_app:koros_test_only_password@127.0.0.1:5432/koros_test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install reviewed dependencies when a lockfile exists
+        run: if [ -f package-lock.json ]; then npm ci --ignore-scripts; else echo "No lockfile yet; skipping npm ci"; fi
+      - name: Ensure PostgreSQL client
+        run: command -v psql >/dev/null || (sudo apt-get update && sudo apt-get install -y postgresql-client)
+      - name: Source and dependency integrity
+        run: npm run ci:integrity
+      - name: Apply migrations
+        run: npm run db:migrate
+      - name: Prepare synthetic test role
+        run: psql -v ON_ERROR_STOP=1 -f db/bootstrap/test-role.sql
+      - name: Seed synthetic data
+        run: npm run db:seed
+      - name: Data, RLS and audit tests
+        run: npm run test:db
+      - name: Rollback, reapply and retest
+        run: npm run db:rollback && npm run db:migrate && npm run db:seed && npm run test:db
 
   codeql-js:
     name: codeql-js

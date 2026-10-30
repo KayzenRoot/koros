@@ -16,3 +16,10 @@ Nenhuma tabela/migration criada. Deployment separado por empresa. Dados mínimos
 | RetentionPolicy | policy_id | finalidade, classe, prazo, exclusão |
 
 Definir FK/unique, gestão de concorrência, outbox transacional, criptografia, segregação por tenant e migração reversível quando houver implementação. Prazos de retenção permanecem PENDING por contrato e LGPD. Nenhum dado real ou esquema de produção alegado.
+
+## Implementação sintética de M02-WO-003 (2026-10-30, PROPOSED_IN_PR)
+
+O schema físico mínimo está em [db/migrations/0001_init.sql](../db/migrations/0001_init.sql), com migrations up/down, RLS por `tenant_id`, auditoria append-only e seeds sintéticos em [db/seeds/synthetic.sql](../db/seeds/synthetic.sql). A prova local e as limitações estão no [Evidence Bundle](../evidence/KOR-PM02-WO-003/README.md).
+
+**Limites:** a WO #47 não adiciona driver de runtime nem autenticação. O papel `koros_app` pode definir `app.tenant_id`; a #46 deve vincular a sessão autenticada ao tenant e à membership. `users` permanece global por design. Nenhum merge, dado real ou produção é declarado.
+
