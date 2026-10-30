@@ -24,3 +24,15 @@ Somente o fundador/autoridade designada promove decisões de produto; auditor va
 
 ## Read-back pós-merge — ADR-016 / WO #45 — 2026-10-30 (delta documental PROPOSTO)
 O baseline Node.js independente da **WO KOR-PM02-WO-001** entrou em `main=e24d7cf458f61d1b98850f34a304023ee1d87ce1` via PR #69 squash normal, árvore idêntica à aprovada. Portanto a decisão limitada de runtime está **IMPLEMENTED_FOR_SCOPED_BASELINE**, não é aprovação de toda a arquitetura do KOROS, não converte a `ADR-006` (upstream/licença) nem a `ADR-009` (CRM/LLM/produção) de PENDING, e não licencia produto a terceiros. Este registro complementar exige merge protegido da PR documental própria antes de ser canônico na `main`.
+
+## Direção de priorização documentada (2026-10-30)
+Fundador aprovou critérios de validação comercial FUTURA da #24 e direcionou a preparação integral dos módulos PRODUCT-M02..M09 para construção sintética. Contatos, formalização empresarial, INPI, cadastro fiscal/contas e contratos comerciais **DEFERRED_FOR_BUILD**, não equivalem a requisitos cumpridos de lançamento. Segurança, licenças de dependências, controles no servidor e privacidade por desenho permanecem obrigatórios.
+ADR-006, ADR-009 e ADR-010 não foram automaticamente aprovadas. **#45 e #61 já foram executadas e mescladas** (PRs #69/#71); o próximo incremento é **#47 → #46**. O [Plano técnico M02](product-m02/README.md) está `PROPOSED_FOR_FOUNDER_APPROVAL`. A PR #36 de M01 permanece Draft sem merge.
+
+## ADRs propostos para M02 (2026-10-30)
+| ID | Status | Conteúdo |
+|---|---|---|
+| ADR-017 | **PROPOSED_IN_PR** | PostgreSQL 16+ com RLS e `tenant_id` em todas as tabelas de tenant; defesa em profundidade, sem confiar no cliente. |
+| ADR-018 | **PROPOSED_IN_PR** | Sessão server-side com cookie opaco HttpOnly/Secure/SameSite, token hasheado no banco, `scrypt` nativo e CSRF. |
+
+A aprovação desses ADRs não aprova ADR-006/009, não autoriza produção e não altera o baseline já mesclado.

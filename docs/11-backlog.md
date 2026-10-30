@@ -28,3 +28,7 @@ IDs estáveis; não equivalem a issues já criadas. Avançar **somente depois de
 | KOR-STUDIO-024 | FUTURE | Designer de fluxos/marketplace |
 
 Não fabricar 500 issues antes de escopo aprovado. Cada item vira Work Order com testes/evidência e PR própria após contexto lock. Se falhar, Correction Delta no mesmo ID, sem começar próximo.
+
+## KOR-ROADMAP-001 | Módulos técnicos criados (2026-10-30)
+Por decisão explícita do fundador, todas as issues de engenharia dos PRODUCT-M02..M09 foram preparadas: epics #37..#44 e WOs #45..#67. M01 permanece em #23..#35, decisões ainda na PR #36 Draft. [Roadmap](product-roadmap/README.md) · [Fila](product-roadmap/execution-queue.md) · [Evidências](../evidence/KOR-ROADMAP-001/README.md).
+Primeira WO NECESSARY #45. Empresa/INPI, registros fiscais, entrevistas, contratos de clientes e produção adiados para comercialização, **sem dispensar licença do código, segurança, testes e LGPD por design**. Classes IMPORTANT/FUTURE não entram automaticamente no MVP. WOs criadas não são código implementado.
