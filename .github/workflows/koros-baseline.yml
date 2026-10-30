@@ -40,6 +40,8 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
+      - name: Install reviewed dependencies when a lockfile exists
+        run: if [ -f package-lock.json ]; then npm ci; else echo "No lockfile yet; skipping npm ci"; fi
       - name: Toolchain
         run: node --version && npm --version
       - name: Fail-closed source and dependency integrity
@@ -79,6 +81,7 @@ jobs:
       PGDATABASE: koros_test
       PSQL_BIN: psql
       KOROS_DB_TESTS: "1"
+      KOROS_DATABASE_URL: postgres://koros_app:koros_test_only_password@127.0.0.1:5432/koros_test
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -89,6 +92,8 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
+      - name: Install reviewed dependencies when a lockfile exists
+        run: if [ -f package-lock.json ]; then npm ci; else echo "No lockfile yet; skipping npm ci"; fi
       - name: Ensure PostgreSQL client
         run: command -v psql >/dev/null || (sudo apt-get update && sudo apt-get install -y postgresql-client)
       - name: Source and dependency integrity
