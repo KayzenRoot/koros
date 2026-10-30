@@ -119,7 +119,7 @@ test('enqueue is idempotent, binds the payload and moves the run atomically', op
 
   const state = await readState(first.action.action_id);
   assert.equal(state.action.status, 'PENDING');
-  assert.equal(state.runState, 'DISPATCHING');
+  assert.equal(state.runState, 'QUEUED');
   assert.equal(state.audits.filter((entry) => entry.action === 'OUTBOX_ENQUEUED').length, 1);
 
   await assert.rejects(
@@ -220,7 +220,7 @@ test('a timeout after a successful write reconciles without a second write', opt
   assert.equal(first.outcome, 'UNCERTAIN');
   const ambiguous = await readState(action.action_id);
   assert.equal(ambiguous.action.status, 'UNCERTAIN');
-  assert.equal(ambiguous.runState, 'UNCERTAIN_EXTERNAL_RESULT');
+  assert.equal(ambiguous.runState, 'RECONCILING');
   assert.equal(upserts, 1);
 
   const second = await processNextAction({
@@ -263,7 +263,7 @@ test('an expired lease is recovered as uncertain and reconciled', options, async
 
   const state = await readState(action.action_id);
   assert.equal(state.action.status, 'PENDING');
-  assert.equal(state.runState, 'DISPATCHING');
+  assert.equal(state.runState, 'QUEUED');
   assert.ok(state.audits.some((entry) => entry.action === 'OUTBOX_LEASE_EXPIRED'));
 });
 
@@ -290,7 +290,7 @@ test('503 retries with backoff; quota pauses and can be resumed', options, async
   const retryState = await readState(retryAction.action_id);
   assert.equal(retryState.action.status, 'PENDING');
   assert.equal(retryState.action.attempts, 1);
-  assert.equal(retryState.runState, 'DISPATCHING');
+  assert.equal(retryState.runState, 'QUEUED');
   assert.ok(retryState.action.next_attempt_at.getTime() > now.getTime());
 
   const quotaRun = await withTenant(TENANT_A, (client) => createRun(client, 'quota'));
@@ -312,14 +312,14 @@ test('503 retries with backoff; quota pauses and can be resumed', options, async
   const pausedState = await readState(quotaAction.action_id);
   assert.equal(pausedState.action.status, 'PAUSED');
   assert.equal(pausedState.action.next_attempt_at, null);
-  assert.equal(pausedState.runState, 'BLOCKED');
+  assert.equal(pausedState.runState, 'PAUSED');
   assert.ok(pausedState.audits.some((entry) => entry.action === 'OUTBOX_PAUSED'));
 
   const resumed = await resumePausedAction({ tenantId: TENANT_A, actionId: quotaAction.action_id, now });
   assert.equal(resumed.status, 'PENDING');
   assert.equal(resumed.attempts, 0);
   const resumedState = await readState(quotaAction.action_id);
-  assert.equal(resumedState.runState, 'DISPATCHING');
+  assert.equal(resumedState.runState, 'QUEUED');
   assert.ok(resumedState.audits.some((entry) => entry.action === 'OUTBOX_RESUMED'));
 });
 

@@ -31,3 +31,9 @@ Invariantes: `payload` é objeto JSON sintético sem segredo; `payload_version >
 
 O rollback de desenvolvimento remove as colunas e restaura o check antigo; linhas `PAUSED` são convertidas em `FAILED` antes da restauração. Produção continua exigindo backup/restore, não este down. Nenhum dado real é usado.
 
+## FSM de runs da M04-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+A migration [0004_workflow_fsm.sql](../db/migrations/0004_workflow_fsm.sql) amplia o check de `runs.state` com `PROPOSED`, `QUEUED`, `RECONCILING` e `PAUSED`, mantendo os estados legados da M02/M03 (`DISPATCHING`, `BLOCKED`, `UNCERTAIN_EXTERNAL_RESULT`, entre outros) para compatibilidade de linhas existentes.
+
+Não há tabela nova: a trilha de transições usa `audit_events` com `action='RUN_STATE_CHANGED'` e metadata `{from,to,reason}`, além de `RUN_CREATED`. A unicidade de criação continua em `(tenant_id, idempotency_key)`. O rollback de desenvolvimento mapeia os quatro estados novos para o estado legado mais próximo antes de restaurar o check antigo; produção exige backup/restore.
+
