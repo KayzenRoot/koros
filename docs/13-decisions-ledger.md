@@ -14,3 +14,10 @@
 | ADR-011 | PENDING | Implementação real de políticas e sandbox |
 
 Somente o fundador/autoridade designada promove decisões de produto; auditor valida evidências objetivamente. Não transformar 'PROPOSED' em 'APPROVED' pela redação. Se marca comercial falhar, manter code name e decidir novo nome via ADR, sem renomear dados/repo destrutivamente. Após cada auditoria aprovada, atualizar checkpoint e docs afetados.
+
+## Registro técnico de escopo restrito da WO #45 — 2026-10-30
+| ID | Status desta PR | Alcance preciso |
+|---|---|---|
+| ADR-016 / KOR-PM02-WO-001 | **PROPOSED_IN_PR; DECIDED_FOR_WO_ONLY** | Baseline independente Node.js ESM e core HTTP nativo para dados sintéticos, sem pacotes npm de terceiros; [detalhes](architecture/ADR-016-runtime-baseline.md). Sem herdar autorização de deploy, CRM, IA ou dados reais. |
+
+**Compatibilidade:** ADR-006 (OpenBot/Intelligence/licenças de integração) e ADR-009 (LLM, CRM e produção) permanecem **PENDING**. A decisão mínima da WO não os substitui nem cria direito comercial. Node.js e ações GitHub são dependências de tooling sob licenças open-source próprias, com versões/pins registradas. Não promover esta seção à main sem auditoria e merge legítimos.

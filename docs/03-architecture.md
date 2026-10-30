@@ -26,3 +26,6 @@ Autorização no servidor, fora do LLM; payload de escrita associado ao hash apr
 
 ## Não decididos
 LLM, CRM, canal, VPS, custo, dados, desenho físico, billing e modalidade Intelligence. Nunca fingir capacidade existente.
+
+## Baseline executável de RUNTIME apenas (proposta na PR #69, 2026-10-30)
+A [ADR-016](architecture/ADR-016-runtime-baseline.md) descreve a decisão **limitada à WO KOR-PM02-WO-001**, com código original Node.js ESM, HTTP apenas loopback, três GET de leitura, verificação estrutural de envelope tenant e CI/testes de baseline. **Não** é arquitetura completa do MVP, nem implementa autorização, bancos, migrations, workflow, LLM, CRM ou isolamento entre clientes. ADR-006 e ADR-009 continuam PENDING; OpenBot/Intelligence não foram incorporados. Conteúdo desta seção é **PROPOSED_IN_PR**, não canônico da main enquanto sem merge protegido.
