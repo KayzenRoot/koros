@@ -1,5 +1,13 @@
 # KOR-ROADMAP-001 | Evidence Bundle de planejamento
-**Data 2026-10-30 · Base Git main 30819b2622d5dc865931d5c55e9e9e9586648276 · M01 em PR #36 Draft HEAD d9f88b6a6087e395784b618d0b9e2967d228bcef.**
+**Data 2026-10-30 · Base Git main 21ed96b05aa5a567089b384f11d4a202ca290328 · PR #68 Draft HEAD b66181e9f2adf206aae2654e7c7056053eacca99 · M01 em PR #36 Draft HEAD d9f88b6a6087e395784b618d0b9e2967d228bcef.**
+
+## Read-back pós-merge (2026-10-30)
+- `main` `21ed96b05aa5a567089b384f11d4a202ca290328`; **#45/PR #69 MERGED** (baseline Node.js), **#61/PR #71 MERGED** (CI/CodeQL), **#70 MERGED** (checkpoint pós-merge).
+- #45 e #61 `CLOSED`; `PRODUCT_CODE=NOT_STARTED`, `BASELINE_CODE=MERGED`, `CI_FREE=MERGED`.
+- Contrato M02 adicionado em `docs/product-m02/README.md`: dados, tenancy/RLS, auth/sessão, RBAC, migrations e testes. Status `PROPOSED_FOR_FOUNDER_APPROVAL`; nenhum código, banco ou dependência criado.
+- PR #36 (PRODUCT-M01) e PR #68 seguem Draft; sem merge, Ready, deploy ou alteração da main.
+- `T-01..T-12`, `CRM-R01..R12`, auth/RBAC, banco e RLS continuam `NOT_RUN`.
+
 
 ## Fatos confirmados
 - GitHub criou 8 epics (#37..#44) e 23 Work Orders (#45..#67), IDs estáveis de M02 a M09; M01 já existe em #23..#35.

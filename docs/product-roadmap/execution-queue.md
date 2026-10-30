@@ -1,10 +1,18 @@
 # KOR-ROADMAP-001 | Fila de Work Orders de execução
-**2026-10-30 | Todas PLANNED, código e testes NOT_RUN.**
+**2026-10-30 | #45/#61 já mescladas; código de produto e testes de produto NOT_RUN.**
+
+## Reconciliação pós-merge (2026-10-30)
+
+- `main` verificada em `21ed96b05aa5a567089b384f11d4a202ca290328`.
+- **#45 / PR #69 MERGED** (baseline Node.js) e **#61 / PR #71 MERGED** (CI/CodeQL). Ambas as issues estão `CLOSED`.
+- **Próximo caminho:** #47 (dados/migrations) → #46 (auth/RBAC) → #48/#49 (M03) → #51/#53/#50/#52 (M04).
+- Contrato técnico de M02 em [README](../product-m02/README.md): `PROPOSED_FOR_FOUNDER_APPROVAL`; sem código/banco/dependência.
+- A tabela abaixo preserva a ordem histórica; as linhas 1 e 2 já foram executadas e não devem ser reabertas.
 
 | Ordem proposta | Work Order | Entrega |
 |---|---|---|
-| 1 | [KOR-PM02-WO-001 #45](https://github.com/KayzenRoot/koros/issues/45) | runtime, arquitetura, licença, baseline |
-| 2 | [KOR-PM07-WO-001 #61](https://github.com/KayzenRoot/koros/issues/61) | CI real lint/typecheck/build/test |
+| 1 | [KOR-PM02-WO-001 #45](https://github.com/KayzenRoot/koros/issues/45) | runtime, arquitetura, licença, baseline — **MERGED via PR #69** |
+| 2 | [KOR-PM07-WO-001 #61](https://github.com/KayzenRoot/koros/issues/61) | CI real lint/typecheck/build/test — **MERGED via PR #71** |
 | 3 | [KOR-PM02-WO-003 #47](https://github.com/KayzenRoot/koros/issues/47) | modelo de dados e migrations |
 | 4 | [KOR-PM02-WO-002 #46](https://github.com/KayzenRoot/koros/issues/46) | auth/RBAC cross-tenant |
 | 5 | [KOR-PM03-WO-001 #48](https://github.com/KayzenRoot/koros/issues/48) | ingestão autenticada/replay |
@@ -28,7 +36,7 @@
 | 23 | [KOR-PM08-WO-002 #65](https://github.com/KayzenRoot/koros/issues/65) | portal/billing IMPORTANT posterior |
 
 ## Caminho crítico
-- #45 desbloqueia a escolha de stack e arquitetura com licença verificada. #61 estabelece CI inicial.
+- #45 e #61 **concluídos** (PRs #69/#71). O próximo caminho é #47 (schema/migrations) → #46 (auth/RBAC) → #48/#49 (M03); o contrato M02 está em [README](../product-m02/README.md) e depende de aceite do fundador.
 - #47 e #46 estabelecem tenant/auth. #48 e #49 fornecem entrada e CRM mock. #51, #53, #50 e #52 montam workflow com aprovação e idempotência. #54 audita custos.
 - #55..#57 habilitam operação no dashboard; #58..#60 permitem onboarding e restore; #62 e #63 têm gates de segurança/benchmark.
 - #66 consolida E2E com dados sintéticos; #67 audita release. #64 projeta custo sem cobrança; #65 é IMPORTANT e não bloqueia MVP.
