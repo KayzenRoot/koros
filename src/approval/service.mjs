@@ -1,5 +1,6 @@
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { withTenant } from '../db.mjs';
+import { insertAuditEvent } from '../audit/events.mjs';
 import { hasPermission } from '../auth/rbac.mjs';
 import { canonicalContact, contactPayloadHash } from '../crm/contract.mjs';
 import { transitionRun } from '../workflow/service.mjs';
@@ -59,15 +60,6 @@ async function actorRole(client, tenantId, userId) {
 async function requirePermission(client, tenantId, userId, permission) {
   const role = await actorRole(client, tenantId, userId);
   if (!hasPermission(role, permission)) throw new ApprovalError(APPROVAL_ERROR.FORBIDDEN);
-}
-
-async function insertAudit(client, { tenantId, runId, actorUserId, action, metadata }) {
-  await client.query(
-    `INSERT INTO audit_events
-       (tenant_id, run_id, actor_user_id, action, entity, entity_id, metadata)
-     VALUES ($1, $2, $3, $4, 'approval', $5, $6::jsonb)`,
-    [tenantId, runId, actorUserId, action, String(runId), JSON.stringify(metadata)],
-  );
 }
 
 function validatePolicy({ scope, payload, payloadVersion, ttlSeconds }) {
@@ -183,11 +175,13 @@ export async function requestApproval({
   }
 
   const approval = inserted.rows[0];
-  await insertAudit(client, {
+  await insertAuditEvent(client, {
     tenantId,
     runId: normalizedRunId,
     actorUserId: normalizedActor,
     action: 'APPROVAL_REQUESTED',
+    entity: 'approval',
+    entityId: normalizedRunId,
     metadata: { scope: normalizedScope, payloadVersion, fields },
   });
   return { created: true, approval, token };
@@ -287,11 +281,13 @@ export async function decideApproval({
       reason: 'APPROVAL_EXPIRED',
       now,
     });
-    await insertAudit(client, {
+    await insertAuditEvent(client, {
       tenantId,
       runId: approval.run_id,
       actorUserId: normalizedActor,
       action: 'APPROVAL_EXPIRED',
+      entity: 'approval',
+      entityId: approval.run_id,
       metadata: { scope: approval.scope },
     });
     return { status: 'EXPIRED', approval: expired.rows[0] };
@@ -313,11 +309,13 @@ export async function decideApproval({
     reason: decision === 'APPROVED' ? 'APPROVAL_APPROVED' : 'APPROVAL_REJECTED',
     now,
   });
-  await insertAudit(client, {
+  await insertAuditEvent(client, {
     tenantId,
     runId: approval.run_id,
     actorUserId: normalizedActor,
     action: decision === 'APPROVED' ? 'APPROVAL_APPROVED' : 'APPROVAL_REJECTED',
+    entity: 'approval',
+    entityId: approval.run_id,
     metadata: { scope: approval.scope, payloadVersion: approval.payload_version, fields },
   });
   return { status: decision, approval: updated.rows[0] };
@@ -378,11 +376,13 @@ export async function revokeApproval({
     reason: 'APPROVAL_REVOKED',
     now,
   });
-  await insertAudit(client, {
+  await insertAuditEvent(client, {
     tenantId,
     runId: approval.run_id,
     actorUserId: normalizedActor,
     action: 'APPROVAL_REVOKED',
+    entity: 'approval',
+    entityId: approval.run_id,
     metadata: { scope: approval.scope },
   });
   return { status: 'REVOKED', approval: updated.rows[0] };

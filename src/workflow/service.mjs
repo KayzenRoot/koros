@@ -1,4 +1,5 @@
 import { withTenant } from '../db.mjs';
+import { insertAuditEvent } from '../audit/events.mjs';
 import { WORKFLOW_ERROR, WorkflowError } from './errors.mjs';
 import { assertTransition, isKnownState } from './fsm.mjs';
 
@@ -32,15 +33,6 @@ function assertActor(actorUserId) {
   return requireUuid(actorUserId);
 }
 
-async function insertAudit(client, { tenantId, runId, actorUserId, action, metadata }) {
-  await client.query(
-    `INSERT INTO audit_events
-       (tenant_id, run_id, actor_user_id, action, entity, entity_id, metadata)
-     VALUES ($1, $2, $3, $4, 'run', $5, $6::jsonb)`,
-    [tenantId, runId, actorUserId, action, String(runId), JSON.stringify(metadata)],
-  );
-}
-
 /** Creates a run at RECEIVED; the unique tenant/idempotency key makes replay safe. */
 export async function createRun({
   client,
@@ -72,11 +64,13 @@ export async function createRun({
 
   if (inserted.rowCount === 1) {
     const run = inserted.rows[0];
-    await insertAudit(client, {
+    await insertAuditEvent(client, {
       tenantId,
       runId: run.run_id,
       actorUserId: normalizedActor,
       action: 'RUN_CREATED',
+      entity: 'run',
+      entityId: run.run_id,
       metadata: { state: 'RECEIVED' },
     });
     return { created: true, run };
@@ -150,11 +144,13 @@ export async function transitionRun({
   );
   if (updated.rowCount !== 1) throw new WorkflowError(WORKFLOW_ERROR.STATE_MISMATCH);
 
-  await insertAudit(client, {
+  await insertAuditEvent(client, {
     tenantId,
     runId: normalizedRunId,
     actorUserId: normalizedActor,
     action: 'RUN_STATE_CHANGED',
+    entity: 'run',
+    entityId: normalizedRunId,
     metadata: { from: currentState, to: targetState, reason: normalizedReason },
   });
 
