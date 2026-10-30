@@ -22,3 +22,7 @@ Um `ci:integrity` sintético bloqueia novas dependências npm, lockfiles não au
 A implementação em PR Draft usa `scrypt` nativo, sessão server-side com token opaco hasheado, cookie `HttpOnly`/`SameSite=Lax`, CSRF double-submit e RBAC fixo. O tenant vem da sessão e é aplicado no banco com `SET LOCAL app.tenant_id`; header do cliente não concede acesso. Funções `SECURITY DEFINER` isoladas fazem apenas o lookup de login/sessão, com `search_path` fixo e execute restrito a `koros_app`.
 
 **Limites:** rate limit em memória (não distribuído), uma membership ativa por login, sem MFA/reset/cadastro público, sem dashboard/CRM/LLM. `users` é global; a autorização é server-side. O driver `pg@8.23.1` é MIT, com transitivos MIT/ISC e `npm audit` sem vulnerabilidades. Evidência em [KOR-PM02-WO-002](../evidence/KOR-PM02-WO-002/README.md).
+
+## Adapter CRM mock da M03-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+O contrato CRM aceita apenas campos allowlisted, exige tenant UUID e capacidade explícita, e vincula a escrita a uma aprovação `approved`, com hash SHA-256 do payload canônico e expiração. O mock não importa cliente HTTP, não lê tokens e falha fechado para campo desconhecido, objeto ausente, entitlement insuficiente e escrita sem aprovação. **Limite:** os adapters Agendor/HubSpot são sintéticos e em memória; nenhuma chamada real, OAuth ou persistência CRM foi implementada. Evidência em [KOR-PM03-WO-002](../evidence/KOR-PM03-WO-002/README.md).
