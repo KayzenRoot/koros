@@ -37,3 +37,9 @@ A migration [0004_workflow_fsm.sql](../db/migrations/0004_workflow_fsm.sql) ampl
 
 Não há tabela nova: a trilha de transições usa `audit_events` com `action='RUN_STATE_CHANGED'` e metadata `{from,to,reason}`, além de `RUN_CREATED`. A unicidade de criação continua em `(tenant_id, idempotency_key)`. O rollback de desenvolvimento mapeia os quatro estados novos para o estado legado mais próximo antes de restaurar o check antigo; produção exige backup/restore.
 
+## Approval gate da M04-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+A migration [0005_approval_gate.sql](../db/migrations/0005_approval_gate.sql) estende `approvals` com `scope`, `proposed_operation` JSONB, `field_allowlist`, `payload_version`, `operation_hash`, `token_hash`, `requested_by`, `decided_by`, `revoked_at` e `revoked_by`. O check de decisão passa a aceitar `PENDING`, `APPROVED`, `REJECTED`, `EXPIRED` e `REVOKED`.
+
+`payload_hash` continua sendo o SHA-256 do contato canônico usado pelo outbox; `operation_hash` vincula scope, payload, campos e versão. `token_hash` é SHA-256 de token one-time, com 64 caracteres; a revogação exige `revoked_at` e `revoked_by` juntos. O rollback de desenvolvimento converte decisões novas em `REJECTED` antes de restaurar o check antigo; produção exige backup/restore.
+

@@ -38,3 +38,9 @@ O enqueue é atômico com a transição do run, exige aprovação persistida e h
 A FSM é deny-by-default: só arestas declaradas são aceitas, estados terminais não voltam e `PENDING_APPROVAL`/`APPROVED` não podem saltar para `COMPLETED`. A transição usa `SELECT ... FOR UPDATE` por tenant, `expectedState` opcional para detectar worker obsoleto e auditoria `RUN_STATE_CHANGED`. Replay do mesmo estado é idempotente e não duplica auditoria; criação de run é única por `(tenant_id, idempotency_key)`.
 
 O outbox usa a mesma FSM para `QUEUED`, `RECONCILING`, `PAUSED`, `COMPLETED` e `FAILED`, eliminando atualização direta de estado de run. **Limites:** a FSM não autoriza nem executa LLM; não há UI, editor de workflow, scheduler ou CRM real. Evidência em [KOR-PM04-WO-001](../evidence/KOR-PM04-WO-001/README.md).
+
+## Approval gate da M04-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+A aprovação é server-side: tenant e ator vêm do contexto autenticado, a permissão `approval:decide` é verificada em `memberships`, o token é one-time e só seu SHA-256 é persistido. A decisão usa row lock e é idempotente; TTL, payload, scope, campos e versão são vinculados por `payload_hash`/`operation_hash`. Token forjado, tenant cruzado, replay e payload alterado falham sem escrita. A revogação é permitida apenas antes do enqueue e o outbox revalida decisão/revogação/expiração antes do adapter.
+
+**Limites:** não há UI, notificações, múltiplos aprovadores, quórum, assinatura externa ou CRM real; o gate não substitui autenticação/MFA da sessão. Evidência em [KOR-PM04-WO-003](../evidence/KOR-PM04-WO-003/README.md).

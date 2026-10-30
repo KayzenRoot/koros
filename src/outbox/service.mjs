@@ -6,6 +6,7 @@ import {
   contactPayloadHash,
 } from '../crm/contract.mjs';
 import { withTenant } from '../db.mjs';
+import { insertAuditEvent } from '../audit/events.mjs';
 import { WORKFLOW_ERROR } from '../workflow/errors.mjs';
 import { transitionRun } from '../workflow/service.mjs';
 import { OUTBOX_ERROR, OutboxError } from './errors.mjs';
@@ -55,14 +56,6 @@ function toContactInput(canonical) {
 function safeErrorCode(error) {
   const code = typeof error?.code === 'string' ? error.code : 'UNKNOWN';
   return /^[A-Z0-9_]{1,64}$/.test(code) ? code : 'UNKNOWN';
-}
-
-async function insertAudit(client, { tenantId, runId, actionId, action, metadata = {} }) {
-  await client.query(
-    `INSERT INTO audit_events (tenant_id, run_id, action, entity, entity_id, metadata)
-     VALUES ($1, $2, $3, 'outbox_action', $4, $5::jsonb)`,
-    [tenantId, runId, action, actionId, JSON.stringify(metadata)],
-  );
 }
 
 function assertApprovalOrOutboxError(approval, canonical) {
@@ -131,7 +124,8 @@ export async function enqueueAction({
     `SELECT approval_id, expires_at
        FROM approvals
       WHERE tenant_id = $1 AND run_id = $2 AND payload_hash = $3
-        AND decision = 'APPROVED' AND decided_at IS NOT NULL AND expires_at > $4
+        AND decision = 'APPROVED' AND revoked_at IS NULL
+        AND decided_at IS NOT NULL AND expires_at > $4
       ORDER BY expires_at DESC
       LIMIT 1`,
     [tenantId, normalizedRunId, payloadHash, now],
@@ -199,11 +193,12 @@ export async function enqueueAction({
     throw error;
   }
 
-  await insertAudit(client, {
+  await insertAuditEvent(client, {
     tenantId,
     runId: normalizedRunId,
-    actionId: action.action_id,
     action: 'OUTBOX_ENQUEUED',
+    entity: 'outbox_action',
+    entityId: action.action_id,
     metadata: {
       source: normalizedSource,
       payloadVersion,
@@ -236,23 +231,26 @@ async function claimWithClient(client, { tenantId, now, actionId, leaseSeconds }
   );
 
   if (recovered.rowCount > 0) {
-    for (const row of recovered.rows) {
-      await transitionRun({
-        client,
-        tenantId,
-        runId: row.run_id,
-        targetState: 'RECONCILING',
-        reason: 'OUTBOX_LEASE_EXPIRED',
-        now,
-      });
-      await insertAudit(client, {
-        tenantId,
-        runId: row.run_id,
-        actionId: row.action_id,
-        action: 'OUTBOX_LEASE_EXPIRED',
-        metadata: {},
-      });
-    }
+    await Promise.all(
+      recovered.rows.map(async (row) => {
+        await transitionRun({
+          client,
+          tenantId,
+          runId: row.run_id,
+          targetState: 'RECONCILING',
+          reason: 'OUTBOX_LEASE_EXPIRED',
+          now,
+        });
+        await insertAuditEvent(client, {
+          tenantId,
+          runId: row.run_id,
+          action: 'OUTBOX_LEASE_EXPIRED',
+          entity: 'outbox_action',
+          entityId: row.action_id,
+          metadata: {},
+        });
+      }),
+    );
   }
 
   const result = await client.query(
@@ -341,11 +339,12 @@ async function transitionClaimedAction({
       reason: auditAction,
       now,
     });
-    await insertAudit(client, {
+    await insertAuditEvent(client, {
       tenantId,
       runId: action.run_id,
-      actionId: action.action_id,
       action: auditAction,
+      entity: 'outbox_action',
+      entityId: action.action_id,
       metadata: { ...metadata, status, errorCode },
     });
     return { processed: true, actionId: action.action_id, outcome, status };
@@ -378,11 +377,12 @@ async function completeClaimedAction({ tenantId, action, now, outcome, auditActi
       reason: auditAction,
       now,
     });
-    await insertAudit(client, {
+    await insertAuditEvent(client, {
       tenantId,
       runId: action.run_id,
-      actionId: action.action_id,
       action: auditAction,
+      entity: 'outbox_action',
+      entityId: action.action_id,
       metadata,
     });
     return { processed: true, actionId: action.action_id, outcome, status: 'COMPLETED' };
@@ -459,6 +459,18 @@ async function handleClaimedFailure({ tenantId, action, error, now, maxAttempts,
   });
 }
 
+async function approvalStillUsable(tenantId, action, now) {
+  return withTenant(tenantId, async (client) => {
+    const result = await client.query(
+      `SELECT 1 FROM approvals
+        WHERE tenant_id = $1 AND approval_id = $2
+          AND decision = 'APPROVED' AND revoked_at IS NULL AND expires_at > $3`,
+      [tenantId, action.approval_id, now],
+    );
+    return result.rowCount === 1;
+  });
+}
+
 async function dispatchClaimedAction({ tenantId, adapter, action, now, maxAttempts }) {
   if (!action.payload || typeof action.payload !== 'object' || !action.payload.contact) {
     return transitionClaimedAction({
@@ -483,6 +495,19 @@ async function dispatchClaimedAction({ tenantId, adapter, action, now, maxAttemp
       runState: 'FAILED',
       auditAction: 'OUTBOX_FAILED',
       errorCode: 'APPROVAL_EXPIRED',
+      metadata: { stage: 'DISPATCH' },
+    });
+  }
+  if (!(await approvalStillUsable(tenantId, action, now))) {
+    return transitionClaimedAction({
+      tenantId,
+      action,
+      now,
+      status: 'FAILED',
+      outcome: 'FAILED',
+      runState: 'FAILED',
+      auditAction: 'OUTBOX_FAILED',
+      errorCode: 'APPROVAL_REVOKED',
       metadata: { stage: 'DISPATCH' },
     });
   }
@@ -662,11 +687,12 @@ export async function resumePausedAction({ tenantId, actionId, now = new Date() 
       reason: 'OUTBOX_RESUMED',
       now,
     });
-    await insertAudit(client, {
+    await insertAuditEvent(client, {
       tenantId,
       runId: action.run_id,
-      actionId: action.action_id,
       action: 'OUTBOX_RESUMED',
+      entity: 'outbox_action',
+      entityId: action.action_id,
       metadata: {},
     });
     return action;

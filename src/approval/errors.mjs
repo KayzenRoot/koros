@@ -1,0 +1,23 @@
+export const APPROVAL_ERROR = Object.freeze({
+  INVALID_INPUT: 'INVALID_INPUT',
+  INVALID_POLICY: 'INVALID_POLICY',
+  FORBIDDEN: 'FORBIDDEN',
+  NOT_FOUND: 'NOT_FOUND',
+  INVALID_STATE: 'INVALID_STATE',
+  APPROVAL_EXPIRED: 'APPROVAL_EXPIRED',
+  FORGED_APPROVAL: 'FORGED_APPROVAL',
+  ALREADY_DECIDED: 'ALREADY_DECIDED',
+  NOT_APPROVED: 'NOT_APPROVED',
+  PAYLOAD_MISMATCH: 'PAYLOAD_MISMATCH',
+  NOT_REVOCABLE: 'NOT_REVOCABLE',
+  APPROVAL_IN_USE: 'APPROVAL_IN_USE',
+  IDEMPOTENCY_CONFLICT: 'IDEMPOTENCY_CONFLICT',
+});
+
+export class ApprovalError extends Error {
+  constructor(code, message = code) {
+    super(message);
+    this.name = 'ApprovalError';
+    this.code = code;
+  }
+}

@@ -80,6 +80,24 @@ test('migration 0004_workflow_fsm adds canonical states and keeps legacy compati
   );
 });
 
+test('migration 0005_approval_gate adds token, scope and revocation columns', { skip: !enabled }, () => {
+  assert.equal(query("SELECT count(*) FROM schema_migrations WHERE version = '0005_approval_gate'"), '1');
+  assert.equal(
+    query(
+      `SELECT count(*) FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'approvals'
+          AND column_name IN ('scope', 'proposed_operation', 'field_allowlist',
+                              'payload_version', 'operation_hash', 'token_hash',
+                              'revoked_at', 'revoked_by')`,
+    ),
+    '8',
+  );
+  assert.match(
+    query("SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'approvals_decision_state_check'"),
+    /REVOKED/,
+  );
+});
+
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
   assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');

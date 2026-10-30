@@ -71,7 +71,9 @@ test('createRun is idempotent and a conflicting contract is rejected', options, 
     await client.query(
       `INSERT INTO workflow_versions
          (workflow_version_id, workflow_id, tenant_id, version, input_schema, approval_policy)
-       VALUES ($1, $2, $3, 2, '{}'::jsonb, '{}'::jsonb)`,
+       SELECT $1, $2, $3, COALESCE(MAX(version), 0) + 1, '{}'::jsonb, '{}'::jsonb
+         FROM workflow_versions
+        WHERE workflow_id = $2 AND tenant_id = $3`,
       [secondVersionId, WORKFLOW_A, TENANT_A],
     );
   });
