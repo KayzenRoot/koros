@@ -12,7 +12,7 @@ test('login page is pt-BR, labeled and uses external assets', () => {
   assert.match(html, /autocomplete="current-password"/);
   assert.match(html, /role="alert"/);
   assert.match(html, /<script src="\/assets\/login\.js" defer><\/script>/);
-  assert.equal(/<script>[\s\S]*?<\/script>/.test(html), false);
+  assert.equal(/<script(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/i.test(html), false);
 });
 
 test('dashboard page exposes queue, runs, failures, limits and accessible landmarks', () => {
