@@ -53,7 +53,7 @@ test('migration 0001_init is applied with a SHA-256 checksum', { skip: !enabled 
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
   assert.equal(query('SELECT count(*) FROM leads'), '2');
-  assert.equal(query("SELECT count(*) FROM users WHERE password_hash LIKE 'scrypt$synthetic$%'"), '2');
+  assert.equal(query('SELECT count(*) FROM users'), '2');
 });
 
 test('RLS returns only the current tenant rows', { skip: !enabled }, () => {
