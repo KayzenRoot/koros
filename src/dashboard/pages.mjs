@@ -37,7 +37,7 @@ const DASHBOARD_PAGE = `<!doctype html>
   <meta name="color-scheme" content="light dark">
   <title>Operações · KOROS</title>
   <link rel="stylesheet" href="/assets/dashboard.css">
-  <script src="/assets/dashboard.js" defer></script>
+  <script type="module" src="/assets/dashboard.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Ir para o conteúdo</a>

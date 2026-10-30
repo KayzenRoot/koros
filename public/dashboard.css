@@ -258,5 +258,5 @@ td.empty { color: var(--muted); text-align: center; padding: 1.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  *, *::before, *::after { scroll-behavior: auto; transition: none; }
 }

@@ -140,6 +140,32 @@ function renderLimits(limits) {
   }
 }
 
+function textCell(value) {
+  const cell = document.createElement('td');
+  cell.textContent = value;
+  return cell;
+}
+
+function badgeCell(state) {
+  const cell = document.createElement('td');
+  cell.append(stateBadge(state));
+  return cell;
+}
+
+function renderRunTable(tbodyId, rows, emptyMessage) {
+  renderRows(
+    byId(tbodyId),
+    rows,
+    [
+      (row) => runCell(row.run_id),
+      (row) => badgeCell(row.state),
+      (row) => textCell(row.idempotency_key),
+      (row) => textCell(formatDate(row.updated_at)),
+    ],
+    emptyMessage,
+  );
+}
+
 function render(data) {
   byId('tenant-name').textContent = data.tenant.name;
   byId('tenant-meta').textContent = `${ROLE_LABELS[data.role] || data.role} · tenant ${shortId(data.tenant.id)}`;
@@ -152,79 +178,18 @@ function render(data) {
     ? data.permissions.join(' · ')
     : 'Nenhuma permissão';
 
-  renderRows(
-    byId('queue-body'),
-    data.queue,
-    [
-      (row) => runCell(row.run_id),
-      (row) => {
-        const cell = document.createElement('td');
-        cell.append(stateBadge(row.state));
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = row.idempotency_key;
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = formatDate(row.updated_at);
-        return cell;
-      },
-    ],
-    'Nenhum run na fila.',
-  );
-
-  renderRows(
-    byId('failures-body'),
-    data.failures,
-    [
-      (row) => runCell(row.run_id),
-      (row) => {
-        const cell = document.createElement('td');
-        cell.append(stateBadge(row.state));
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = row.idempotency_key;
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = formatDate(row.updated_at);
-        return cell;
-      },
-    ],
-    'Nenhuma falha registrada.',
-  );
+  renderRunTable('queue-body', data.queue, 'Nenhum run na fila.');
+  renderRunTable('failures-body', data.failures, 'Nenhuma falha registrada.');
 
   renderRows(
     byId('runs-body'),
     data.runs,
     [
       (row) => runCell(row.run_id),
-      (row) => {
-        const cell = document.createElement('td');
-        cell.append(stateBadge(row.state));
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = row.idempotency_key;
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = formatDate(row.created_at);
-        return cell;
-      },
-      (row) => {
-        const cell = document.createElement('td');
-        cell.textContent = formatDate(row.updated_at);
-        return cell;
-      },
+      (row) => badgeCell(row.state),
+      (row) => textCell(row.idempotency_key),
+      (row) => textCell(formatDate(row.created_at)),
+      (row) => textCell(formatDate(row.updated_at)),
     ],
     'Nenhum run encontrado.',
   );
@@ -314,4 +279,4 @@ async function logout() {
 
 byId('refresh')?.addEventListener('click', load);
 byId('logout')?.addEventListener('click', logout);
-load();
+await load();

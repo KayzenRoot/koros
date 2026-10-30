@@ -27,7 +27,7 @@ test('dashboard page exposes queue, runs, failures, limits and accessible landma
   assert.match(html, /id="runs-body"/);
   assert.match(html, /id="limits"/);
   assert.match(html, /id="permissions"/);
-  assert.match(html, /<script src="\/assets\/dashboard\.js" defer><\/script>/);
+  assert.match(html, /<script type="module" src="\/assets\/dashboard\.js"><\/script>/);
 });
 
 test('role permissions mirror the API RBAC surface', () => {
