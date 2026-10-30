@@ -40,3 +40,17 @@ Contrato puro em `src/crm/contract.mjs`, sem I/O. O CRM real e qualquer forneced
 
 Fora deste incremento: cliente HTTP real, OAuth/token, persistência do adapter, outbox/retry/reconciliação, classificação IA e UI. Evidência em [KOR-PM03-WO-002](../evidence/KOR-PM03-WO-002/README.md).
 
+## Outbox transacional da M03-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+Implementação local em `src/outbox/`, ainda sem CRM real. A chave idempotente é `tenant_id + source + external_id + payload_version`, materializada em `operation_key` (SHA-256 com separadores não ambíguos) e protegida pela unique `(tenant_id, operation_key)` e por um índice único parcial da tupla.
+
+**Enqueue atômico.** `enqueueAction` cria a linha `PENDING` e move o run de `APPROVED` para `DISPATCHING` na mesma transação. Exige aprovação persistida `APPROVED`, não expirada, para o hash exato do contato; sem isso retorna `APPROVAL_REQUIRED`/`APPROVAL_EXPIRED`/`APPROVAL_MISMATCH`. Replay da mesma chave retorna a ação existente sem nova linha; payload diferente para a mesma versão retorna `IDEMPOTENCY_CONFLICT`.
+
+**Claim e lease.** O worker reivindica uma ação com `FOR UPDATE SKIP LOCKED`, lease de 60 s e incremento de `attempts`. Duas filas simultâneas não recebem a mesma linha. Lease expirada vira `UNCERTAIN` com auditoria `OUTBOX_LEASE_EXPIRED`, nunca retry cego.
+
+**Dispatch e retry.** Sucesso grava `COMPLETED` no outbox e no run, com auditoria. `429`, `5xx`, `TRANSIENT` e `UNAVAILABLE` reagendam `PENDING` com backoff exponencial de 5 s até 900 s e teto de 5 tentativas. `ETIMEDOUT`/timeout é `UNCERTAIN`: a próxima passagem consulta o `external_id` no adapter antes de qualquer novo upsert. `QUOTA_EXCEEDED` pausa em `PAUSED` e move o run para `BLOCKED`; a retomada é manual e revalida a aprovação. Erro de validação/autorização é terminal em `FAILED`.
+
+**Reconciliação.** `getPerson` encontrado → `COMPLETED` sem segunda escrita. `NOT_FOUND` → `PENDING` com novo backoff após a checagem. Falha transiente durante a reconciliação → `UNCERTAIN` novamente. Todas as transições relevantes geram `audit_events`.
+
+Fora deste incremento: scheduler distribuído, múltiplos workers em produção, CRM real, rate limit distribuído, DLQ, alertas e UI. O adapter é o mock da M03-WO-002; nenhum token, API ou dado real. Evidência em [KOR-PM03-WO-003](../evidence/KOR-PM03-WO-003/README.md).
+

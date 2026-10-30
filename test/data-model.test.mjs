@@ -50,6 +50,24 @@ test('migration 0001_init is applied with a SHA-256 checksum', { skip: !enabled 
   assert.match(query("SELECT checksum FROM schema_migrations WHERE version = '0001_init'"), /^[0-9a-f]{64}$/);
 });
 
+test('migration 0003_outbox adds lease, idempotency tuple and PAUSED state', { skip: !enabled }, () => {
+  assert.equal(query("SELECT count(*) FROM schema_migrations WHERE version = '0003_outbox'"), '1');
+  assert.match(query("SELECT checksum FROM schema_migrations WHERE version = '0003_outbox'"), /^[0-9a-f]{64}$/);
+  assert.equal(
+    query(
+      `SELECT count(*) FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'outbox_actions'
+          AND column_name IN ('source', 'external_id', 'payload_version', 'payload',
+                              'lease_expires_at', 'reconciliations', 'updated_at')`,
+    ),
+    '7',
+  );
+  assert.match(
+    query("SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'outbox_actions_status_check'"),
+    /PAUSED/,
+  );
+});
+
 test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
   assert.equal(query('SELECT count(*) FROM organizations'), '2');
   assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');

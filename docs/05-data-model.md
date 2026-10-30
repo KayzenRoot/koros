@@ -23,3 +23,11 @@ O schema físico mínimo está em [db/migrations/0001_init.sql](../db/migrations
 
 **Limites:** a WO #47 não adiciona driver de runtime nem autenticação. O papel `koros_app` pode definir `app.tenant_id`; a #46 deve vincular a sessão autenticada ao tenant e à membership. `users` permanece global por design. Nenhum merge, dado real ou produção é declarado.
 
+## Outbox da M03-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+A migration [0003_outbox.sql](../db/migrations/0003_outbox.sql) estende `outbox_actions` com `source`, `external_id`, `payload_version`, `payload` JSONB, `approval_id`, `approval_expires_at`, `lease_expires_at`, `reconciliations`, `last_error_code`, `updated_at` e `completed_at`. O status ganha `PAUSED` para quota esgotada.
+
+Invariantes: `payload` é objeto JSON sintético sem segredo; `payload_version > 0`; `reconciliations >= 0`; a tupla `(tenant_id, source, external_id, payload_version)` tem índice único parcial; há índices de claim por `(tenant_id, status, next_attempt_at)` e de lease por `(status, lease_expires_at)`. A FK de aprovação aponta para `approvals(approval_id)` e é `ON DELETE SET NULL`.
+
+O rollback de desenvolvimento remove as colunas e restaura o check antigo; linhas `PAUSED` são convertidas em `FAILED` antes da restauração. Produção continua exigindo backup/restore, não este down. Nenhum dado real é usado.
+
