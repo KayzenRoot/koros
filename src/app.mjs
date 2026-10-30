@@ -5,6 +5,12 @@ import { IngestionError } from './ingestion/errors.mjs';
 import { ingestLead } from './ingestion/service.mjs';
 import { ApprovalError } from './approval/errors.mjs';
 import { decideApprovalByActorInTenant, listApprovals } from './approval/service.mjs';
+import { TemplateError } from './templates/errors.mjs';
+import {
+  createTemplateVersionInTenant,
+  listTemplates,
+  previewTemplate,
+} from './templates/service.mjs';
 import { DASHBOARD_ASSETS } from './dashboard/assets.mjs';
 import { dashboardPage, loginPage } from './dashboard/pages.mjs';
 import { getDashboardSummary } from './dashboard/service.mjs';
@@ -216,6 +222,21 @@ function approvalHttpStatus(code) {
   return APPROVAL_HTTP_STATUS[code] ?? 500;
 }
 
+const TEMPLATE_HTTP_STATUS = Object.freeze({
+  INVALID_TEMPLATE: 400,
+  UNKNOWN_FIELD: 400,
+  SECRET_FIELD: 400,
+  MISSING_REQUIRED_FIELD: 400,
+  INVALID_FIELD: 400,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+});
+
+function templateHttpStatus(code) {
+  return TEMPLATE_HTTP_STATUS[code] ?? 500;
+}
+
 async function handleDashboardSummary(req, res) {
   const { session } = await getSessionOrThrow(req);
   requirePermission(session, 'session:read');
@@ -251,6 +272,45 @@ async function handleApprovalDecision(req, res, approvalId) {
   });
 }
 
+async function handleTemplates(req, res) {
+  const { session } = await getSessionOrThrow(req);
+  requirePermission(session, 'session:read');
+  const templates = await listTemplates({ tenantId: session.tenantId });
+  reply(res, 200, { templates });
+}
+
+async function handleTemplatePreview(req, res, templateId) {
+  const { session, cookies } = await getSessionOrThrow(req);
+  requireCsrf(req, cookies);
+  requirePermission(session, 'session:read');
+  const body = await readJson(req);
+  const result = await previewTemplate({
+    tenantId: session.tenantId,
+    templateId,
+    lead: body.lead,
+  });
+  reply(res, 200, result);
+}
+
+async function handleTemplateVersion(req, res, templateId) {
+  const { session, cookies } = await getSessionOrThrow(req);
+  requireCsrf(req, cookies);
+  requirePermission(session, 'tenant:configure');
+  const body = await readJson(req);
+  const result = await createTemplateVersionInTenant({
+    tenantId: session.tenantId,
+    templateId,
+    actorUserId: session.userId,
+    config: body.config,
+  });
+  reply(res, 201, {
+    template_version_id: result.version.template_version_id,
+    version: result.version.version,
+    breaking: result.breaking,
+    invalidatedApprovals: result.invalidatedApprovals,
+  });
+}
+
 export async function handleRequest(req, res) {
   const target = typeof req.url === 'string' ? req.url : '';
   const pathname = target.split('?', 1)[0];
@@ -272,8 +332,22 @@ export async function handleRequest(req, res) {
       await handleApprovalDecision(req, res, approvalDecisionPath[1]);
       return;
     }
+    const templatePreviewPath = pathname.match(/^\/v1\/templates\/([0-9a-fA-F-]{36})\/preview$/);
+    if (req.method === 'POST' && templatePreviewPath) {
+      await handleTemplatePreview(req, res, templatePreviewPath[1]);
+      return;
+    }
+    const templateVersionPath = pathname.match(/^\/v1\/templates\/([0-9a-fA-F-]{36})\/versions$/);
+    if (req.method === 'POST' && templateVersionPath) {
+      await handleTemplateVersion(req, res, templateVersionPath[1]);
+      return;
+    }
     if (req.method === 'GET' && pathname === '/v1/auth/session') {
       await handleSession(req, res);
+      return;
+    }
+    if (req.method === 'GET' && pathname === '/v1/templates') {
+      await handleTemplates(req, res);
       return;
     }
     if (req.method === 'GET' && pathname === '/v1/approvals') {
@@ -332,6 +406,10 @@ export async function handleRequest(req, res) {
     }
     if (error instanceof ApprovalError) {
       reply(res, approvalHttpStatus(error.code), { error: error.code });
+      return;
+    }
+    if (error instanceof TemplateError) {
+      reply(res, templateHttpStatus(error.code), { error: error.code });
       return;
     }
     reply(res, 500, { error: 'internal_error' });

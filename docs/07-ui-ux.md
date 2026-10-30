@@ -27,3 +27,9 @@ Acessibilidade inicial: `lang="pt-BR"`, skip link, landmarks, headings, labels, 
 A seção de aprovações só aparece para papéis com `approval:decide`. Cada cartão mostra escopo, run, estado, versão, validade, campos e payload JSON; o histórico mostra decisão/data. Confirmar/rejeitar envia CSRF + sessão; a UI não carrega token, não altera payload e não decide localmente. Durante o envio os botões ficam desabilitados; `IDEMPOTENT`, `ALREADY_DECIDED`, `PAYLOAD_MISMATCH`, expiração e erros de sessão têm feedback explícito.
 
 **Limites:** não há edição do payload, comentário, quórum, notificação em tempo real, aprovação por token na UI, Playwright ou auditoria WCAG. Evidência em [KOR-PM05-WO-002](../evidence/KOR-PM05-WO-002/README.md).
+
+## Catálogo de templates da M05-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+O dashboard mostra um catálogo read-only com nome, versão corrente, status, destino mock, campos obrigatórios, mapeamento, aprovação/TTL, limites e origem. Não exibe segredo nem permite editar policy; o preview dry-run é exposto pela API autenticada, não por editor visual.
+
+**Limites:** sem editor/marketplace, criação pela UI, preview interativo no navegador, Playwright ou auditoria WCAG. Evidência em [KOR-PM05-WO-003](../evidence/KOR-PM05-WO-003/README.md).

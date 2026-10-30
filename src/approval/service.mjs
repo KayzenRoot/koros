@@ -88,6 +88,7 @@ export async function requestApproval({
   payload,
   payloadVersion = 1,
   ttlSeconds = DEFAULT_TTL_SECONDS,
+  templateVersionId = null,
   now = new Date(),
 }) {
   if (!client || typeof client.query !== 'function') {
@@ -140,11 +141,23 @@ export async function requestApproval({
   const token = randomBytes(32).toString('base64url');
   const expiresAt = new Date(now.getTime() + ttlSeconds * 1000);
 
+  let normalizedTemplateVersionId = null;
+  if (templateVersionId !== null && templateVersionId !== undefined) {
+    normalizedTemplateVersionId = requireUuid(templateVersionId);
+    const template = await client.query(
+      `SELECT 1 FROM workflow_template_versions
+        WHERE tenant_id = $1 AND template_version_id = $2`,
+      [tenantId, normalizedTemplateVersionId],
+    );
+    if (template.rowCount !== 1) throw new ApprovalError(APPROVAL_ERROR.TEMPLATE_NOT_FOUND);
+  }
+
   const inserted = await client.query(
     `INSERT INTO approvals
        (tenant_id, run_id, actor_user_id, payload_hash, operation_hash, decision, expires_at,
-        decided_at, scope, proposed_operation, field_allowlist, payload_version, token_hash, requested_by)
-     VALUES ($1, $2, $3, $4, $5, 'PENDING', $6, NULL, $7, $8::jsonb, $9::text[], $10, $11, $3)
+        decided_at, scope, proposed_operation, field_allowlist, payload_version, token_hash,
+        requested_by, template_version_id)
+     VALUES ($1, $2, $3, $4, $5, 'PENDING', $6, NULL, $7, $8::jsonb, $9::text[], $10, $11, $3, $12)
      ON CONFLICT (run_id, payload_hash) DO NOTHING
      RETURNING *`,
     [
@@ -159,6 +172,7 @@ export async function requestApproval({
       fields,
       payloadVersion,
       tokenHash(token),
+      normalizedTemplateVersionId,
     ],
   );
 
@@ -338,7 +352,7 @@ export async function listApprovals({ tenantId, now = new Date() }) {
     const pending = await client.query(
       `SELECT a.approval_id, a.run_id, a.scope, a.proposed_operation,
               a.field_allowlist, a.payload_version, a.expires_at, a.created_at,
-              r.state AS run_state, r.idempotency_key
+              a.template_version_id, r.state AS run_state, r.idempotency_key
          FROM approvals a
          JOIN runs r ON r.run_id = a.run_id AND r.tenant_id = a.tenant_id
         WHERE a.tenant_id = $1 AND a.decision = 'PENDING' AND a.expires_at > $2

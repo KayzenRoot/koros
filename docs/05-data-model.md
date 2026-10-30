@@ -49,3 +49,9 @@ A migration [0006_audit_cost_killswitch.sql](../db/migrations/0006_audit_cost_ki
 
 `tenant_controls` tem um switch fail-closed por tenant. `budget_policies` tem um período e limites de tokens/custo. O down de desenvolvimento remove as tabelas/colunas e restaura o schema anterior; produção exige backup/restore. Linhas de auditoria legadas sem hash permanecem válidas como histórico append-only, mas não entram na cadeia verificável.
 
+## Templates da M05-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+A migration [0007_templates.sql](../db/migrations/0007_templates.sql) cria `workflow_templates` e `workflow_template_versions` com RLS por tenant. Cada versão tem `version`, `config` JSONB, `config_hash` SHA-256 e autoria; a unique `(template_id, version)` e o grant apenas `SELECT,INSERT` tornam versões imutáveis para o app role.
+
+`approvals` ganha `template_version_id` com FK composta por tenant, permitindo invalidar aprovações incompatíveis quando uma nova versão muda source, campos, mapeamento, operação/target ou scope. O down de desenvolvimento remove a coluna/FK/tabelas; produção exige backup/restore.
+

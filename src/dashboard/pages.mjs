@@ -90,6 +90,14 @@ const DASHBOARD_PAGE = `<!doctype html>
       </div>
     </section>
 
+    <section id="templates-section" aria-labelledby="templates-title">
+      <div class="section-heading">
+        <h2 id="templates-title">Catálogo de templates</h2>
+        <span id="templates-status" class="muted" role="status" aria-live="polite"></span>
+      </div>
+      <div id="templates-list" class="template-list"></div>
+    </section>
+
     <section aria-labelledby="queue-title">
       <div class="section-heading">
         <h2 id="queue-title">Fila</h2>
