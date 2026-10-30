@@ -1,6 +1,6 @@
 # Evidence Bundle KOR-PM03-WO-002 — contrato CRM e mocks Agendor/HubSpot
 
-**Data:** 2026-10-30. **Issue:** [#49](https://github.com/KayzenRoot/koros/issues/49). **Módulo:** [PRODUCT-M03 #38](https://github.com/KayzenRoot/koros/issues/38). **Base main:** `6d992a655052daa59d05b201eb470dbe2ed81cfc`. **Branch:** `feat/KOR-PM03-WO-002-crm-adapter`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PENDING`.
+**Data:** 2026-10-30. **Issue:** [#49](https://github.com/KayzenRoot/koros/issues/49). **Módulo:** [PRODUCT-M03 #38](https://github.com/KayzenRoot/koros/issues/38). **PR:** [#77](https://github.com/KayzenRoot/koros/pull/77) (Draft, sem merge). **Base main:** `6d992a655052daa59d05b201eb470dbe2ed81cfc`. **HEAD de código:** `0bbd0dd431ea7200a5051769a8244fb4bab131ab`. **Branch:** `feat/KOR-PM03-WO-002-crm-adapter`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PASS_CODE_COMMIT`.
 
 ## 1. Context Lock
 
@@ -73,8 +73,18 @@ Os 30 skips são os testes de integração de banco que exigem `KOROS_DB_TESTS=1
 - Não há cliente HTTP, token, OAuth, sandbox real, webhook real ou dado de cliente.
 - O CRM real permanece **PENDING** até contrato de fornecedor, termos, escopo mínimo de credencial e sandbox aprovados.
 
-## 7. CI esperado
+## 7. CI no HEAD de código
 
-- `m02-baseline`, `m02-data`, `governance-docs`, CodeQL, Sonar e Socket.
-- Nenhum required check novo; `governance-docs` permanece o required existente.
-- O resultado do HEAD final deve ser lido no PR após o push; nenhum `SUCCESS` é presumido.
+Consulta em 2026-10-30 para `0bbd0dd431ea7200a5051769a8244fb4bab131ab`; todos os checks concluíram com sucesso.
+
+| Check | Resultado | Run |
+|---|---|---|
+| `m02-baseline` | SUCCESS | [job 124327885237](https://github.com/KayzenRoot/koros/actions/runs/41132835405/job/124327885237) |
+| `m02-data` | SUCCESS | [job 124327885216](https://github.com/KayzenRoot/koros/actions/runs/41132835405/job/124327885216) |
+| `governance-docs` | SUCCESS | [job 124327883412](https://github.com/KayzenRoot/koros/actions/runs/41132835224/job/124327883412) |
+| `codeql-js` | SUCCESS | [job 124327884878](https://github.com/KayzenRoot/koros/actions/runs/41132835405/job/124327884878) |
+| CodeQL | SUCCESS | [run 124328166365](https://github.com/KayzenRoot/koros/runs/124328166365) |
+| SonarCloud Code Analysis | SUCCESS | [PR 77](https://sonarcloud.io/dashboard?id=KayzenRoot_koros&pullRequest=77) |
+| Socket Security | SUCCESS | [PR alerts](https://socket.dev) |
+
+Este arquivo é atualizado em um commit somente de evidência; por isso o workflow de aplicação não reexecuta no HEAD documental, mas o código é idêntico ao HEAD acima. O `governance-docs` deve ser lido novamente no HEAD final. Nenhum resultado é extrapolado para além dos runs acima.
