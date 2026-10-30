@@ -44,3 +44,9 @@ O outbox usa a mesma FSM para `QUEUED`, `RECONCILING`, `PAUSED`, `COMPLETED` e `
 A aprovação é server-side: tenant e ator vêm do contexto autenticado, a permissão `approval:decide` é verificada em `memberships`, o token é one-time e só seu SHA-256 é persistido. A decisão usa row lock e é idempotente; TTL, payload, scope, campos e versão são vinculados por `payload_hash`/`operation_hash`. Token forjado, tenant cruzado, replay e payload alterado falham sem escrita. A revogação é permitida apenas antes do enqueue e o outbox revalida decisão/revogação/expiração antes do adapter.
 
 **Limites:** não há UI, notificações, múltiplos aprovadores, quórum, assinatura externa ou CRM real; o gate não substitui autenticação/MFA da sessão. Evidência em [KOR-PM04-WO-003](../evidence/KOR-PM04-WO-003/README.md).
+
+## Adapter IA da M04-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+O adapter é mock/local, sem SDK, token, rede ou ferramenta. A entrada é minimizada e tratada como dado não confiável; prompt injection retorna fallback e revisão humana sem chamar o adapter. A saída é validada por schema estrito e não pode conter status, aprovação, autorização, ferramenta ou ação. Timeout, falha, JSON inválido e status alucinado são rejeitados e substituídos por fallback determinístico com revisão obrigatória.
+
+**Limites:** não há provedor/modelo real (ADR-009 PENDING), avaliação de segurança de prompt exaustiva, custo, rate limit de provedor ou UI. A classificação nunca autoriza escrita; approval/FSM continuam sendo o gate. Evidência em [KOR-PM04-WO-002](../evidence/KOR-PM04-WO-002/README.md).

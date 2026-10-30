@@ -76,3 +76,13 @@ O gate só opera sobre run em `PENDING_APPROVAL`. `requestApproval` valida scope
 
 Fora deste incremento: UI de aprovação, notificações, múltiplos aprovadores, quórum, assinatura externa, LLM e CRM real. Evidência em [KOR-PM04-WO-003](../evidence/KOR-PM04-WO-003/README.md).
 
+## Adapter IA da M04-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+O adapter recebe apenas entrada sintética minimizada `{intent, consent_status}`; e-mail e nome não entram no contexto. O contrato é `provider`, `model`, `mode` e `classify({ tenantId, input, signal })`, sem SDK, token, rede, ferramenta ou acesso ao CRM.
+
+A resposta aceita tem exatamente `schema_version=1`, `intent` (`demo`, `pricing`, `support`, `other`), `confidence`/`uncertainty` entre 0 e 1, `reason_code` enumerado e `requires_human_review` booleano. Campo extra, ausente, tipo inválido ou chave privilegiada (`status`, `approved`, `authorization`, `action`, `tool`, `crm`, `write`, `execute`) é rejeitado. A saída do modelo é uma proposta: não há status de run, aprovação, autorização ou escrita.
+
+Entrada com padrões de prompt injection não é enviada ao adapter; retorna fallback determinístico com `reason_code=INJECTION_SUSPECTED` e revisão humana obrigatória. Timeout, falha do adapter, JSON malformado e status alucinado também retornam fallback `other`, confiança 0, incerteza 1 e revisão obrigatória. O serviço força revisão quando confiança < 0,7, incerteza > 0,3 ou consentimento diferente de `GRANTED`.
+
+`evaluateClassification` roda fixtures sintéticas e calcula acurácia, acurácia de revisão, fallbacks e revisões; não grava nada. Fora deste incremento: provedor/modelo real (ADR-009 PENDING), SDK, prompt de produção, UI, custo e execução de ferramentas. Evidência em [KOR-PM04-WO-002](../evidence/KOR-PM04-WO-002/README.md).
+
