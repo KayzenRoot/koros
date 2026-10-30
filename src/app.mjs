@@ -3,6 +3,9 @@ import { PUBLIC_CONFIG, VERSION, parsePort } from './config.mjs';
 import { AuthError, getSession, getTenantContext, login, logout, requirePermission } from './auth/service.mjs';
 import { IngestionError } from './ingestion/errors.mjs';
 import { ingestLead } from './ingestion/service.mjs';
+import { DASHBOARD_ASSETS } from './dashboard/assets.mjs';
+import { dashboardPage, loginPage } from './dashboard/pages.mjs';
+import { getDashboardSummary } from './dashboard/service.mjs';
 import {
   clearCookie,
   csrfCookie,
@@ -32,6 +35,42 @@ function reply(res, status, object, extraHeaders = {}) {
 
 function secureCookies() {
   return process.env.KOROS_SECURE_COOKIES === '1';
+}
+
+const HTML_CSP = "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'";
+
+function sendHtml(res, body) {
+  res.writeHead(200, {
+    'Cache-Control': 'no-store',
+    'Content-Type': 'text/html; charset=utf-8',
+    'Content-Security-Policy': HTML_CSP,
+    'Referrer-Policy': 'no-referrer',
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'Content-Length': Buffer.byteLength(body),
+  });
+  res.end(body);
+}
+
+function sendAsset(res, asset) {
+  res.writeHead(200, {
+    'Cache-Control': 'no-store',
+    'Content-Type': asset.contentType,
+    'Content-Security-Policy': "default-src 'none'",
+    'X-Content-Type-Options': 'nosniff',
+    'Content-Length': Buffer.byteLength(asset.body),
+  });
+  res.end(asset.body);
+}
+
+function redirect(res, location) {
+  res.writeHead(302, {
+    Location: location,
+    'Cache-Control': 'no-store',
+    'Content-Security-Policy': "default-src 'none'",
+    'X-Content-Type-Options': 'nosniff',
+  });
+  res.end();
 }
 
 async function readJson(req, limit = 8192) {
@@ -156,6 +195,16 @@ async function handleProtected(req, res, permission) {
   reply(res, 200, { ok: true, tenantId, role: session.role, permission });
 }
 
+async function handleDashboardSummary(req, res) {
+  const { session } = await getSessionOrThrow(req);
+  requirePermission(session, 'session:read');
+  const summary = await getDashboardSummary({
+    tenantId: session.tenantId,
+    role: session.role,
+  });
+  reply(res, 200, summary);
+}
+
 export async function handleRequest(req, res) {
   const target = typeof req.url === 'string' ? req.url : '';
   const pathname = target.split('?', 1)[0];
@@ -176,12 +225,32 @@ export async function handleRequest(req, res) {
       await handleSession(req, res);
       return;
     }
+    if (req.method === 'GET' && pathname === '/v1/dashboard/summary') {
+      await handleDashboardSummary(req, res);
+      return;
+    }
     if (req.method === 'GET' && pathname === '/v1/protected/ping') {
       await handleProtected(req, res, 'session:read');
       return;
     }
     if (req.method === 'GET' && pathname === '/v1/protected/approval') {
       await handleProtected(req, res, 'approval:decide');
+      return;
+    }
+    if (req.method === 'GET' && pathname === '/') {
+      redirect(res, '/login');
+      return;
+    }
+    if (req.method === 'GET' && pathname === '/login') {
+      sendHtml(res, loginPage());
+      return;
+    }
+    if (req.method === 'GET' && pathname === '/dashboard') {
+      sendHtml(res, dashboardPage());
+      return;
+    }
+    if (req.method === 'GET' && Object.hasOwn(DASHBOARD_ASSETS, pathname)) {
+      sendAsset(res, DASHBOARD_ASSETS[pathname]);
       return;
     }
     if (req.method !== 'GET') {

@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const roots = ['src', 'scripts', 'test'];
+const roots = ['src', 'scripts', 'test', 'public'];
 const extensions = new Set(['.js', '.mjs', '.cjs']);
 const files = roots
   .flatMap((root) =>

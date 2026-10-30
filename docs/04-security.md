@@ -56,3 +56,9 @@ O adapter é mock/local, sem SDK, token, rede ou ferramenta. A entrada é minimi
 A auditoria é append-only com hash chain por tenant, correlation ID e redaction de chaves sensíveis antes da gravação; `verifyAuditChain` detecta edição retroativa. O orçamento reserva tokens/custo sob row lock antes da operação paga e bloqueia o callback quando o limite é excedido. O kill switch é fail-closed para orçamento e claim do outbox, inclusive quando o controle não existe. Métricas expõem apenas agregados, sem PII.
 
 **Limites:** custos são simulados, sem cobrança real; reservas órfãs exigem reconciliação; não há alertas, UI, rollover de período, LLM/CRM real ou prova de operação distribuída. Evidência em [KOR-PM04-WO-004](../evidence/KOR-PM04-WO-004/README.md).
+
+## Dashboard da M05-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+O dashboard é read-only e não recebe tenant por query/header: a API usa `session.tenantId` e `withTenant`/RLS. A resposta inclui apenas agregados e campos operacionais sintéticos, sem e-mail/nome. HTML/JS/CSS são servidos com CSP `default-src 'none'`, scripts/estilos only-self, `frame-ancestors 'none'`, `nosniff` e sem script inline. A UI não tem ação de aprovação/escrita nesta WO.
+
+**Limites:** acessibilidade foi implementada por estrutura semântica/CSS, mas não auditada com navegador real, Playwright ou ferramenta WCAG; sem CSP reporting, rate limit de UI ou sessão em produção. Evidência em [KOR-PM05-WO-001](../evidence/KOR-PM05-WO-001/README.md).

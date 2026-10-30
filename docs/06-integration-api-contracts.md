@@ -98,3 +98,9 @@ Entrada com padrões de prompt injection não é enviada ao adapter; retorna fal
 
 Fora deste incremento: cobrança real, preço, faturamento, LLM/CRM real, UI, rollover automático de período, reconciliação de reserva órfã e alertas. Evidência em [KOR-PM04-WO-004](../evidence/KOR-PM04-WO-004/README.md).
 
+## Dashboard da M05-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+`GET /v1/dashboard/summary` exige sessão válida e `session:read`. O tenant vem de `session.tenantId`; query string e headers não concedem acesso. A resposta read-only contém nome do tenant, papel, lista exata de permissões RBAC, contagens por estado, fila (`PENDING_APPROVAL`, `APPROVED`, `QUEUED`, `RECONCILING`, `PAUSED`), falhas (`FAILED`, `REJECTED`, `EXPIRED`), últimos 20 runs, orçamento usado/limite e estado do kill switch.
+
+`GET /login` e `GET /dashboard` servem HTML estático com CSP restritiva; `GET /assets/dashboard.css`, `/assets/dashboard.js` e `/assets/login.js` servem assets fixos. Não há rota de escrita, detalhe por ID ou parâmetro de tenant. Erros de sessão retornam `401` JSON; o cliente redireciona ao login. Fora deste incremento: aprovação pela UI, edição, templates, upload, WebSocket e testes de navegador. Evidência em [KOR-PM05-WO-001](../evidence/KOR-PM05-WO-001/README.md).
+
