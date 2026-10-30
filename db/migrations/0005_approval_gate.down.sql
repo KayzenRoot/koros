@@ -17,8 +17,6 @@ ALTER TABLE approvals DROP CONSTRAINT IF EXISTS approvals_revocation_check;
 DROP INDEX IF EXISTS idx_approvals_decision_expiry;
 
 ALTER TABLE approvals ADD CONSTRAINT approvals_decision_check
-  CHECK (decision IN ('APPROVED', 'REJECTED'));
-ALTER TABLE approvals ADD CONSTRAINT approvals_check
   CHECK ((decision = 'APPROVED' AND decided_at IS NOT NULL) OR decision = 'REJECTED');
 
 ALTER TABLE approvals

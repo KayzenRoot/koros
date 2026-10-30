@@ -3,6 +3,13 @@ import { APPROVAL_ERROR, ApprovalError } from './errors.mjs';
 
 const MAX_DEPTH = 20;
 
+/** Code-unit comparator keeps hashes stable across locales. */
+export function compareStrings(a, b) {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}
+
 function assertJsonValue(value, depth = 0) {
   if (depth > MAX_DEPTH) throw new ApprovalError(APPROVAL_ERROR.INVALID_POLICY);
   if (value === null) return;
@@ -28,7 +35,7 @@ export function stableStringify(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map((item) => stableStringify(item)).join(',')}]`;
   return `{${Object.keys(value)
-    .sort()
+    .sort(compareStrings)
     .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
     .join(',')}}`;
 }
@@ -37,7 +44,7 @@ export function fieldsForPayload(payload) {
   if (payload === null || typeof payload !== 'object' || Array.isArray(payload)) {
     throw new ApprovalError(APPROVAL_ERROR.INVALID_POLICY);
   }
-  const fields = Object.keys(payload).sort();
+  const fields = Object.keys(payload).sort(compareStrings);
   if (fields.length === 0 || fields.length > 20) throw new ApprovalError(APPROVAL_ERROR.INVALID_POLICY);
   for (const field of fields) {
     if (field.length === 0 || field.length > 100 || /[\u0000-\u001f\u007f]/.test(field)) {

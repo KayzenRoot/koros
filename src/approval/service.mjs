@@ -4,7 +4,7 @@ import { hasPermission } from '../auth/rbac.mjs';
 import { canonicalContact, contactPayloadHash } from '../crm/contract.mjs';
 import { transitionRun } from '../workflow/service.mjs';
 import { APPROVAL_ERROR, ApprovalError } from './errors.mjs';
-import { approvalHash, fieldsForPayload } from './hash.mjs';
+import { approvalHash, compareStrings, fieldsForPayload } from './hash.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const CONTROL_CHARS = /[\u0000-\u001f\u007f]/;
@@ -199,7 +199,9 @@ async function recomputeStoredHash(approval) {
     throw new ApprovalError(APPROVAL_ERROR.PAYLOAD_MISMATCH);
   }
   const fields = fieldsForPayload(operation.payload);
-  const storedFields = Array.isArray(approval.field_allowlist) ? [...approval.field_allowlist].sort() : [];
+  const storedFields = Array.isArray(approval.field_allowlist)
+    ? [...approval.field_allowlist].sort(compareStrings)
+    : [];
   if (fields.join(',') !== storedFields.join(',')) {
     throw new ApprovalError(APPROVAL_ERROR.PAYLOAD_MISMATCH);
   }
