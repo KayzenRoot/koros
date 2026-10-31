@@ -1,6 +1,6 @@
 # Evidence Bundle KOR-PM06-WO-001 — onboarding guiado e dry-run sintético
 
-**Data:** 2026-10-30. **Issue:** [#58](https://github.com/KayzenRoot/koros/issues/58). **Módulo:** [PRODUCT-M06 #41](https://github.com/KayzenRoot/koros/issues/41). **Base main:** `1e56842faafe42c4232acd0b279494a3ad6a724d`. **Branch:** `feat/KOR-PM06-WO-001-onboarding`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PENDING`.
+**Data:** 2026-10-30. **Issue:** [#58](https://github.com/KayzenRoot/koros/issues/58). **Módulo:** [PRODUCT-M06 #41](https://github.com/KayzenRoot/koros/issues/41). **PR:** [#87](https://github.com/KayzenRoot/koros/pull/87) (Draft, sem merge). **Base main:** `1e56842faafe42c4232acd0b279494a3ad6a724d`. **HEAD de código:** `7a14def5a22df97f268d77fee6f04466956b66ce`. **Branch:** `feat/KOR-PM06-WO-001-onboarding`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PASS`.
 
 ## 1. Context Lock
 
@@ -71,8 +71,18 @@ PostgreSQL 17 local, porta 55432, banco `koros_local`.
 - Sem Playwright/visual regression; a UI é semanticamente acessível, não certificada.
 - Nenhum merge, deploy, gasto ou dado real.
 
-## 7. CI esperado
+## 7. CI
 
-- `m02-baseline`, `m02-data` (inclui onboarding), `governance-docs`, CodeQL, Sonar e Socket.
-- Nenhum required check novo; `governance-docs` permanece o required existente.
-- O resultado do HEAD final deve ser consultado no PR; nenhum `SUCCESS` é presumido.
+Consulta em 2026-10-30 para `7a14def5a22df97f268d77fee6f04466956b66ce`; todos os checks concluíram com sucesso.
+
+| Check | Resultado | Run |
+|---|---|---|
+| `m02-baseline` | SUCCESS | [job 124385968156](https://github.com/KayzenRoot/koros/actions/runs/41150606254/job/124385968156) |
+| `m02-data` | SUCCESS | [job 124385967790](https://github.com/KayzenRoot/koros/actions/runs/41150606254/job/124385967790) |
+| `governance-docs` | SUCCESS | [job 124385959853](https://github.com/KayzenRoot/koros/actions/runs/41150606276/job/124385959853) |
+| `codeql-js` | SUCCESS | [job 124385967988](https://github.com/KayzenRoot/koros/actions/runs/41150606254/job/124385967988) |
+| CodeQL | SUCCESS | [run 124386272691](https://github.com/KayzenRoot/koros/runs/124386272691) |
+| SonarCloud Code Analysis | SUCCESS | [PR 87](https://sonarcloud.io/dashboard?id=KayzenRoot_koros&pullRequest=87) |
+| Socket Security | SUCCESS | [PR alerts](https://socket.dev) |
+
+Este arquivo é atualizado em um commit somente de evidência; o histórico corrente de checks, incluindo a reexecução no HEAD documental, deve ser lido em [PR #87 checks](https://github.com/KayzenRoot/koros/pull/87/checks). Nenhum resultado é extrapolado para além dos runs acima.
