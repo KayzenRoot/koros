@@ -13,3 +13,11 @@ Inventário e proteção dos serviços existentes; custos aprovados; provisionam
 
 ## Estado atual
 VPS: NOT_INSPECTED; CI: NOT_INSTALLED; migrations: NOT_RUN; deploy: NOT_RUN; smoke: NOT_RUN; SLA/RPO/RTO: PENDING.
+
+## Ambiente local isolado da M06-WO-002 (2026-10-30; PROPOSED_IN_PR)
+
+`npm run local:start|status|restart|stop` sobe PostgreSQL 17 e o app somente em loopback, aplica migrations/seed sintéticos e espera `/healthz`. O estado, logs e credenciais locais ficam em `.koros/local/` (gitignored); a senha sintética é gerada e gravada apenas nesse arquivo, nunca no Git/log.
+
+O runner recusa `NODE_ENV=production`, hosts não-loopback, portas iguais, `KOROS_DOCKER_SOCKET`, `KOROS_ALLOW_NON_LOOPBACK=1` e cookies Secure em HTTP. Não há Docker socket nem porta administrativa exposta. O data dir precisa ficar dentro do workspace. Divergência de checksum de migration aborta em vez de reescrever o ledger.
+
+**Limites:** local-only, sem TLS, staging público, provedor real, backup/restore automatizado ou deploy gerenciado. Runbook em [deploy/local/README.md](../deploy/local/README.md).
