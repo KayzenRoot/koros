@@ -23,3 +23,22 @@ O baseline real de Node.js já foi integrado via #45, portanto a frase inicial "
 - TypeScript/`tsc`: `NOT_APPLICABLE` enquanto não existem arquivos TS e não há dependência TypeScript. Ao adicionar TS, é obrigatório implementar typecheck real antes da aprovação, e o guard bloqueia TS sem gate.
 - CodeQL deve produzir check real por HEAD; Socket é informativo; SAST/SCA de produto completo, restore, CRM/DB/E2E, benchmarks, Sonar análise conclusiva e licença de dependências futuras **não foram comprovados** por esta mudança.
 - A seção está PROPOSTA na PR da WO #61 até auditoria; não afirmar CI verde sem consultar checks do HEAD final.
+
+## Benchmark determinístico da M07-WO-003 (2026-10-30; PROPOSED_IN_PR)
+
+Harness: `scripts/benchmark.mjs`, workloads fixos e seeds sintéticos; `--scale small|medium`; `--out` publica JSON; `--baseline` compara throughput (piso 50% do baseline) e p95 (teto 2×). Estatísticas em `scripts/benchmark-stats.mjs`; regressão unitária em `test/benchmark-unit.test.mjs`.
+
+Ambiente publicado: Windows x64, Node 26.4.0, 8 CPUs, ~23 GB RAM, PostgreSQL 17 local em loopback. Amostras: small = 1k AI / 5k hash / 1k preview / 20 crypto / 10 dashboard / 200 queue; medium = 5k / 20k / 5k / 50 / 20 / 1000.
+
+| Workload | Small p95 | Small ops/s | Medium p95 | Medium ops/s |
+|---|---:|---:|---:|---:|
+| `ai-classify` (mock) | 0.038 ms | 55.6k | 0.013 ms | 125k |
+| `approval-hash` | 0.014 ms | 90.9k | 0.012 ms | 111k |
+| `template-preview` | 0.008 ms | 167k | 0.005 ms | 333k |
+| `snapshot-crypto` (AES-GCM) | 0.77 ms | 2.0k | 1.61 ms | 1.7k |
+| `db-dashboard-summary` | 22.0 ms | 114 | 9.1 ms | 114 |
+| `outbox-claim` | 11.3 ms | 120 | 5.6 ms | 250 |
+
+**SLO provisório local (não comercial):** p95 AI < 5 ms; hash/preview < 2 ms; crypto < 20 ms; dashboard < 100 ms small e < 250 ms medium; claim < 50 ms; restore de ~1.2k runs < 10 s. O restore local medido foi **2.204 s** para 2 tenants, 8 migrations e 1.202 runs. O baseline small pode ser checado com `npm run benchmark:check`; workloads DB só são comparáveis com o mesmo estado de banco.
+
+**Variação/limites:** uma máquina, uma execução por escala, sem intervalo de confiança, sem carga concorrente/distribuída, sem provider real e sem navegador. Spike test limita-se à diferença small/medium; 429, worker crash e custo runaway são cobertos pelos testes de ingestão/outbox/control. Regressão é guard local, não SLA nem prova de capacidade de produção. Resultados em [benchmark-small.json](../evidence/KOR-PM07-WO-003/benchmark-small.json) e [benchmark-medium.json](../evidence/KOR-PM07-WO-003/benchmark-medium.json).
