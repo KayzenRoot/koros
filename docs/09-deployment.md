@@ -21,3 +21,7 @@ VPS: NOT_INSPECTED; CI: NOT_INSTALLED; migrations: NOT_RUN; deploy: NOT_RUN; smo
 O runner recusa `NODE_ENV=production`, hosts não-loopback, portas iguais, `KOROS_DOCKER_SOCKET`, `KOROS_ALLOW_NON_LOOPBACK=1` e cookies Secure em HTTP. Não há Docker socket nem porta administrativa exposta. O data dir precisa ficar dentro do workspace. Divergência de checksum de migration aborta em vez de reescrever o ledger.
 
 **Limites:** local-only, sem TLS, staging público, provedor real, backup/restore automatizado ou deploy gerenciado. Runbook em [deploy/local/README.md](../deploy/local/README.md).
+
+## Onboarding e provisionamento da M06-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+O onboarding opera em tenant já autenticado e usa apenas dados sintéticos. O provisionamento de um tenant novo é uma função ops/local protegida por `KOROS_ALLOW_TENANT_PROVISIONING=1`, sem rota HTTP pública; cria organização, owner, membership, kill switch inativo e template inicial. Plano/API real permanece UNKNOWN; signup, e-mail, cobrança e provider real estão fora do escopo. Evidência em [KOR-PM06-WO-001](../evidence/KOR-PM06-WO-001/README.md).

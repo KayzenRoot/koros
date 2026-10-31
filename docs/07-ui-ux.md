@@ -33,3 +33,9 @@ A seção de aprovações só aparece para papéis com `approval:decide`. Cada c
 O dashboard mostra um catálogo read-only com nome, versão corrente, status, destino mock, campos obrigatórios, mapeamento, aprovação/TTL, limites e origem. Não exibe segredo nem permite editar policy; o preview dry-run é exposto pela API autenticada, não por editor visual.
 
 **Limites:** sem editor/marketplace, criação pela UI, preview interativo no navegador, Playwright ou auditoria WCAG. Evidência em [KOR-PM05-WO-003](../evidence/KOR-PM05-WO-003/README.md).
+
+## Wizard de onboarding da M06-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+`/onboarding` é um wizard pt-BR com sete passos e retomada automática: empresa, conector mock (`leads:read`), template versionado, convite, consentimento, política local-v1 e dry-run. O token de convite aparece uma única vez; o dry-run mostra o payload sintético e não cria runs. Erros de escopo, passo, template, permissão e dry-run têm mensagens explícitas; `STEP_MISMATCH` recarrega o estado do servidor. Nenhuma etapa decide localmente.
+
+**Limites:** sem signup público, envio de e-mail, edição de template, provider real, Playwright ou auditoria WCAG. Evidência em [KOR-PM06-WO-001](../evidence/KOR-PM06-WO-001/README.md).

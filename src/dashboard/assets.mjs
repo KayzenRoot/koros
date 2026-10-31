@@ -17,4 +17,8 @@ export const DASHBOARD_ASSETS = Object.freeze({
     body: load('login.js'),
     contentType: 'text/javascript; charset=utf-8',
   },
+  '/assets/onboarding.js': {
+    body: load('onboarding.js'),
+    contentType: 'text/javascript; charset=utf-8',
+  },
 });

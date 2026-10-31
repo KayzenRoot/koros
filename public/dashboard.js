@@ -372,6 +372,7 @@ async function decideApproval(approvalId, decision, card) {
 function render(data) {
   grantedPermissions = data.permissions;
   byId('approvals-section').hidden = !data.permissions.includes('approval:decide');
+  byId('onboarding-link').hidden = !data.permissions.includes('tenant:configure');
   byId('tenant-name').textContent = data.tenant.name;
   byId('tenant-meta').textContent = `${ROLE_LABELS[data.role] || data.role} · tenant ${shortId(data.tenant.id)}`;
   byId('metric-total').textContent = String(data.counts.total);

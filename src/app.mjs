@@ -11,8 +11,14 @@ import {
   listTemplates,
   previewTemplate,
 } from './templates/service.mjs';
+import { OnboardingError } from './onboarding/errors.mjs';
+import {
+  advanceOnboardingInTenant,
+  getOnboarding,
+  startOnboardingInTenant,
+} from './onboarding/service.mjs';
 import { DASHBOARD_ASSETS } from './dashboard/assets.mjs';
-import { dashboardPage, loginPage } from './dashboard/pages.mjs';
+import { dashboardPage, loginPage, onboardingPage } from './dashboard/pages.mjs';
 import { getDashboardSummary } from './dashboard/service.mjs';
 import {
   clearCookie,
@@ -237,6 +243,23 @@ function templateHttpStatus(code) {
   return TEMPLATE_HTTP_STATUS[code] ?? 500;
 }
 
+const ONBOARDING_HTTP_STATUS = Object.freeze({
+  INVALID_INPUT: 400,
+  MISSING_SCOPE: 400,
+  TEMPLATE_NOT_FOUND: 404,
+  DRY_RUN_FAILED: 400,
+  FORBIDDEN: 403,
+  PROVISIONING_DISABLED: 403,
+  NOT_FOUND: 404,
+  INVALID_STATE: 409,
+  STEP_MISMATCH: 409,
+  CONFLICT: 409,
+});
+
+function onboardingHttpStatus(code) {
+  return ONBOARDING_HTTP_STATUS[code] ?? 500;
+}
+
 async function handleDashboardSummary(req, res) {
   const { session } = await getSessionOrThrow(req);
   requirePermission(session, 'session:read');
@@ -311,6 +334,39 @@ async function handleTemplateVersion(req, res, templateId) {
   });
 }
 
+async function handleOnboarding(req, res) {
+  const { session } = await getSessionOrThrow(req);
+  requirePermission(session, 'tenant:configure');
+  const result = await getOnboarding({ tenantId: session.tenantId });
+  reply(res, 200, result);
+}
+
+async function handleOnboardingStart(req, res) {
+  const { session, cookies } = await getSessionOrThrow(req);
+  requireCsrf(req, cookies);
+  requirePermission(session, 'tenant:configure');
+  const result = await startOnboardingInTenant({
+    tenantId: session.tenantId,
+    actorUserId: session.userId,
+  });
+  reply(res, result.created ? 201 : 200, result);
+}
+
+async function handleOnboardingStep(req, res) {
+  const { session, cookies } = await getSessionOrThrow(req);
+  requireCsrf(req, cookies);
+  requirePermission(session, 'tenant:configure');
+  const body = await readJson(req);
+  const result = await advanceOnboardingInTenant({
+    tenantId: session.tenantId,
+    sessionId: body.sessionId,
+    actorUserId: session.userId,
+    step: body.step,
+    data: body.data,
+  });
+  reply(res, 200, result);
+}
+
 export async function handleRequest(req, res) {
   const target = typeof req.url === 'string' ? req.url : '';
   const pathname = target.split('?', 1)[0];
@@ -342,8 +398,20 @@ export async function handleRequest(req, res) {
       await handleTemplateVersion(req, res, templateVersionPath[1]);
       return;
     }
+    if (req.method === 'POST' && pathname === '/v1/onboarding/start') {
+      await handleOnboardingStart(req, res);
+      return;
+    }
+    if (req.method === 'POST' && pathname === '/v1/onboarding/step') {
+      await handleOnboardingStep(req, res);
+      return;
+    }
     if (req.method === 'GET' && pathname === '/v1/auth/session') {
       await handleSession(req, res);
+      return;
+    }
+    if (req.method === 'GET' && pathname === '/v1/onboarding') {
+      await handleOnboarding(req, res);
       return;
     }
     if (req.method === 'GET' && pathname === '/v1/templates') {
@@ -378,6 +446,10 @@ export async function handleRequest(req, res) {
       sendHtml(res, dashboardPage());
       return;
     }
+    if (req.method === 'GET' && pathname === '/onboarding') {
+      sendHtml(res, onboardingPage());
+      return;
+    }
     if (req.method === 'GET' && Object.hasOwn(DASHBOARD_ASSETS, pathname)) {
       sendAsset(res, DASHBOARD_ASSETS[pathname]);
       return;
@@ -410,6 +482,10 @@ export async function handleRequest(req, res) {
     }
     if (error instanceof TemplateError) {
       reply(res, templateHttpStatus(error.code), { error: error.code });
+      return;
+    }
+    if (error instanceof OnboardingError) {
+      reply(res, onboardingHttpStatus(error.code), { error: error.code });
       return;
     }
     reply(res, 500, { error: 'internal_error' });

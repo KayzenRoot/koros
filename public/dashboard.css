@@ -75,6 +75,18 @@ button.secondary {
   border: 1px solid var(--border);
 }
 button.secondary:hover { background: var(--surface-alt); }
+a.button {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+a.button.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+a.button:hover { background: var(--accent-strong); }
 
 button:focus-visible,
 input:focus-visible,
@@ -258,6 +270,18 @@ td.empty { color: var(--muted); text-align: center; padding: 1.5rem; }
 .template-card dl { margin: 0.75rem 0 0; display: grid; gap: 0.35rem; font-size: 0.86rem; }
 .template-card dt { color: var(--muted); font-weight: 700; }
 .template-card dd { margin: 0; overflow-wrap: anywhere; }
+
+.step-extra { margin-top: 1rem; display: grid; gap: 0.5rem; }
+.step-extra pre {
+  margin: 0;
+  padding: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  font-size: 0.82rem;
+}
+.invite-token { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
 
 .footer { padding: 1.5rem; text-align: center; color: var(--muted); font-size: 0.85rem; }
 

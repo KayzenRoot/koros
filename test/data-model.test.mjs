@@ -127,10 +127,29 @@ test('migration 0007_templates adds immutable tenant template versions', { skip:
   );
 });
 
-test('synthetic seed creates exactly two isolated tenants', { skip: !enabled }, () => {
-  assert.equal(query('SELECT count(*) FROM organizations'), '2');
+test('migration 0008_onboarding adds resumable tenant onboarding state', { skip: !enabled }, () => {
+  assert.equal(query("SELECT count(*) FROM schema_migrations WHERE version = '0008_onboarding'"), '1');
+  assert.equal(
+    query("SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('onboarding_sessions', 'onboarding_invites')"),
+    '2',
+  );
+  assert.equal(
+    query("SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'onboarding_sessions' AND column_name IN ('current_step', 'template_version_id', 'invite_id', 'dry_run')"),
+    '4',
+  );
+});
+
+test('synthetic seed keeps the two fixed isolated tenants', { skip: !enabled }, () => {
+  assert.equal(
+    query(
+      `SELECT count(*) FROM organizations
+        WHERE tenant_id IN ('11111111-1111-4111-8111-111111111111', '22222222-2222-4222-8222-222222222222')`,
+    ),
+    '2',
+  );
+  assert.ok(Number(query('SELECT count(*) FROM organizations')) >= 2);
   assert.equal(query("SELECT count(*) FROM leads WHERE external_id IN ('lead-a', 'lead-b')"), '2');
-  assert.equal(query('SELECT count(*) FROM users'), '2');
+  assert.ok(Number(query('SELECT count(*) FROM users')) >= 2);
 });
 
 test('RLS returns only the current tenant rows', { skip: !enabled }, () => {
@@ -211,5 +230,5 @@ test('audit rows are tenant-scoped', { skip: !enabled }, () => {
 test('users are global by design; access control is deferred to WO46', { skip: !enabled }, () => {
   // This is an explicit limitation of the data layer, not an authorization claim.
   // WO46 must bind the authenticated user to a tenant membership before any user query.
-  assert.equal(asApp('SELECT count(*) FROM users'), '2');
+  assert.ok(Number(asApp('SELECT count(*) FROM users')) >= 2);
 });

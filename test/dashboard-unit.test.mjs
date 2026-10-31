@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dashboardPage, loginPage } from '../src/dashboard/pages.mjs';
+import { dashboardPage, loginPage, onboardingPage } from '../src/dashboard/pages.mjs';
 import { permissionsForRole } from '../src/auth/rbac.mjs';
 
 test('login page is pt-BR, labeled and uses external assets', () => {
@@ -41,4 +41,15 @@ test('role permissions mirror the API RBAC surface', () => {
   assert.ok(permissionsForRole('operator').includes('automation:run'));
   assert.equal(permissionsForRole('operator').includes('approval:decide'), false);
   assert.deepEqual(permissionsForRole('unknown'), []);
+});
+
+test('onboarding page is guided, accessible and uses the server API', () => {
+  const html = onboardingPage();
+  assert.match(html, /<html lang="pt-BR">/);
+  assert.match(html, /class="skip-link"/);
+  assert.match(html, /id="onboarding-empty"/);
+  assert.match(html, /id="onboarding-wizard"/);
+  assert.match(html, /id="step-form"/);
+  assert.match(html, /id="onboarding-complete"/);
+  assert.match(html, /<script type="module" src="\/assets\/onboarding\.js"><\/script>/);
 });
