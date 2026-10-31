@@ -1,6 +1,6 @@
 # Evidence Bundle KOR-PM06-WO-003 — backup, restore e rollback de snapshot
 
-**Data:** 2026-10-30. **Issue:** [#60](https://github.com/KayzenRoot/koros/issues/60). **Módulo:** [PRODUCT-M06 #41](https://github.com/KayzenRoot/koros/issues/41). **Base main:** `6e744b3df0ba0ec65408ffa3b2c0214457565e1d`. **Branch:** `feat/KOR-PM06-WO-003-backup-restore`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PENDING`.
+**Data:** 2026-10-30. **Issue:** [#60](https://github.com/KayzenRoot/koros/issues/60). **Módulo:** [PRODUCT-M06 #41](https://github.com/KayzenRoot/koros/issues/41). **PR:** [#88](https://github.com/KayzenRoot/koros/pull/88) (Draft, sem merge). **Base main:** `6e744b3df0ba0ec65408ffa3b2c0214457565e1d`. **HEAD de código:** `45e724e21ee752a1b44acfbe0dbfff19f40fccff`. **Branch:** `feat/KOR-PM06-WO-003-backup-restore`. **Status:** `IMPLEMENTED_IN_PR / LOCAL_PASS / CI_PASS`.
 
 ## 1. Context Lock
 
@@ -66,8 +66,18 @@
 - Restore cria banco separado; não substitui o banco corrente.
 - Nenhum merge, deploy, gasto ou dado real.
 
-## 7. CI esperado
+## 7. CI
 
-- `m02-baseline`, `m02-data`, `governance-docs`, CodeQL, Sonar e Socket.
-- Nenhum required check novo; `governance-docs` permanece o required existente.
-- O resultado do HEAD final deve ser consultado no PR; nenhum `SUCCESS` é presumido.
+Consulta em 2026-10-30 para `45e724e21ee752a1b44acfbe0dbfff19f40fccff`; todos os checks concluíram com sucesso.
+
+| Check | Resultado | Run |
+|---|---|---|
+| `m02-baseline` | SUCCESS | [job 124389733225](https://github.com/KayzenRoot/koros/actions/runs/41151785315/job/124389733225) |
+| `m02-data` | SUCCESS | [job 124389733431](https://github.com/KayzenRoot/koros/actions/runs/41151785315/job/124389733431) |
+| `governance-docs` | SUCCESS | [job 124389732102](https://github.com/KayzenRoot/koros/actions/runs/41151785349/job/124389732102) |
+| `codeql-js` | SUCCESS | [job 124389733412](https://github.com/KayzenRoot/koros/actions/runs/41151785315/job/124389733412) |
+| CodeQL | SUCCESS | [run 124389907580](https://github.com/KayzenRoot/koros/runs/124389907580) |
+| SonarCloud Code Analysis | SUCCESS | [PR 88](https://sonarcloud.io/dashboard?id=KayzenRoot_koros&pullRequest=88) |
+| Socket Security | SUCCESS | [PR alerts](https://socket.dev) |
+
+Este arquivo é atualizado em um commit somente de evidência; o histórico corrente de checks, incluindo a reexecução no HEAD documental, deve ser lido em [PR #88 checks](https://github.com/KayzenRoot/koros/pull/88/checks). Nenhum resultado é extrapolado para além dos runs acima.
