@@ -52,9 +52,9 @@ async function login(email, password) {
   return (await loginCookies(email, password)).session;
 }
 
-async function summary(cookie, suffix = '') {
+async function summary(cookie, suffix = '', extraHeaders = {}) {
   const response = await fetch(`${origin}/v1/dashboard/summary${suffix}`, {
-    headers: { cookie },
+    headers: { cookie, ...extraHeaders },
   });
   return { response, body: await response.json() };
 }
@@ -140,9 +140,13 @@ test('unauthenticated dashboard API returns 401', options, async () => {
   assert.equal(response.status, 401);
 });
 
-test('operator sees only its tenant even with a cross-tenant query parameter', options, async () => {
+test('operator sees only its tenant even with cross-tenant query and headers', options, async () => {
   const cookie = await login('owner-a@example.invalid', PASSWORD_A);
-  const { response, body } = await summary(cookie, `?tenant_id=${TENANT_B}`);
+  const { response, body } = await summary(cookie, `?tenant_id=${TENANT_B}`, {
+    'x-koros-tenant': TENANT_B,
+    'x-tenant-id': TENANT_B,
+    'x-koros-account': 'source-b',
+  });
   assert.equal(response.status, 200);
   assert.equal(body.tenant.id, TENANT_A);
   assert.equal(body.tenant.name, 'Synthetic Tenant A');

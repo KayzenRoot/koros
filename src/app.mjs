@@ -30,21 +30,17 @@ import {
   SESSION_COOKIE,
 } from './auth/session.mjs';
 
-const HEADERS = Object.freeze({
-  'Cache-Control': 'no-store',
-  'Content-Type': 'application/json; charset=utf-8',
-  'Content-Security-Policy': "default-src 'none'",
-  'X-Content-Type-Options': 'nosniff',
-});
-
 function reply(res, status, object, extraHeaders = {}) {
   const body = JSON.stringify(object);
   res.writeHead(status, {
-    ...HEADERS,
+    'Cache-Control': 'no-store',
+    'Content-Type': 'application/json; charset=utf-8',
+    'Content-Security-Policy': "default-src 'none'",
+    'X-Content-Type-Options': 'nosniff',
     ...extraHeaders,
     'Content-Length': Buffer.byteLength(body),
   });
-  res.end(body);
+  res.end(body, 'utf8');
 }
 
 function secureCookies() {
