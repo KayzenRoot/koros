@@ -48,6 +48,7 @@ const DASHBOARD_PAGE = `<!doctype html>
       <p id="tenant-meta" class="muted"></p>
     </div>
     <div class="topbar-actions">
+      <a id="onboarding-link" class="button secondary" href="/onboarding" hidden>Onboarding</a>
       <button id="refresh" type="button" class="secondary">Atualizar</button>
       <button id="logout" type="button" class="secondary">Sair</button>
     </div>
@@ -155,4 +156,53 @@ export function loginPage() {
 
 export function dashboardPage() {
   return DASHBOARD_PAGE;
+}
+
+const ONBOARDING_PAGE = `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Onboarding · KOROS</title>
+  <link rel="stylesheet" href="/assets/dashboard.css">
+  <script type="module" src="/assets/onboarding.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#onboarding-main">Ir para o conteúdo</a>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">KOROS · onboarding</p>
+      <h1>Configurar tenant</h1>
+      <p class="muted">Empresa, conector mock, template, convite, consentimento, política e dry-run.</p>
+    </div>
+    <div class="topbar-actions">
+      <a class="button secondary" href="/dashboard">Voltar ao painel</a>
+    </div>
+  </header>
+  <main id="onboarding-main" class="layout">
+    <p id="onboarding-status" class="status" role="status" aria-live="polite">Carregando…</p>
+    <p id="onboarding-error" class="alert" role="alert" hidden></p>
+    <section id="onboarding-empty" class="panel" hidden>
+      <h2>Começar</h2>
+      <p class="muted">Nenhuma sessão ativa. O wizard usa apenas dados sintéticos.</p>
+      <button id="onboarding-start" type="button">Iniciar onboarding</button>
+    </section>
+    <section id="onboarding-wizard" class="panel" hidden aria-labelledby="step-title">
+      <p id="step-progress" class="eyebrow"></p>
+      <h2 id="step-title">Passo</h2>
+      <form id="step-form" class="stack"></form>
+      <div id="step-extra" class="step-extra" aria-live="polite"></div>
+    </section>
+    <section id="onboarding-complete" class="panel" hidden>
+      <h2>Onboarding concluído</h2>
+      <p class="muted">Tenant configurado com dados sintéticos. O dry-run não criou runs nem outbox.</p>
+      <a class="button" href="/dashboard">Abrir painel</a>
+    </section>
+  </main>
+</body>
+</html>`;
+
+export function onboardingPage() {
+  return ONBOARDING_PAGE;
 }

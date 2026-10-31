@@ -253,6 +253,32 @@ export async function previewTemplate({ tenantId, templateId, lead }) {
   });
 }
 
+export async function previewTemplateVersion({ tenantId, templateVersionId, lead }) {
+  requireUuid(tenantId);
+  const normalizedVersionId = requireUuid(templateVersionId);
+  return withTenant(tenantId, async (client) => {
+    const result = await client.query(
+      `SELECT t.template_id, t.name, v.template_version_id, v.version, v.config, v.config_hash
+         FROM workflow_template_versions v
+         JOIN workflow_templates t
+           ON t.template_id = v.template_id AND t.tenant_id = v.tenant_id
+        WHERE v.tenant_id = $1 AND v.template_version_id = $2`,
+      [tenantId, normalizedVersionId],
+    );
+    if (result.rowCount !== 1) throw new TemplateError(TEMPLATE_ERROR.NOT_FOUND);
+    const row = result.rows[0];
+    const config = validateStoredConfig(row);
+    const preview = previewTemplateConfig(config, lead);
+    return {
+      template_id: row.template_id,
+      template_version_id: row.template_version_id,
+      version: row.version,
+      config_hash: row.config_hash,
+      preview,
+    };
+  });
+}
+
 export async function createTemplateInTenant({ tenantId, ...options }) {
   return withTenant(tenantId, (client) => createTemplate({ client, tenantId, ...options }));
 }

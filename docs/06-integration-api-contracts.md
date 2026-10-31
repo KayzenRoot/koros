@@ -122,3 +122,11 @@ Mudança em source, required_fields, field_map, operação/target ou scope é in
 
 Fora deste incremento: editor visual, marketplace, criação/edição de template pela UI, biblioteca multissetorial extensa, CRM real e deploy. Evidência em [KOR-PM05-WO-003](../evidence/KOR-PM05-WO-003/README.md).
 
+## Onboarding da M06-WO-001 (2026-10-30; PROPOSED_IN_PR)
+
+`GET /v1/onboarding` exige `tenant:configure` e retorna a sessão ativa/última. `POST /v1/onboarding/start` e `POST /v1/onboarding/step` exigem CSRF e `tenant:configure`; o passo envia `{sessionId, step, data}`. A sessão é única por tenant ativo e retomável; passo errado retorna `STEP_MISMATCH` sem mutação.
+
+Passos: `TENANT` (nome), `CONNECTOR` (provider `synthetic-webhook`, conta, escopo `leads:read`), `TEMPLATE` (versão existente do tenant), `INVITE` (e-mail/papel; token one-time só no hash), `CONSENT` (`GRANTED`/`DENIED`), `POLICY` (`local-v1`) e `DRY_RUN`. O dry-run usa o template versionado e retorna preview; não cria run/outbox nem chama adapter. Conclusão só após todos os passos.
+
+Provisionamento de tenant novo é uma função **local/ops-only**, desabilitada por padrão (`KOROS_ALLOW_TENANT_PROVISIONING=1`), sem rota HTTP, e-mail ou conta externa. O plano/API real permanece **UNKNOWN**. Fora deste incremento: signup público, envio de convite, billing e provider real. Evidência em [KOR-PM06-WO-001](../evidence/KOR-PM06-WO-001/README.md).
+

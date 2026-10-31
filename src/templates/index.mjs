@@ -15,4 +15,5 @@ export {
   createTemplateVersionInTenant,
   listTemplates,
   previewTemplate,
+  previewTemplateVersion,
 } from './service.mjs';

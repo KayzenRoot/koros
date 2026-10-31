@@ -175,9 +175,11 @@ test('static pages and assets are served with a restrictive CSP', options, async
     [
       ['/login', 'text/html'],
       ['/dashboard', 'text/html'],
+      ['/onboarding', 'text/html'],
       ['/assets/dashboard.css', 'text/css'],
       ['/assets/dashboard.js', 'text/javascript'],
       ['/assets/login.js', 'text/javascript'],
+      ['/assets/onboarding.js', 'text/javascript'],
     ].map(async ([path, type]) => {
       const response = await fetch(`${origin}${path}`);
       assert.equal(response.status, 200, path);
