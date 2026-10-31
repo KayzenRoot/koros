@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-10-31T01:06:10.786Z",
+  "scale": "medium",
+  "environment": {
+    "node": "v26.4.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpus": 8,
+    "total_memory_mb": 23453
+  },
+  "config": {
+    "ai": 5000,
+    "hash": 20000,
+    "template": 5000,
+    "crypto": 50,
+    "db": 20
+  },
+  "workloads": {
+    "ai-classify": {
+      "name": "ai-classify",
+      "iterations": 5000,
+      "wall_ms": 41.482,
+      "cpu_ms": 46,
+      "rss_mb": 76.3,
+      "latency_ms": {
+        "count": 5000,
+        "min": 0.004300000000000637,
+        "p50": 0.005200000000002092,
+        "p95": 0.012999999999991019,
+        "p99": 0.03350000000000364,
+        "max": 1.3795999999999964,
+        "mean": 0.008
+      },
+      "ops_per_sec": 125000
+    },
+    "approval-hash": {
+      "name": "approval-hash",
+      "iterations": 20000,
+      "wall_ms": 174.194,
+      "cpu_ms": 329,
+      "rss_mb": 78.23,
+      "latency_ms": {
+        "count": 20000,
+        "min": 0.004699999999957072,
+        "p50": 0.006700000000023465,
+        "p95": 0.011899999999997135,
+        "p99": 0.021199999999993224,
+        "max": 1.1343999999999994,
+        "mean": 0.009
+      },
+      "ops_per_sec": 111111.11
+    },
+    "template-preview": {
+      "name": "template-preview",
+      "iterations": 5000,
+      "wall_ms": 15.639,
+      "cpu_ms": 15,
+      "rss_mb": 78.5,
+      "latency_ms": {
+        "count": 5000,
+        "min": 0.001599999999996271,
+        "p50": 0.0018000000000029104,
+        "p95": 0.005400000000008731,
+        "p99": 0.009500000000002728,
+        "max": 0.5850000000000364,
+        "mean": 0.003
+      },
+      "ops_per_sec": 333333.33
+    },
+    "snapshot-crypto": {
+      "name": "snapshot-crypto",
+      "iterations": 50,
+      "wall_ms": 28.708,
+      "cpu_ms": 16,
+      "rss_mb": 82.56,
+      "latency_ms": {
+        "count": 50,
+        "min": 0.32840000000004466,
+        "p50": 0.44779999999997244,
+        "p95": 1.610400000000027,
+        "p99": 1.9424000000000206,
+        "max": 1.9424000000000206,
+        "mean": 0.574
+      },
+      "ops_per_sec": 1742.16
+    },
+    "db-dashboard-summary": {
+      "name": "db-dashboard-summary",
+      "queued_runs": 1000,
+      "wall_ms": 175.134,
+      "cpu_ms": 125,
+      "rss_mb": 81.15,
+      "latency_ms": {
+        "count": 20,
+        "min": 6.925999999999931,
+        "p50": 8.149400000000014,
+        "p95": 9.05600000000004,
+        "p99": 22.948900000000094,
+        "max": 22.948900000000094,
+        "mean": 8.755
+      },
+      "ops_per_sec": 114.22
+    },
+    "outbox-claim": {
+      "name": "outbox-claim",
+      "queued_actions": 1000,
+      "wall_ms": 4000.544,
+      "cpu_ms": 1469,
+      "rss_mb": 97.17,
+      "latency_ms": {
+        "count": 1000,
+        "min": 2.9911999999999352,
+        "p50": 3.6604999999999563,
+        "p95": 5.5823999999997795,
+        "p99": 8.77430000000004,
+        "max": 25.395800000000236,
+        "mean": 3.998
+      },
+      "ops_per_sec": 250.13
+    }
+  },
+  "db": "MEASURED",
+  "benchmark_encrypted_bytes": 45404
+}
